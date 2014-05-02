@@ -231,3 +231,7 @@ exports.dig = function(id) {
 exports.notFinished = function() {
   return !Maze.checkSuccess();
 };
+
+exports.repeat = function (id) {
+  BlocklyApps.log.push([null, id]);
+};

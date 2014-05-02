@@ -1063,6 +1063,9 @@ Maze.performStep = function(stepMode) {
     // Speeding up specific levels
     var scaledStepSpeed = stepSpeed * Maze.scale.stepSpeed *
       skin.movePegmanAnimationSpeedScale;
+    if (action[ACTION_COMMAND] === null) {
+      scaledStepSpeed = 0;
+    }
     timeoutList.setTimeout(function () {
       Maze.performStep(false);
     }, scaledStepSpeed);

@@ -26,8 +26,30 @@
 var msg = require('../../locale/current/maze');
 var codegen = require('../codegen');
 
+
+
+
 // Install extensions to Blockly's language and JavaScript generator.
 exports.install = function(blockly, skin) {
+
+  Blockly.JavaScript.controls_repeat = function() {
+    // Repeat n times (internal number).
+    var repeats = Number(this.getTitleValue('TIMES'));
+    var branch = Blockly.JavaScript.statementToCode(this, 'DO');
+    if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
+      branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
+          '\'' + this.id + '\'') + branch;
+    }
+    var injection = 'Maze.repeat(\'block_id_' + this.id + '\');\n';
+    var loopVar = Blockly.JavaScript.variableDB_.getDistinctName(
+        'count', Blockly.Variables.NAME_TYPE);
+    var code = 'for (var ' + loopVar + ' = 0; ' +
+        loopVar + ' < ' + repeats + '; ' +
+        loopVar + '++) {\n' +
+        injection +
+        branch + '}\n';
+    return code;
+  };
 
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
