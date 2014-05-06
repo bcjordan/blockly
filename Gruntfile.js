@@ -119,6 +119,7 @@ config.copy = {
 config.sass = {
   all: {
     options: {
+      imagePath: '/blockly/media/',
       outputStyle: (MINIFY ? 'compressed' : 'nested')
     },
     files: {
