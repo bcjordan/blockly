@@ -398,6 +398,28 @@ var drawMap = function() {
     });
   }
 
+  if (skin.numberline) {
+    var numberline = Blockly.createSvgElement('image', {
+      id: 'numberline',
+      width: 400, // todo - constant somewhere?
+      height: 50,
+      x: 0,
+      y: Maze.MAZE_HEIGHT - 50
+    }, svg);
+    numberline.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+      skin.numberline);
+
+    var marker = Blockly.createSvgElement('image', {
+      id: 'numberlineMarker',
+      width: 20, // todo - constants?
+      height: 50,
+      x: 20,
+      y: Maze.MAZE_HEIGHT - 50
+    }, svg);
+    numberlineMarker.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+      skin.numberlineMarker);
+  }
+
 };
 
 var resetDirt = function() {
@@ -420,6 +442,8 @@ Maze.init = function(config) {
   skin = config.skin;
   level = config.level;
   loadLevel();
+
+  Maze.collectedCount = 0;
 
   Maze.cachedBlockStates = [];
 
@@ -681,6 +705,19 @@ var updatePegmanAnimation = function(options) {
 };
 
 /**
+ *
+ */
+var updateNumberline = function() {
+  var numberlineMarker = document.getElementById('numberlineMarker');
+  if (!numberlineMarker) {
+    return;
+  }
+
+  // todo - constants
+  numberlineMarker.setAttribute('x', 20 + 20 * Maze.collectedCount);
+};
+
+/**
  * Reset the maze to the start position and kill any pending animation tasks.
  * @param {boolean} first True if an opening animation is to be played.
  */
@@ -839,6 +876,9 @@ Maze.resetButtonClick = function () {
     });
     Maze.cachedBlockStates = [];
   }
+
+  Maze.collectedCount = 0;
+  updateNumberline();
 };
 
 /**
@@ -1476,6 +1516,11 @@ var scheduleDirtChange = function(options) {
   } else {
     updateDirt(row, col);
   }
+  if (options.amount < 0) {
+    Maze.collectedCount -= options.amount;
+    updateNumberline();
+  }
+
   BlocklyApps.playAudio(options.sound, {volume: 0.5});
 };
 

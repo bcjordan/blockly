@@ -12,6 +12,17 @@ var skinsBase = require('../skins');
 
 var CONFIGS = {
 
+  bee: {
+    look: '#000',
+    transparentTileEnding: true,
+    nonDisappearingPegmanHittingObstacle: true,
+    background: 4,
+    dirtSound: true,
+    pegmanYOffset: -8,
+    numberline: 'numberline.png',
+    numberlineMarker: 'numberline_marker.png'
+  },
+
   farmer: {
     look: '#000',
     transparentTileEnding: true,
@@ -120,5 +131,8 @@ exports.load = function(assetUrl, id) {
   skin.pegmanHeight = config.pegmanHeight || 52;
   skin.pegmanWidth = config.pegmanWidth || 49;
   skin.pegmanYOffset = config.pegmanYOffset || 0;
+
+  skin.numberline = skin.assetUrl(config.numberline); // todo - what happens when undefined?
+  skin.numberlineMarker = skin.assetUrl(config.numberlineMarker);
   return skin;
 };

@@ -1,6 +1,7 @@
 var levelBase = require('../level_base');
 var Direction = require('./tiles').Direction;
 var msg = require('../../locale/current/maze');
+var blockUtils = require('../block_utils');
 
 //TODO: Fix hacky level-number-dependent toolbox.
 var toolbox = function(page, level) {
@@ -1192,6 +1193,44 @@ module.exports = {
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 1, 2, 3, 4, 5, 6, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+    ]
+  },
+
+  'bee_1': {
+    'toolbox': blockUtils.createToolbox('\
+      <block type="maze_moveForward"></block>\
+      <block type="maze_turn"><title name="DIR">turnLeft</title></block>\
+      <block type="maze_turn"><title name="DIR">turnRight</title></block>\
+      <block type="maze_nectar"></block>'
+    ),
+    'startBlocks': startBlocks(1, 1),
+    'ideal': 5,
+    'requiredBlocks': [
+      [MOVE_FORWARD], [DIG]
+    ],
+    'scale': {
+      'snapRadius': 2.0
+    },
+    'map': [
+      [ 0, 0, 0, 0, 0, 1, 1, 1 ],
+      [ 0, 1, 1, 0, 0, 1, 1, 1 ],
+      [ 0, 0, 0, 0, 0, 1, 1, 1 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 2, 1, 1, 1, 1, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 0, 1, 1, 0, 0, 0, 0 ],
+      [ 0, 0, 1, 1, 0, 0, 0, 0 ]
+    ],
+    'startDirection': Direction.EAST,
+    'initialDirt': [
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
+      [ 0, 1, 2, 0, 1, 0, 0, 0 ],
+      [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ]
     ]
