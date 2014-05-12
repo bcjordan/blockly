@@ -430,13 +430,13 @@ Maze.init = function(config) {
       visualization: require('./visualization.html')(),
       controls: require('./controls.html')({
         assetUrl: BlocklyApps.assetUrl,
-        showStepButton: level.step
+        showStepButton: level.step && !level.edit_blocks
       }),
       blockUsed: undefined,
       idealBlockNumber: undefined,
       blockCounterClass: 'block-counter-default',
     },
-    hideRunButton: level.stepOnly
+    hideRunButton: level.stepOnly && !level.edit_blocks
   });
 
   config.loadAudio = function() {
