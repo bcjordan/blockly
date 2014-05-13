@@ -388,19 +388,19 @@ var spiral = function(i) {
   <% } // End of region in which "draw a square" is defined. -%>
 <% } else if (page == 4) { -%>
   <% if (level == 2) { -%>
-    <block type="draw_colour" inline="true" x="70" y="70" editable="false" deletable="false" movable="false">
+    <block type="draw_colour" inline="true" x="70" y="70" editable="false" deletable="false" movable="true">
       <value name="COLOUR">
-        <block type="colour_random" editable="false" deletable="false" movable="false"></block>
+        <block type="colour_random" editable="false" deletable="false" movable="true"></block>
       </value>
       <next>
-        <block type="controls_repeat" editable="false" deletable="false" movable="false">
+        <block type="controls_repeat" editable="false" deletable="false" movable="true">
           <title name="TIMES">3</title>
           <statement name="DO">
-            <block type="draw_move_by_constant" editable="false" deletable="false" movable="false">
+            <block type="draw_move_by_constant" editable="false" deletable="false" movable="true">
               <title name="DIR">moveForward</title>
               <title name="VALUE">100</title>
               <next>
-                <block type="draw_turn_by_constant" editable="false" deletable="false" movable="false">
+                <block type="draw_turn_by_constant" editable="false" deletable="false" movable="true">
                   <title name="DIR">turnRight</title>
                   <title name="VALUE">120</title>
                 </block>
@@ -408,19 +408,19 @@ var spiral = function(i) {
             </block>
           </statement>
           <next>
-            <block type="draw_colour" inline="true" x="70" y="230" editable="false" deletable="false" movable="false">
+            <block type="draw_colour" inline="true" x="70" y="230" editable="false" deletable="false" movable="true">
               <value name="COLOUR">
-                <block type="colour_random" editable="false" deletable="false" movable="false"></block>
+                <block type="colour_random" editable="false" deletable="false" movable="true"></block>
               </value>
               <next>
-                <block type="controls_repeat" editable="false" deletable="false" movable="false">
+                <block type="controls_repeat" editable="false" deletable="false" movable="true">
                   <title name="TIMES">3</title>
                   <statement name="DO">
-                    <block type="draw_move_by_constant" editable="false" deletable="false" movable="false">
+                    <block type="draw_move_by_constant" editable="false" deletable="false" movable="true">
                       <title name="DIR">moveForward</title>
                       <title name="VALUE">100</title>
                       <next>
-                        <block type="draw_turn_by_constant" editable="false" deletable="false" movable="false">
+                        <block type="draw_turn_by_constant" editable="false" deletable="false" movable="true">
                           <title name="DIR">turnRight</title>
                           <title name="VALUE">120</title>
                         </block>
