@@ -230,7 +230,7 @@ module.exports = {
       'downButton',
       'upButton'
     ],
-    'minWorkspaceHeight': 900,
+    'minWorkspaceHeight': 1200,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -244,7 +244,14 @@ module.exports = {
       [0, 0, 0, 0, 0, 0, 0, 0]
     ],
     'toolbox':
-      tb(blockOfType('studio_whenSpriteClicked') +
+      tb(blockOfType('studio_setSprite') +
+         blockOfType('studio_setBackground') +
+         blockOfType('studio_whenGameStarts') +
+         blockOfType('studio_whenLeft') +
+         blockOfType('studio_whenRight') +
+         blockOfType('studio_whenUp') +
+         blockOfType('studio_whenDown') +
+         blockOfType('studio_whenSpriteClicked') +
          blockOfType('studio_whenSpriteCollided') +
          blockOfType('studio_repeatForever') +
          blockOfType('studio_move') +
@@ -256,15 +263,9 @@ module.exports = {
          defaultSayBlock() +
          blockOfType('studio_setSpritePosition') +
          blockOfType('studio_setSpriteSpeed') +
-         blockOfType('studio_setSpriteEmotion') +
-         blockOfType('studio_setBackground') +
-         blockOfType('studio_setSprite')),
+         blockOfType('studio_setSpriteEmotion')),
     'startBlocks':
-     '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block> \
-      <block type="studio_whenLeft" deletable="false" x="20" y="120"></block> \
-      <block type="studio_whenRight" deletable="false" x="20" y="200"></block> \
-      <block type="studio_whenUp" deletable="false" x="20" y="280"></block> \
-      <block type="studio_whenDown" deletable="false" x="20" y="360"></block>'
+     '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block>'
   },
   '100': {
     'requiredBlocks': [
@@ -306,11 +307,16 @@ module.exports = {
                           blockOfType('studio_setBackground') +
                           blockOfType('studio_setSprite')) +
          createCategory(msg.catEvents(),
+                          blockOfType('studio_whenGameStarts') +
+                          blockOfType('studio_whenLeft') +
+                          blockOfType('studio_whenRight') +
+                          blockOfType('studio_whenUp') +
+                          blockOfType('studio_whenDown') +
                           blockOfType('studio_whenSpriteClicked') +
-                          blockOfType('studio_whenSpriteCollided') +
-                          blockOfType('studio_repeatForever')) +
+                          blockOfType('studio_whenSpriteCollided')) +
          createCategory(msg.catControl(),
-                          blockOfType('controls_repeat')) +
+                          blockOfType('controls_repeat') +
+                          blockOfType('studio_repeatForever')) +
          createCategory(msg.catLogic(),
                           blockOfType('controls_if') +
                           blockOfType('logic_compare') +
@@ -322,10 +328,6 @@ module.exports = {
                           blockOfType('math_arithmetic')) +
          createCategory(msg.catVariables(), '', 'VARIABLE')),
     'startBlocks':
-     '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block> \
-      <block type="studio_whenLeft" deletable="false" x="20" y="120"></block> \
-      <block type="studio_whenRight" deletable="false" x="20" y="200"></block> \
-      <block type="studio_whenUp" deletable="false" x="20" y="280"></block> \
-      <block type="studio_whenDown" deletable="false" x="20" y="360"></block>'
+     '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block>'
   },
 };
