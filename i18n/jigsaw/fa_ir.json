@@ -1,11 +1,11 @@
 {
   "continue": "ادامه",
-  "nextLevel": "تبریک! شما این مرحله را انجام دادید.",
+  "nextLevel": "تبریک! شما این معما را حل کردید.",
   "no": "نه",
-  "numBlocksNeeded": "این پازل می تواند با 1% از بلوکها حل شود.",
+  "numBlocksNeeded": "این معما می تواند با 1% از بلوک‌ها حل شود.",
   "oneTopBlock": "برای این پازل شما نیاز دارید که همه بلوکها را در یک صفحه کاری سفید جمع کنید.",
   "reinfFeedbackMsg": "You can press the \"Try again\" button to go back to playing your game.",
-  "share": "Share",
-  "shareGame": "Share your game:",
+  "share": "به اشتراک گذاری",
+  "shareGame": "بازی خود را به اشتراک بگذارید:",
   "yes": "بله"
 }

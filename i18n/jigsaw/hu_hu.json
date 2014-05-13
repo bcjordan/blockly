@@ -1,11 +1,11 @@
 {
   "continue": "Tovább",
-  "nextLevel": "Gratulálok! Elvégezte a puzzle-t.",
-  "no": "nem",
-  "numBlocksNeeded": "Ezt a puzzle-t a(z) % 1 blokkal megoldható.",
-  "oneTopBlock": "Ehhez a puzzlihoz összekell ragasztani a összes blokkot a fehér munkatáblán.",
-  "reinfFeedbackMsg": "You can press the \"Try again\" button to go back to playing your game.",
-  "share": "Share",
-  "shareGame": "Share your game:",
-  "yes": "igen"
+  "nextLevel": "Gratulálunk! Kész vagy ezzel a kirakóval.",
+  "no": "Nem",
+  "numBlocksNeeded": "Ez a kirakó az elemek 1 %-ával megoldható",
+  "oneTopBlock": "Ehhez a kirakóhoz az összes elemet össze kell illesztened a fehér munkaterületen.",
+  "reinfFeedbackMsg": "Nyomd meg az \"Próbáld újra\" gombot hogy visszatérj a játékodhoz.",
+  "share": "Megosztás",
+  "shareGame": "Oszd meg a játékodat:",
+  "yes": "Igen"
 }
