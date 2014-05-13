@@ -857,9 +857,6 @@ var displayFeedback = function() {
 Studio.onReportComplete = function(response) {
   Studio.response = response;
   Studio.waitingForReport = false;
-  // Disable the run button until onReportComplete is called.
-  var runButton = document.getElementById('runButton');
-  runButton.disabled = false;
   displayFeedback();
 };
 

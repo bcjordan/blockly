@@ -875,9 +875,6 @@ var displayFeedback = function() {
 Maze.onReportComplete = function(response) {
   Maze.response = response;
   Maze.waitingForReport = false;
-  // Disable the run button until onReportComplete is called.
-  var runButton = document.getElementById('runButton');
-  runButton.disabled = false;
   displayFeedback();
 };
 

@@ -746,8 +746,6 @@ BlocklyApps.report = function(options) {
 
   // Disable the run button until onReportComplete is called.
   if (!BlocklyApps.share) {
-    document.getElementById('runButton').setAttribute('disabled', 'disabled');
-
     var onAttemptCallback = (function() {
       return function(builderDetails) {
         for (var option in builderDetails) {
