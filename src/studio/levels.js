@@ -230,7 +230,7 @@ module.exports = {
       'downButton',
       'upButton'
     ],
-    'minWorkspaceHeight': 800,
+    'minWorkspaceHeight': 900,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -250,6 +250,7 @@ module.exports = {
          blockOfType('studio_move') +
          blockOfType('studio_moveDistance') +
          blockOfType('studio_stop') +
+         blockOfType('studio_wait') +
          blockOfType('studio_playSound') +
          blockOfType('studio_incrementScore') +
          defaultSayBlock() +
@@ -277,7 +278,7 @@ module.exports = {
       'downButton',
       'upButton'
     ],
-    'minWorkspaceHeight': 800,
+    'minWorkspaceHeight': 900,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -295,6 +296,7 @@ module.exports = {
                           blockOfType('studio_move') +
                           blockOfType('studio_moveDistance') +
                           blockOfType('studio_stop') +
+                          blockOfType('studio_wait') +
                           blockOfType('studio_playSound') +
                           blockOfType('studio_incrementScore') +
                           defaultSayBlock() +
