@@ -71,3 +71,7 @@ exports.moveDistance = function(id, spriteIndex, dir, distance) {
 exports.incrementScore = function(id, player) {
   Studio.queueCmd(id, 'incrementScore', {'player': player});
 };
+
+exports.wait = function(id, value) {
+  Studio.queueCmd(id, 'wait', {'value': value});
+};

@@ -612,7 +612,7 @@ exports.install = function(blockly, skin) {
   generator.studio_setSprite = function() {
     return generateSetterCode({
       ctx: this,
-      random: 2,
+      random: 1,
       extraParams: (this.getTitleValue('SPRITE') || '0'),
       name: 'setSprite'});
   };
@@ -707,6 +707,38 @@ exports.install = function(blockly, skin) {
                blockly.JavaScript.quote_(this.getTitleValue('TEXT')) + ');\n';
   };
   
+  blockly.Blocks.studio_wait = {
+    helpUrl: '',
+    init: function() {
+      var dropdown = new blockly.FieldDropdown(this.VALUES);
+      dropdown.setValue(this.VALUES[2][1]);  // default to half second
+
+      this.setHSV(184, 1.00, 0.74);
+      this.appendDummyInput()
+        .appendTitle(dropdown, 'VALUE');
+      this.setInputsInline(true);
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setTooltip(msg.waitTooltip());
+    }
+  };
+
+  blockly.Blocks.studio_wait.VALUES =
+      [[msg.waitForClick(), '0'],
+       [msg.waitForRandom(), 'random'],
+       [msg.waitForHalfSecond(), '500'],
+       [msg.waitFor1Second(), '1000'],
+       [msg.waitFor2Seconds(), '2000'],
+       [msg.waitFor5Seconds(), '5000'],
+       [msg.waitFor10Seconds(), '10000']];
+
+  generator.studio_wait = function() {
+    return generateSetterCode({
+      ctx: this,
+      random: 1,
+      name: 'wait'});
+  };
+
   delete blockly.Blocks.procedures_defreturn;
   delete blockly.Blocks.procedures_ifreturn;
 };
