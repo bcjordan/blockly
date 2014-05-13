@@ -57,7 +57,7 @@ var isPath = function(direction, id) {
 var move = function(direction, id) {
   if (!isPath(direction, null)) {
     BlocklyApps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
-    throw false;
+    // throw false;
   }
   // If moving backward, flip the effective direction.
   var effectiveDirection = Maze.pegmanD + direction;

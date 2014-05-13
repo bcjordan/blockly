@@ -909,13 +909,15 @@ Maze.execute = function(stepMode) {
     }
   }
 
-  // Try running the user's code.  There are four possible outcomes:
-  // 1. If pegman reaches the finish [SUCCESS], true is thrown.
+  // Try running the user's code.  These are the possible outcomes:
+  // 1. If pegman achieve the goal [SUCCESS], he'll have a finish action
   // 2. If the program is terminated due to running too long [TIMEOUT],
   //    false is thrown.
   // 3. If another error occurs [ERROR], that error is thrown.
-  // 4. If the program ended normally but without solving the maze [FAILURE],
-  //    no error or exception is thrown.
+  // 4. If the program resulted in pegman hitting a wall/obstalce [FAILURE],
+  //    there will be a fail_<direction> action.
+  // 5. If the program ended normally but without solving the maze [FAILURE],
+  //    we'll add a finish action.
   // The animation should be fast if execution was successful, slow otherwise
   // to help the user see the mistake.
   BlocklyApps.playAudio('start', {volume: 0.5});
@@ -925,28 +927,40 @@ Maze.execute = function(stepMode) {
       Maze: api
     });
     Maze.checkSuccess();
-    // If did not finish, shedule a failure.
-    BlocklyApps.log.push(['finish', null]);
-    Maze.result = ResultType.FAILURE;
-    stepSpeed = 150;
   } catch (e) {
-    // A boolean is thrown for normal termination. XXX Except when it isn't...
-    // Abnormal termination is a user error.
+    // We throw infinity when we detect a suspected infinite loop
     if (e === Infinity) {
       Maze.result = ResultType.TIMEOUT;
-      stepSpeed = 0;  // Go infinitely fast so program ends quickly.
-    } else if (e === true) {
-      Maze.result = ResultType.SUCCESS;
-      stepSpeed = 100;
-    } else if (e === false) {
-      Maze.result = ResultType.ERROR;
-      stepSpeed = 150;
+      stepSpeed = 0;  // Run through what we have very quickly
     } else {
       // Syntax error, can't happen.
       Maze.result = ResultType.ERROR;
-      window.alert(e);
+      console.error("unexpected error: " + e);
       return;
     }
+  }
+
+  // Even if we hit Infinity above, we will set to success/fail if that happened
+  // before we decided we were infinite
+  for (var i = 0; i < BlocklyApps.log.length; i++) {
+    var command = BlocklyApps.log[i][ACTION_COMMAND];
+    if (command === 'finish') {
+      Maze.result = ResultType.SUCCESS;
+      stepSpeed = 100;
+      BlocklyApps.log.splice(i + 1); // cut off the rest of the log
+    } else if (/^fail_/.test(command)) {
+      Maze.result = ResultType.ERROR;
+      stepSpeed = 150;
+      BlocklyApps.log.splice(i + 1); // cut off the rest of the log
+    }
+  }
+
+  // We haven't explicitly succeeded or failued after running through all our
+  // blocks.  Schedule a finish and fail.
+  if (Maze.result === ResultType.UNSET) {
+    BlocklyApps.log.push(['finish', null]);
+    Maze.result = ResultType.FAILURE;
+    stepSpeed = 150;
   }
 
   // If we know they succeeded, mark levelComplete true
@@ -1578,7 +1592,7 @@ Maze.checkSuccess = function() {
   if (atFinish() && isDirtCorrect()) {
     // Finished.  Terminate the user's program.
     BlocklyApps.log.push(['finish', null]);
-    throw true;
+    // throw true;
   }
   return false;
 };
