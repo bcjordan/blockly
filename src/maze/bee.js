@@ -15,8 +15,6 @@ var Bee = function (maze, config) {
 
 module.exports = Bee;
 
-// todo - there's a bunch of stuff that we use once for the execution, and a
-// second time for the animations.  is there a better approach?
 Bee.prototype.reset = function () {
   this.honey_ = 0;
   this.nectar_ = 0;
@@ -48,7 +46,7 @@ Bee.prototype.finished = function () {
 
 /**
  * Each cell of initialDirt is below zero if it's a hive.  If a hive has no hive
- * specific goal, it is represented as -1.  If a have does have a goal, it is
+ * specific goal, it is represented as -1.  If a hive does have a goal, it is
  * represented as -(1 + hiveGoal).
  */
 Bee.prototype.isHive = function (row, col) {
