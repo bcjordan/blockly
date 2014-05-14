@@ -571,7 +571,7 @@ $modal-image-margin-gap: 10px;
   color: white;
   margin-left: 0px;
   margin-right: 10px;
-  @include k1-image-button('tryagain-arrow-button.png', 204px);
+  @include k1-image-button('tryagain-button-arrow.png', 204px);
   .k1 & {
     text-align: right;
   }
@@ -583,7 +583,7 @@ $modal-image-margin-gap: 10px;
   color: white;
   margin-left: 0px;
   margin-right: 10px;
-  @include k1-image-button('next-arrow-button.png', 171px);
+  @include k1-image-button('next-button-arrow.png', 171px);
   .k1 & {
     text-align: left;
   }
