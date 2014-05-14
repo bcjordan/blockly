@@ -455,8 +455,8 @@ exports.install = function(blockly, skin) {
       jump_down: { title: commonMsg.jump() + " "  + commonMsg.directionSouthLetter(), moveFunction: 'jumpDown', image: skin.downJumpArrow, tooltip: msg.jumpSouthTooltip() }
     },
     LENGTHS: [
-      [skin.shortLineDraw, "SHORT_MOVE_LENGTH"],
-      [skin.longLineDraw, "LONG_MOVE_LENGTH"]
+      [skin.longLineDraw, "LONG_MOVE_LENGTH"],
+      [skin.shortLineDraw, "SHORT_MOVE_LENGTH"]
     ],
     generateBlocksForAllDirections: function() {
       SimpleMove.generateBlocksForDirection("up");
