@@ -37,6 +37,8 @@ var utils = require('../utils');
 
 var Bee = require('./bee');
 
+var ExecutionInfo = require('../executionInfo');
+
 var Direction = tiles.Direction;
 var SquareType = tiles.SquareType;
 var TurnDirection = tiles.TurnDirection;
@@ -55,7 +57,7 @@ var skin;
 var stepSpeed;
 
 /**
- * Actions in BlocklyApps.log are a tuple in the form [command, block_id]
+ * Actions in BlocklyApps.executionInfo.log are a tuple in the form [command, block_id]
  */
 var ACTION_COMMAND = 0;
 var ACTION_BLOCK_ID = 1;
@@ -896,7 +898,8 @@ Maze.onReportComplete = function(response) {
  * Execute the user's code.  Heaven help us...
  */
 Maze.execute = function(stepMode) {
-  BlocklyApps.log = [];
+
+  BlocklyApps.executionInfo = new ExecutionInfo();
   BlocklyApps.ticks = 100; //TODO: Set higher for some levels
   var code = Blockly.Generator.workspaceToCode('JavaScript');
   Maze.result = ResultType.UNSET;
@@ -920,6 +923,7 @@ Maze.execute = function(stepMode) {
     }
   }
 
+  // todo - update comment
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
   // 2. If the program is terminated due to running too long [TIMEOUT],
@@ -936,28 +940,38 @@ Maze.execute = function(stepMode) {
       Maze: api
     });
     Maze.checkSuccess();
-    // If did not finish, shedule a failure.
-    BlocklyApps.log.push(['finish', null]);
-    Maze.result = ResultType.FAILURE;
-    stepSpeed = 150;
-  } catch (e) {
-    // A boolean is thrown for normal termination. XXX Except when it isn't...
-    // Abnormal termination is a user error.
-    if (e === Infinity) {
-      Maze.result = ResultType.TIMEOUT;
-      stepSpeed = 0;  // Go infinitely fast so program ends quickly.
-    } else if (e === true) {
-      Maze.result = ResultType.SUCCESS;
-      stepSpeed = 100;
-    } else if (e === false) {
-      Maze.result = ResultType.ERROR;
+    if (!BlocklyApps.executionInfo.isTerminated()) {
+      // If did not finish, shedule a failure.
+      BlocklyApps.executionInfo.log.push(['finish', null]);
+      Maze.result = ResultType.FAILURE;
       stepSpeed = 150;
     } else {
-      // Syntax error, can't happen.
-      Maze.result = ResultType.ERROR;
-      window.alert(e);
-      return;
+      switch (BlocklyApps.executionInfo.terminationValue()) {
+        case Infinity:
+          // Detected an infinite loop.  Animate what we have as quickly as
+          // possible
+          // todo - add a unit test
+          Maze.result = ResultType.TIMEOUT;
+          stepSpeed = 0;
+          break;
+        case true:
+          Maze.result = ResultType.SUCCESS;
+          stepSpeed = 100;
+          break;
+        case false:
+          Maze.result = ResultType.ERROR;
+          stepSpeed = 150;
+          break;
+        default:
+          Maze.result = ResultType.ERROR;
+          break;
+      }
     }
+  } catch (e) {
+    // Syntax error, can't happen.
+    Maze.result = ResultType.ERROR;
+    console.error("Unexpected exception: " + e + "\n" + e.stack);
+    return;
   }
 
   // If we know they succeeded, mark levelComplete true
@@ -991,7 +1005,7 @@ Maze.execute = function(stepMode) {
     onComplete: Maze.onReportComplete
   });
 
-  // BlocklyApps.log now contains a transcript of all the user's actions.
+  // BlocklyApps.executionInfo.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   BlocklyApps.reset(false);
   Maze.animating_ = true;
@@ -1052,7 +1066,7 @@ Maze.performStep = function(stepMode) {
   var action;
   // get action with non-null command
   do {
-    action = BlocklyApps.log.shift();
+    action = BlocklyApps.executionInfo.log.shift();
   } while (action && action[ACTION_COMMAND] === null);
   if (!action) {
     BlocklyApps.clearHighlighting();
@@ -1068,8 +1082,8 @@ Maze.performStep = function(stepMode) {
   var finishSteps = !stepMode;
   if (stepMode) {
     // If we've run out of steps, finish things up
-    if (BlocklyApps.log.length === 0 || BlocklyApps.log.length === 1 &&
-      BlocklyApps.log[0][ACTION_COMMAND] === "finish") {
+    if (BlocklyApps.executionInfo.log.length === 0 || BlocklyApps.executionInfo.log.length === 1 &&
+      BlocklyApps.executionInfo.log[0][ACTION_COMMAND] === "finish") {
       var stepButton = document.getElementById('stepButton');
       stepButton.style.display = 'none';
       finishSteps = true;
@@ -1438,7 +1452,7 @@ Maze.scheduleDance = function(sound) {
 
   // Setting the tiles to be transparent
   if (sound && skin.transparentTileEnding) {
-    BlocklyApps.log.push(['tile_transparent', null]);
+    BlocklyApps.executionInfo.log.push(['tile_transparent', null]);
   }
 
   // If sound == true, play the goal animation, else reset it
@@ -1612,6 +1626,6 @@ Maze.checkSuccess = function() {
   }
 
   // Finished.  Terminate the user's program.
-  BlocklyApps.log.push(['finish', null]);
-  throw true;
+  BlocklyApps.executionInfo.log.push(['finish', null]);
+  BlocklyApps.executionInfo.terminateWithValue(true);
 };

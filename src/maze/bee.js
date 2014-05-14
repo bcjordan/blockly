@@ -1,5 +1,14 @@
 var utils = require('../utils');
 
+/**
+ * Only call API functions if we haven't yet terminated execution
+ */
+var API_FUNCTION =function (fn) {
+  return utils.wrapWithConditional(function () {
+    return !BlocklyApps.executionInfo.isTerminated();
+  }, fn);
+};
+
 var Bee = function (maze, config) {
   this.maze_ = maze;
   this.skin_ = config.skin;
@@ -86,36 +95,6 @@ Bee.prototype.hiveRemainingCapacity = function (row, col) {
   return Math.abs(currentVal + 1);
 };
 
-
-// API
-
-Bee.prototype.getNectar = function (id) {
-  var col = this.maze_.pegmanX;
-  var row = this.maze_.pegmanY;
-
-  // Nectar is positive.  Make sure we have it.
-  if (this.maze_.dirt_[row][col] <= 0) {
-    // todo - rationalize with exception throwing changes
-    throw false;
-  }
-
-  BlocklyApps.log.push(['nectar', id]);
-  this.nectar_ += 1;
-};
-
-Bee.prototype.makeHoney = function (id) {
-  var col = this.maze_.pegmanX;
-  var row = this.maze_.pegmanY;
-
-  if (this.nectar_ === 0 || this.hiveRemainingCapacity(row, col) === 0) {
-    // todo - rationalize with exception throwing changes
-    throw false;
-  }
-
-  BlocklyApps.log.push(['honey', id]);
-  this.makeHoneyAt(row, col);
-};
-
 /**
  * Update model to represent made honey.  Does no validation
  */
@@ -123,15 +102,40 @@ Bee.prototype.makeHoneyAt = function (row, col) {
   var capacity = this.hiveRemainingCapacity(row, col);
   if (capacity > 0 && capacity !== Infinity) {
     this.maze_.dirt_[row][col] += 1; // update progress towards goal
-
-    // todo (brent) - when a hive with a goal goes to 0, should we display
-    // something different than the goalless hive? (answer is prob yes)
   }
 
   this.nectar_ -= 1;
   this.honey_ += 1;
 };
 
+// API
+
+Bee.prototype.getNectar = API_FUNCTION(function (id) {
+  var col = this.maze_.pegmanX;
+  var row = this.maze_.pegmanY;
+
+  // Nectar is positive.  Make sure we have it.
+  if (this.maze_.dirt_[row][col] <= 0) {
+    BlocklyApps.executionInfo.terminateWithValue(false);
+    return;
+  }
+
+  BlocklyApps.executionInfo.log.push(['nectar', id]);
+  this.nectar_ += 1;
+});
+
+Bee.prototype.makeHoney = API_FUNCTION(function (id) {
+  var col = this.maze_.pegmanX;
+  var row = this.maze_.pegmanY;
+
+  if (this.nectar_ === 0 || this.hiveRemainingCapacity(row, col) === 0) {
+    BlocklyApps.executionInfo.terminateWithValue(false);
+    return;
+  }
+
+  BlocklyApps.executionInfo.log.push(['honey', id]);
+  this.makeHoneyAt(row, col);
+});
 
 // ANIMATIONS
 

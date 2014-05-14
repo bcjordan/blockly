@@ -607,10 +607,10 @@ BlocklyApps.clearHighlighting = function () {
  */
 BlocklyApps.checkTimeout = function(opt_id) {
   if (opt_id) {
-    BlocklyApps.log.push([null, opt_id]);
+    BlocklyApps.executionInfo.log.push([null, opt_id]);
   }
   if (BlocklyApps.ticks-- < 0) {
-    throw Infinity;
+    BlocklyApps.executionInfo.terminateWithValue(Infinity);
   }
 };
 
@@ -664,7 +664,7 @@ BlocklyApps.levelComplete = null;
  * Transcript of user's actions.  The format is application-dependent.
  * @type {?Array.<Array>}
  */
-BlocklyApps.log = null;
+BlocklyApps.executionInfo = null;
 
 /**
  * The number of steps remaining before the currently running program

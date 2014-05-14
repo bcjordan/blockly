@@ -25,6 +25,7 @@
 
 var api = require('./api');
 var BlocklyApps = require('../base');
+var ExecutionInfo = require('../executionInfo');
 
 var setRandomVisibleColour = function() {
   var num = Math.floor(Math.random() * Math.pow(2, 24));
@@ -91,7 +92,7 @@ var drawHouse = function(length) {
  * Warning: Has side effects to BlocklyApps.
  */
 exports.answer = function(page, level) {
-  BlocklyApps.log = [];
+  BlocklyApps.executionInfo = new ExecutionInfo();
   BlocklyApps.ticks = Infinity;
   var count, sideIdx, len;
   if (page == 1) {
@@ -345,5 +346,5 @@ exports.answer = function(page, level) {
     }
   }
   BlocklyApps.reset();
-  return BlocklyApps.log;
+  return BlocklyApps.executionInfo.log;
 };

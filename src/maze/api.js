@@ -3,9 +3,16 @@ var Direction = tiles.Direction;
 var MoveDirection = tiles.MoveDirection;
 var TurnDirection = tiles.TurnDirection;
 var SquareType = tiles.SquareType;
+var utils = require('../utils');
 
-//TODO: This file should be void of logic like turtle/api.js
-// Mentions of `Maze.` is bad.
+/**
+ * Only call API functions if we haven't yet terminated execution
+ */
+var API_FUNCTION = function (fn) {
+  return utils.wrapWithConditional(function () {
+    return !BlocklyApps.executionInfo.isTerminated();
+  }, fn);
+};
 
 /**
  * Is there a path next to pegman?
@@ -40,7 +47,7 @@ var isPath = function(direction, id) {
       break;
   }
   if (id) {
-    BlocklyApps.log.push([command, id]);
+    BlocklyApps.executionInfo.log.push([command, id]);
   }
   return square !== SquareType.WALL &&
         square !== SquareType.OBSTACLE &&
@@ -56,8 +63,9 @@ var isPath = function(direction, id) {
  */
 var move = function(direction, id) {
   if (!isPath(direction, null)) {
-    BlocklyApps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
-    throw false;
+    BlocklyApps.executionInfo.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
+    BlocklyApps.executionInfo.terminateWithValue(false);
+    return;
   }
   // If moving backward, flip the effective direction.
   var effectiveDirection = Maze.pegmanD + direction;
@@ -80,7 +88,7 @@ var move = function(direction, id) {
       command = 'west';
       break;
   }
-  BlocklyApps.log.push([command, id]);
+  BlocklyApps.executionInfo.log.push([command, id]);
   Maze.checkSuccess();
 };
 
@@ -93,11 +101,11 @@ var turn = function(direction, id) {
   if (direction == TurnDirection.RIGHT) {
     // Right turn (clockwise).
     Maze.pegmanD += TurnDirection.RIGHT;
-    BlocklyApps.log.push(['right', id]);
+    BlocklyApps.executionInfo.log.push(['right', id]);
   } else {
     // Left turn (counterclockwise).
     Maze.pegmanD += TurnDirection.LEFT;
-    BlocklyApps.log.push(['left', id]);
+    BlocklyApps.executionInfo.log.push(['left', id]);
   }
   Maze.pegmanD = tiles.constrainDirection4(Maze.pegmanD);
 };
@@ -145,97 +153,97 @@ function moveAbsoluteDirection(direction, id) {
   move(MoveDirection.FORWARD, id);
 }
 
-exports.moveForward = function(id) {
+exports.moveForward = API_FUNCTION(function(id) {
   move(MoveDirection.FORWARD, id);
-};
+});
 
-exports.moveBackward = function(id) {
+exports.moveBackward = API_FUNCTION(function(id) {
   move(MoveDirection.BACKWARD, id);
-};
+});
 
-exports.moveNorth = function(id) {
+exports.moveNorth = API_FUNCTION(function(id) {
   moveAbsoluteDirection(Direction.NORTH, id);
-};
+});
 
-exports.moveSouth = function(id) {
+exports.moveSouth = API_FUNCTION(function(id) {
   moveAbsoluteDirection(Direction.SOUTH, id);
-};
+});
 
-exports.moveEast = function(id) {
+exports.moveEast = API_FUNCTION(function(id) {
   moveAbsoluteDirection(Direction.EAST, id);
-};
+});
 
-exports.moveWest = function(id) {
+exports.moveWest = API_FUNCTION(function(id) {
   moveAbsoluteDirection(Direction.WEST, id);
-};
+});
 
-exports.turnLeft = function(id) {
+exports.turnLeft = API_FUNCTION(function(id) {
   turn(TurnDirection.LEFT, id);
-};
+});
 
-exports.turnRight = function(id) {
+exports.turnRight = API_FUNCTION(function(id) {
   turn(TurnDirection.RIGHT, id);
-};
+});
 
-exports.isPathForward = function(id) {
+exports.isPathForward = API_FUNCTION(function(id) {
   return isPath(MoveDirection.FORWARD, id);
-};
-exports.noPathForward = function(id) {
+});
+exports.noPathForward = API_FUNCTION(function(id) {
   return !isPath(MoveDirection.FORWARD, id);
-};
+});
 
-exports.isPathRight = function(id) {
+exports.isPathRight = API_FUNCTION(function(id) {
   return isPath(MoveDirection.RIGHT, id);
-};
+});
 
-exports.isPathBackward = function(id) {
+exports.isPathBackward = API_FUNCTION(function(id) {
   return isPath(MoveDirection.BACKWARD, id);
-};
+});
 
-exports.isPathLeft = function(id) {
+exports.isPathLeft = API_FUNCTION(function(id) {
   return isPath(MoveDirection.LEFT, id);
-};
+});
 
-exports.pilePresent = function(id) {
+exports.pilePresent = API_FUNCTION(function(id) {
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   return Maze.dirt_[y][x] > 0;
-};
+});
 
-exports.holePresent = function(id) {
+exports.holePresent = API_FUNCTION(function(id) {
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   return Maze.dirt_[y][x] < 0;
-};
+});
 
-exports.currentPositionNotClear = function(id) {
+exports.currentPositionNotClear = API_FUNCTION(function(id) {
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   return Maze.dirt_[y][x] !== 0;
-};
+});
 
-exports.fill = function(id) {
-  BlocklyApps.log.push(['putdown', id]);
+exports.fill = API_FUNCTION(function(id) {
+  BlocklyApps.executionInfo.log.push(['putdown', id]);
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   Maze.dirt_[y][x] = Maze.dirt_[y][x] + 1;
-};
+});
 
-exports.dig = function(id) {
-  BlocklyApps.log.push(['pickup', id]);
+exports.dig = API_FUNCTION(function(id) {
+  BlocklyApps.executionInfo.log.push(['pickup', id]);
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   Maze.dirt_[y][x] = Maze.dirt_[y][x] - 1;
-};
+});
 
-exports.notFinished = function() {
+exports.notFinished = API_FUNCTION(function() {
   return !Maze.checkSuccess();
-};
+});
 
-exports.nectar = function(id) {
+exports.nectar = API_FUNCTION(function(id) {
   Maze.bee.getNectar(id);
-};
+});
 
-exports.honey = function(id) {
+exports.honey = API_FUNCTION(function(id) {
   Maze.bee.makeHoney(id);
-};
+});

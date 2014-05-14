@@ -56,3 +56,35 @@ exports.range = function(start, end) {
   }
   return ints;
 };
+
+// Returns an array of required blocks by comparing a list of blocks with
+// a list of app specific block tests (defined in <app>/requiredBlocks.js)
+exports.parseRequiredBlocks = function(requiredBlocks, blockTests) {
+  var blocksXml = xml.parseElement(requiredBlocks);
+
+  var blocks = [];
+  Array.prototype.forEach.call(blocksXml.children, function(block) {
+    for (var testKey in blockTests) {
+      var test = blockTests[testKey];
+      if (typeof test === 'function') { test = test(); }
+      if (test.type === block.getAttribute('type')) {
+        blocks.push([test]);  // Test blocks get wrapped in an array.
+        break;
+      }
+    }
+  });
+
+  return blocks;
+};
+
+/**
+ * Given two functions, returns the result of the second function if and only if
+ * the first function returns true
+ */
+exports.wrapWithConditional = function (conditional, fn) {
+  return function () {
+    if (conditional()) {
+      return fn.apply(this, arguments);
+    }
+  };
+};

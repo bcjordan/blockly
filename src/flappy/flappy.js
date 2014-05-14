@@ -17,6 +17,7 @@ var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
 var constants = require('./constants');
+var ExecutionInfo = require('../executionInfo');
 
 /**
  * Create a namespace for the application.
@@ -728,7 +729,7 @@ Flappy.onReportComplete = function(response) {
  * Execute the user's code.  Heaven help us...
  */
 Flappy.execute = function() {
-  BlocklyApps.log = [];
+  BlocklyApps.executionInfo = new ExecutionInfo();
   BlocklyApps.ticks = 100; //TODO: Set higher for some levels
   Flappy.result = ResultType.UNSET;
   Flappy.testResults = BlocklyApps.TestResults.NO_TESTS_RUN;

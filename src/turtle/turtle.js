@@ -37,6 +37,7 @@ var Colours = require('./core').Colours;
 var codegen = require('../codegen');
 var api = require('./api');
 var page = require('../templates/page.html');
+var ExecutionInfo = require('../executionInfo');
 
 var level;
 var skin;
@@ -159,23 +160,24 @@ Turtle.drawAnswer = function() {
 };
 
 Turtle.drawLogOnCanvas = function(log, canvas) {
-  BlocklyApps.log = log;
-  Turtle.drawCurrentBlocksOnCanvas(canvas);
+  BlocklyApps.reset();
+  while (log.length) {
+    var tuple = log.shift();
+    Turtle.step(tuple[0], tuple.splice(1));
+  }
+  canvas.globalCompositeOperation = 'copy';
+  canvas.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+  canvas.globalCompositeOperation = 'source-over';
 };
 
 Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
-  var domBlocks = Blockly.Xml.textToDom(blocks);
-  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, domBlocks);
-  var code = Blockly.Generator.workspaceToCode('JavaScript');
-  Turtle.evalCode(code);
-  Blockly.mainWorkspace.clear();
-  Turtle.drawCurrentBlocksOnCanvas(canvas);
+  Turtle.drawLogOnCanvas(BlocklyApps.executionInfo.log, canvas);
 };
 
 Turtle.drawCurrentBlocksOnCanvas = function(canvas) {
   BlocklyApps.reset();
-  while (BlocklyApps.log.length) {
-    var tuple = BlocklyApps.log.shift();
+  while (BlocklyApps.executionInfo.log.length) {
+    var tuple = BlocklyApps.executionInfo.log.shift();
     Turtle.step(tuple[0], tuple.splice(1));
   }
   canvas.globalCompositeOperation = 'copy';
@@ -352,13 +354,13 @@ Turtle.evalCode = function(code) {
  * Execute the user's code.  Heaven help us...
  */
 Turtle.execute = function() {
-  BlocklyApps.log = [];
+  BlocklyApps.executionInfo = new ExecutionInfo();
   BlocklyApps.ticks = 1000000;
 
   Turtle.code = Blockly.Generator.workspaceToCode('JavaScript');
   Turtle.evalCode(Turtle.code);
 
-  // BlocklyApps.log now contains a transcript of all the user's actions.
+  // BlocklyApps.executionInfo.log now contains a transcript of all the user's actions.
   // Reset the graphic and animate the transcript.
   BlocklyApps.reset();
   BlocklyApps.playAudio('start', {volume : 0.5, loop : true});
@@ -375,7 +377,7 @@ Turtle.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Turtle.pid = 0;
 
-  var tuple = BlocklyApps.log.shift();
+  var tuple = BlocklyApps.executionInfo.log.shift();
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);

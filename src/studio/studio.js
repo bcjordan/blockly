@@ -18,6 +18,7 @@ var blocks = require('./blocks');
 var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
+var ExecutionInfo = require('../executionInfo');
 
 var Direction = tiles.Direction;
 var NextTurn = tiles.NextTurn;
@@ -973,7 +974,7 @@ var defineProcedures = function (blockType) {
  * Execute the story
  */
 Studio.execute = function() {
-  BlocklyApps.log = [];
+  BlocklyApps.executionInfo = new ExecutionInfo();
   BlocklyApps.ticks = 100; //TODO: Set higher for some levels
   var code;
   Studio.result = ResultType.UNSET;

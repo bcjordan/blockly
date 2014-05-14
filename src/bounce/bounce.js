@@ -17,6 +17,7 @@ var api = require('./api');
 var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
+var ExecutionInfo = require('../executionInfo');
 
 var Direction = tiles.Direction;
 var SquareType = tiles.SquareType;
@@ -1063,7 +1064,7 @@ Bounce.onReportComplete = function(response) {
  * Execute the user's code.  Heaven help us...
  */
 Bounce.execute = function() {
-  BlocklyApps.log = [];
+  BlocklyApps.executionInfo = new ExecutionInfo();
   BlocklyApps.ticks = 100; //TODO: Set higher for some levels
   var code = Blockly.Generator.workspaceToCode('JavaScript', 'bounce_whenRun');
   Bounce.result = ResultType.UNSET;
