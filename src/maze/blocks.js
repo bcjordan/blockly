@@ -25,30 +25,13 @@
 
 var msg = require('../../locale/current/maze');
 var codegen = require('../codegen');
+var blockUtils = require('../block_utils');
 
 // Install extensions to Blockly's language and JavaScript generator.
 exports.install = function(blockly, skin) {
 
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
-
-  blockly.Blocks.maze_moveForward = {
-    // Block for moving forward.
-    helpUrl: 'http://code.google.com/p/blockly/wiki/Move',
-    init: function() {
-      this.setHSV(184, 1.00, 0.74);
-      this.appendDummyInput()
-          .appendTitle(msg.moveForward());
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.setTooltip(msg.moveForwardTooltip());
-    }
-  };
-
-  generator.maze_moveForward = function() {
-    // Generate JavaScript for moving forward.
-    return 'Maze.moveForward(\'block_id_' + this.id + '\');\n';
-  };
 
   var SimpleMove = {
     DIRECTION_CONFIGS: {
@@ -91,41 +74,48 @@ exports.install = function(blockly, skin) {
 
   SimpleMove.generateBlocksForAllDirections();
 
-  blockly.Blocks.maze_fill = {
-    // Block for putting dirt on to a tile.
+  // Block for moving forward.
+  blockUtils.generateSimpleBlock(blockly, generator, {
+    name: 'maze_moveForward',
+    helpUrl: 'http://code.google.com/p/blockly/wiki/Move',
+    title: msg.moveForward(),
+    tooltip: msg.moveForwardTooltip(),
+    functionName: 'Maze.moveForward'
+  });
+
+  // Block for putting dirt on to a tile.
+  blockUtils.generateSimpleBlock(blockly, generator, {
+    name: 'maze_fill',
     helpUrl: 'http://code.google.com/p/blockly/wiki/PutDown',
-    init: function() {
-      this.setHSV(184, 1.00, 0.74);
-      this.appendDummyInput()
-          .appendTitle(msg.fill());
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.setTooltip(msg.fillTooltip());
-    }
-  };
+    title: msg.fill(),
+    tooltip: msg.fillTooltip(),
+    functionName: 'Maze.fill'
+  });
 
-  generator.maze_fill = function() {
-    // Generate JavaScript for putting dirt on to a tile.
-    return 'Maze.fill(\'block_id_' + this.id + '\');\n';
-  };
-
-  blockly.Blocks.maze_dig = {
-    // Block for putting for removing dirt from a tile.
+  // Block for putting for removing dirt from a tile.
+  blockUtils.generateSimpleBlock(blockly, generator, {
+    name: 'maze_dig',
     helpUrl: 'http://code.google.com/p/blockly/wiki/PickUp',
-    init: function() {
-      this.setHSV(184, 1.00, 0.74);
-      this.appendDummyInput()
-          .appendTitle(msg.dig());
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.setTooltip(msg.digTooltip());
-    }
-  };
+    title: msg.dig(),
+    tooltip: msg.digTooltip(),
+    functionName: 'Maze.dig'
+  });
 
-  generator.maze_dig = function() {
-    // Generate JavaScript for removing dirt from a tile.
-    return 'Maze.dig(\'block_id_' + this.id + '\');\n';
-  };
+  blockUtils.generateSimpleBlock(blockly, generator, {
+    name: 'maze_nectar',
+    helpUrl: '',
+    title: msg.nectar(),
+    tooltip: msg.nectarTooltip(),
+    functionName: 'Maze.nectar'
+  });
+
+  blockUtils.generateSimpleBlock(blockly, generator, {
+    name: 'maze_honey',
+    helpUrl: '',
+    title: msg.honey(),
+    tooltip: msg.honeyTooltip(),
+    functionName: 'Maze.honey'
+  });
 
   blockly.Blocks.maze_turn = {
     // Block for turning left or right.

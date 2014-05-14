@@ -12,6 +12,15 @@ var skinsBase = require('../skins');
 
 var CONFIGS = {
 
+  bee: {
+    look: '#000',
+    transparentTileEnding: true,
+    nonDisappearingPegmanHittingObstacle: true,
+    background: 4,
+    dirtSound: true,
+    pegmanYOffset: -8
+  },
+
   farmer: {
     look: '#000',
     transparentTileEnding: true,
@@ -111,6 +120,8 @@ exports.load = function(assetUrl, id) {
   skin.graph = config.graph;
   skin.look = config.look;
   skin.dirt = skin.assetUrl('dirt.png');
+  skin.nectar = skin.assetUrl('nectar.png');
+  skin.honey = skin.assetUrl('honey.png');
   if (config.background !== undefined) {
     var index = Math.floor(Math.random() * config.background);
     skin.background = skin.assetUrl('background' + index + '.png');

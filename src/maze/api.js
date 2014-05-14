@@ -231,3 +231,11 @@ exports.dig = function(id) {
 exports.notFinished = function() {
   return !Maze.checkSuccess();
 };
+
+exports.nectar = function(id) {
+  Maze.bee.getNectar(id);
+};
+
+exports.honey = function(id) {
+  Maze.bee.makeHoney(id);
+};
