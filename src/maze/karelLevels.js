@@ -1207,13 +1207,13 @@ module.exports = {
       <block type="maze_honey"></block>'
     ),
     'startBlocks': startBlocks(1, 1),
-    'ideal': 5,
     'requiredBlocks': [
-      [MOVE_FORWARD], [DIG]
     ],
     'scale': {
       'snapRadius': 2.0
     },
+    honeyGoal: 2,
+    step: true,
     'map': [
       [ 0, 0, 0, 0, 0, 1, 1, 1 ],
       [ 0, 1, 1, 0, 0, 1, 1, 1 ],
@@ -1230,7 +1230,7 @@ module.exports = {
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
-      [ 0, -1, 2, 0, -1, 0, 0, 0 ],
+      [ 0, -1, 2, -1, -2, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ],
       [ 0, 0, 0, 0, 0, 0, 0, 0 ]

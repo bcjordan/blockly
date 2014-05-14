@@ -1418,6 +1418,10 @@ Maze.setTileTransparent = function() {
       tileId++;
     }
   }
+
+  if (Maze.bee) {
+    Maze.bee.setTilesTransparent();
+  }
 };
 
 /**
@@ -1592,10 +1596,18 @@ var isDirtCorrect = function() {
 };
 
 Maze.checkSuccess = function() {
-  if (atFinish() && isDirtCorrect()) {
-    // Finished.  Terminate the user's program.
-    BlocklyApps.log.push(['finish', null]);
-    throw true;
+  if (!atFinish()) {
+    return false;
   }
-  return false;
+  if (Maze.bee) {
+    if (!Maze.bee.finished()) {
+      return false;
+    }
+  } else if (!isDirtCorrect()) {
+    return false;
+  }
+
+  // Finished.  Terminate the user's program.
+  BlocklyApps.log.push(['finish', null]);
+  throw true;
 };

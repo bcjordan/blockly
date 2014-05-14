@@ -10,6 +10,13 @@ exports.shallowCopy = function(source) {
 };
 
 /**
+ * Returns a clone of the object, stripping any functions on it.
+ */
+exports.cloneWithoutFunctions = function(object) {
+  return JSON.parse(JSON.stringify(object));
+};
+
+/**
  * Returns a new object with the properties from defaults overriden by any
  * properties in options. Leaves defaults and options unchanged.
  */

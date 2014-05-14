@@ -1,10 +1,13 @@
+var utils = require('../utils');
+
 var Bee = function (maze, config) {
   this.maze_ = maze;
   this.skin_ = config.skin;
 
   this.honeyGoal = config.level.honeyGoal;
 
-  this.initialDirt_ = config.level.initialDirt;
+  // Create our own copy to ensure that it's not changing underneath us
+  this.initialDirt_ = utils.cloneWithoutFunctions(config.level.initialDirt);
 
   this.honeyImages_ = [];
   this.nectarImages_ = [];
@@ -18,17 +21,72 @@ Bee.prototype.reset = function () {
   this.honey_ = 0;
   this.nectar_ = 0;
   this.updateNectarImages_();
+  this.updateHoneyImages_();
 };
 
-Bee.prototype.checkSuccess = function () {
-  return this.honey_ >= this.honeyGoal;
+/**
+ * Did we both reach our total honey goal, and accomplish any specific hiveGoals
+ */
+Bee.prototype.finished = function () {
+  if (this.honey_ < this.honeyGoal) {
+    return false;
+  }
 
-  // todo - also check individual honey goals
+  for (var row = 0; row < this.initialDirt_.length; row++) {
+    for (var col = 0; col < this.initialDirt_[row].length; col++) {
+      // If any of our hives still have non infinite capactiy, we haven't hit
+      // the hiveGoal
+      var capacity = this.hiveRemainingCapacity(row, col);
+      if (this.isHive(row, col) && capacity > 0 && capacity < Infinity) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 };
 
+/**
+ * Each cell of initialDirt is below zero if it's a hive.  If a hive has no hive
+ * specific goal, it is represented as -1.  If a have does have a goal, it is
+ * represented as -(1 + hiveGoal).
+ */
 Bee.prototype.isHive = function (row, col) {
   return this.initialDirt_[row][col] < 0;
 };
+
+/**
+ * See isHive comment.
+ */
+Bee.prototype.hiveGoal = function (row, col) {
+  var val = this.initialDirt_[row][col];
+  if (val >= -1) {
+    return 0;
+  }
+
+  return Math.abs(val) - 1;
+};
+
+
+/**
+ * How much more honey can the hive at (row, col) produce before it hits the goal
+ */
+Bee.prototype.hiveRemainingCapacity = function (row, col) {
+  if (!this.isHive(row, col)) {
+    return 0;
+  }
+
+  var currentVal = this.maze_.dirt_[row][col];
+  var initialVal = this.initialDirt_[row][col];
+  // If we started at -1, we have no hiveGoal and have infinite capacity
+  if (currentVal === -1 && initialVal === -1) {
+    return Infinity;
+  }
+
+  // Otherwise our capacity is how many more until we get to -1
+  return Math.abs(currentVal + 1);
+};
+
 
 // API
 
@@ -50,12 +108,27 @@ Bee.prototype.makeHoney = function (id) {
   var col = this.maze_.pegmanX;
   var row = this.maze_.pegmanY;
 
-  if (this.nectar_ === 0 || !this.isHive(row, col)) {
+  if (this.nectar_ === 0 || this.hiveRemainingCapacity(row, col) === 0) {
     // todo - rationalize with exception throwing changes
     throw false;
   }
 
   BlocklyApps.log.push(['honey', id]);
+  this.makeHoneyAt(row, col);
+};
+
+/**
+ * Update model to represent made honey.  Does no validation
+ */
+Bee.prototype.makeHoneyAt = function (row, col) {
+  var capacity = this.hiveRemainingCapacity(row, col);
+  if (capacity > 0 && capacity !== Infinity) {
+    this.maze_.dirt_[row][col] += 1; // update progress towards goal
+
+    // todo (brent) - when a hive with a goal goes to 0, should we display
+    // something different than the goalless hive? (answer is prob yes)
+  }
+
   this.nectar_ -= 1;
   this.honey_ += 1;
 };
@@ -64,8 +137,8 @@ Bee.prototype.makeHoney = function (id) {
 // ANIMATIONS
 
 Bee.prototype.animateGetNectar = function () {
-  var col = Maze.pegmanX;
-  var row = Maze.pegmanY;
+  var col = this.maze_.pegmanX;
+  var row = this.maze_.pegmanY;
 
   if (this.maze_.dirt_[row][col] <= 0) {
     throw new Error("Shouldn't be able to end up with a nectar animation if " +
@@ -75,9 +148,9 @@ Bee.prototype.animateGetNectar = function () {
   this.maze_.dirt_[row][col] -= 1;
   // todo - i have an improvement for how updateDirt works on a different branch
   if (this.maze_.dirt_[row][col] === 0) {
-    Maze.removeDirt(row, col);
+    this.maze_.removeDirt(row, col);
   } else {
-    Maze.updateDirt(row, col);
+    this.maze_.updateDirt(row, col);
   }
 
   this.nectar_ += 1;
@@ -125,17 +198,17 @@ Bee.prototype.updateNectarImages_ = function () {
 
 
 Bee.prototype.animateMakeHoney = function () {
-  var col = Maze.pegmanX;
-  var row = Maze.pegmanY;
+  var col = this.maze_.pegmanX;
+  var row = this.maze_.pegmanY;
 
   if (this.nectar_ === 0 || !this.isHive(row, col)) {
     throw new Error("Shouldn't be able to end up with a honey animation if " +
       "we arent at a hive or dont have nectar");
   }
 
-  // todo - track where we make honey for hive specific goals
-  this.nectar_ -= 1;
-  this.honey_ += 1;
+  this.makeHoneyAt(row, col);
+
+  this.maze_.updateDirt(row, col);
 
   this.updateNectarImages_();
   this.updateHoneyImages_();
@@ -175,4 +248,19 @@ Bee.prototype.updateHoneyImages_ = function () {
   this.honeyImages_.forEach(function (image, index) {
     image.setAttribute('display', index < self.honey_ ? 'block' : 'none');
   });
+};
+
+/**
+ * When successfully completing a level, maze gradually fades out paths.  It
+ * assumes all dirt is at 0. For now we'll just set all dirt to 0 so that hives
+ * get hidden.  There may be a better long term approach.
+ */
+Bee.prototype.setTilesTransparent = function () {
+  for (var row = 0; row < this.initialDirt_.length; row++) {
+    for (var col = 0; col < this.initialDirt_[row].length; col++) {
+      if (this.isHive(row, col)) {
+        this.maze_.removeDirt(row, col);
+      }
+    }
+  }
 };
