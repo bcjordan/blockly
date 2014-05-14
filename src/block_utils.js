@@ -45,4 +45,4 @@ exports.generateSimpleBlock = function (blockly, generator, options) {
     // Generate JavaScript for putting dirt on to a tile.
     return functionName + '(\'block_id_' + this.id + '\');\n';
   };
-}
+};

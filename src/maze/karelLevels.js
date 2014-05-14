@@ -1,3 +1,5 @@
+/*jshint multistr: true */
+
 var levelBase = require('../level_base');
 var Direction = require('./tiles').Direction;
 var msg = require('../../locale/current/maze');
