@@ -128,11 +128,7 @@ Turtle.init = function(config) {
     // Set their initial contents.
     Turtle.loadTurtle();
     Turtle.drawImages();
-    if (level.solutionBlocks) {
-      Turtle.drawBlocksOnCanvas(level.solutionBlocks, Turtle.ctxAnswer);
-    } else {
-      Turtle.drawLogOnCanvas(level.answer, Turtle.ctxAnswer);
-    }
+    Turtle.drawAnswer();
     if (level.predraw_blocks) {
       Turtle.drawBlocksOnCanvas(level.predraw_blocks, Turtle.ctxPredraw);
     }
@@ -154,14 +150,17 @@ Turtle.init = function(config) {
 /**
  * On startup draw the expected answer and save it to the answer canvas.
  */
-Turtle.drawAnswer = function(blocks) {
-  Turtle.drawOnCanvas(blocks, Turtle.ctxAnswer)
+Turtle.drawAnswer = function() {
+  if (level.solutionBlocks) {
+    Turtle.drawBlocksOnCanvas(level.solutionBlocks, Turtle.ctxAnswer);
+  } else {
+    Turtle.drawLogOnCanvas(level.answer, Turtle.ctxAnswer);
+  }
 };
 
 Turtle.drawLogOnCanvas = function(log, canvas) {
   BlocklyApps.log = log;
   Turtle.drawCurrentBlocksOnCanvas(canvas);
-
 };
 
 Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
