@@ -36,6 +36,17 @@ module.exports = {
       description: "Missing while loop",
       missingBlocks: [reqBlocks().WHILE_LOOP],
       xml: '<xml><block type="maze_moveForward"><next><block type="maze_if"><title name="DIR">isPathRight</title><statement name="DO"><block type="maze_turn"><title name="DIR">turnRight</title></block></statement></block></next></block></xml>'
-    }
+    },
+    {
+      description: "Infinite Loop",
+      expected: {
+        result: false,
+        testResult: 4
+      },
+      customValidator: function () {
+        return Maze.result === 2;
+      },
+      xml: '<xml><block type="maze_forever"><statement name="DO"><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></statement></block></xml>'
+    },
   ]
 };

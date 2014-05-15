@@ -59,6 +59,13 @@ function runTestFromCollection (collection, index) {
         process.stderr.write('. Got: ' + report[key] + '\n');
       }
     });
+
+    // define a customValidator to run/validate arbitrary code at the point when
+    // BlocklyApps.report gets called. Allows us to access some things that
+    // aren't on the options object passed into report
+    if (testData.customValidator) {
+      assert(testData.customValidator());
+    }
   };
 
   runLevel(app, level, validateResult);
@@ -94,6 +101,3 @@ function setAppSpecificGlobals (app) {
       break;
   }
 }
-
-
-
