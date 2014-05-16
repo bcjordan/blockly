@@ -34,6 +34,26 @@ exports.load = function(assetUrl, id) {
   skin.underwater = {
     background: skin.assetUrl('background_underwater.png'),
   };
+  skin.cat = {
+    sprite: skin.assetUrl('cat_spritesheet_200px.png'),
+    spriteFlags: 28,
+  };
+  skin.dinosaur = {
+    sprite: skin.assetUrl('dinosaur_spritesheet_200px.png'),
+    spriteFlags: 28,
+  };
+  skin.dog = {
+    sprite: skin.assetUrl('dog_spritesheet_200px.png'),
+    spriteFlags: 28,
+  };
+  skin.octopus = {
+    sprite: skin.assetUrl('octopus_spritesheet_200px.png'),
+    spriteFlags: 28,
+  };
+  skin.penguin = {
+    sprite: skin.assetUrl('penguin_spritesheet_200px.png'),
+    spriteFlags: 28,
+  };
   skin.green = {
     sprite: skin.assetUrl('avatar1.png'),
     spriteFlags: 0,
