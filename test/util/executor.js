@@ -3,7 +3,6 @@ var fs = require('fs');
 var jsdom = require('jsdom').jsdom;
 var xmldom = require('xmldom');
 var canvas = require('canvas');
-var assert = require('chai').assert;
 
 var buildDir = '../../build';
 
@@ -13,6 +12,25 @@ var VENDOR_CODE =
 setGlobals();
 
 runTestFromCollection(process.argv[2], process.argv[3]);
+
+// Executor is called in its own process.  Logging statements are swalled.
+// levelTest treats any write to stderr as test failure, and writes that info
+// to the console
+function logError(msg) {
+  process.stderr.write(msg + '\n');
+}
+
+// Using chaiAssert results in most of the contents being swallowed because
+// we're in our own process. Instead use a custom assert function that will at
+// least give us a callstack on the child process.
+function assert(test, msg) {
+  if (!test) {
+    if (msg) {
+      logError(msg + '\n');
+    }
+    logError(new Error().stack);
+  }
+}
 
 function setGlobals () {
   // Initialize virtual browser environment.
@@ -34,10 +52,24 @@ function initBlockly () {
 function runTestFromCollection (collection, index) {
   var testCollection = require('../solutions/' + collection);
   var app = testCollection.app;
-
-  var levels = require(buildDir + '/js/' + app + '/' + testCollection.levelFile);
-  var level = levels[testCollection.levelId];
   var testData = testCollection.tests[index];
+
+  // skin shouldnt matter for most cases
+  var skinId = testCollection.skinId || 'farmer';
+
+  var level;
+  // Each testCollection file must either specify a file from which to get the
+  // level, or provide it's own custom level
+  if (testCollection.levelFile) {
+    var levels = require(buildDir + '/js/' + app + '/' + testCollection.levelFile);
+    level = levels[testCollection.levelId];
+  } else {
+    if (!testCollection.levelDefinition) {
+      logError('testCollection requires levelFile or levelDefinition');
+      return;
+    }
+    level = testCollection.levelDefinition;
+  }
 
   // Override speed
   if (!level.scale) {
@@ -51,12 +83,12 @@ function runTestFromCollection (collection, index) {
 
   // Validate successful solution.
   var validateResult = function (report) {
-    assert(Object.keys(testData.expected).length > 0);
+    assert(Object.keys(testData.expected).length > 0, 'No expected keys specified');
     Object.keys(testData.expected).forEach(function (key) {
       if (report[key] !== testData.expected[key]) {
-        process.stderr.write('Failure for key: ' + key);
-        process.stderr.write('. Expected: ' + testData.expected[key]);
-        process.stderr.write('. Got: ' + report[key] + '\n');
+        logError('Failure for key: ' + key);
+        logError('. Expected: ' + testData.expected[key]);
+        logError('. Got: ' + report[key] + '\n');
       }
     });
 
@@ -64,21 +96,21 @@ function runTestFromCollection (collection, index) {
     // BlocklyApps.report gets called. Allows us to access some things that
     // aren't on the options object passed into report
     if (testData.customValidator) {
-      assert(testData.customValidator());
+      assert(testData.customValidator(), 'Custom validator failed');
     }
   };
 
-  runLevel(app, level, validateResult);
+  runLevel(app, skinId, level, validateResult);
 }
 
-function runLevel (app, level, onAttempt) {
+function runLevel (app, skinId, level, onAttempt) {
   require(buildDir + '/js/' + app + '/main');
 
   setAppSpecificGlobals(app);
 
   var main = window[app + 'Main'];
   main({
-    skinId: 'farmer', // XXX Doesn't apply to Turtle, should come from level.
+    skinId: skinId,
     level: level,
     baseUrl: '/', // XXX Doesn't matter
     containerId: 'app',
