@@ -12,6 +12,8 @@ fi
     cd ../blockly-core
     ./deploy.sh $1
     cp $target ../blockly/lib/blockly
+    cp javascript_compressed.js ../blockly/lib/blockly
+    cp blocks_compressed.js ../blockly/lib/blockly
   else
     echo "Skipping core. No ../blockly-core"
   fi
