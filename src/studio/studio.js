@@ -761,7 +761,8 @@ BlocklyApps.reset = function(first) {
   Studio.currentCmdQueue = null;
   Studio.sayComplete = 0;
 
-  var spriteStartingSkins = [ "witch", "green", "purple", "pink", "orange" ];
+  var spriteStartingSkins = [ "witch", "cat", "dinosaur", "dog", "octopus",
+                              "penguin", "green", "purple", "pink", "orange" ];
   var numStartingSkins = spriteStartingSkins.length;
   var skinBias = Studio.spriteStartingImage || 0;
 
