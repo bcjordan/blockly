@@ -40,25 +40,17 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 0 && Maze.bee.honey_ === 3;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_nectar',
-              blockUtils.blockWithNext('maze_nectar',
-                blockUtils.blockWithNext('maze_moveForward',
-                  blockUtils.blockWithNext('maze_honey',
-                    blockUtils.blockWithNext('maze_honey',
-                      blockUtils.blockWithNext('maze_moveForward',
-                        blockUtils.blockOfType('maze_honey')
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey',
+        'maze_moveForward',
+        'maze_honey',
+      ]) + '</xml>'
     },
     {
       description: "Accomplish honey goal, but not hive goals",
@@ -69,27 +61,18 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 0 && Maze.bee.honey_ === 3;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_nectar',
-              blockUtils.blockWithNext('maze_nectar',
-                blockUtils.blockWithNext('maze_moveForward',
-                  blockUtils.blockWithNext('maze_moveForward',
-                    blockUtils.blockWithNext('maze_moveForward',
-                      blockUtils.blockWithNext('maze_honey',
-                        blockUtils.blockWithNext('maze_honey',
-                          blockUtils.blockOfType('maze_honey')
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_moveForward',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey',
+        'maze_honey',
+      ]) + '</xml>'      
     }
   ]
 };

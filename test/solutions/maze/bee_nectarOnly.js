@@ -40,15 +40,12 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 2;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_moveForward',
-              blockUtils.blockOfType('maze_nectar')
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_nectar',
+      ]) + '</xml>'
     },
     {
       description: "Get three nectar (one extra)",
@@ -59,17 +56,13 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 3;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_moveForward',
-              blockUtils.blockWithNext('maze_nectar',
-                blockUtils.blockOfType('maze_nectar')
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+      ]) + '</xml>'
     },
     {
       description: "Get only 1 nectar",
@@ -80,11 +73,10 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 1;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockOfType('maze_nectar')
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+      ]) + '</xml>'
     },
     {
       description: "Fail immediately trying to get nectar where there isn't any",
@@ -95,17 +87,13 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 0;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_nectar',
-          blockUtils.blockWithNext('maze_moveForward',
-            blockUtils.blockWithNext('maze_nectar',
-              blockUtils.blockWithNext('maze_moveForward',
-                blockUtils.blockOfType('maze_nectar')
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_nectar',
+      ]) + '</xml>'
     },
     {
       description: "Fail leaving path",

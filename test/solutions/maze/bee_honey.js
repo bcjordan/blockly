@@ -40,19 +40,14 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 0 && Maze.bee.honey_ === 2;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_nectar',
-              blockUtils.blockWithNext('maze_moveForward',
-                blockUtils.blockWithNext('maze_honey',
-                  blockUtils.blockOfType('maze_honey')
-                )
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey'
+      ]) + '</xml>'
     },
     {
       description: "Try making honey without nectar",
@@ -63,15 +58,12 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 0 && Maze.bee.honey_ === 0;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_moveForward',
-            blockUtils.blockWithNext('maze_honey',
-              blockUtils.blockOfType('maze_honey')
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey'
+      ]) + '</xml>'
     },
     {
       description: "Collect three nectar, make two honey",
@@ -82,21 +74,15 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 1 && Maze.bee.honey_ === 2;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_nectar',
-              blockUtils.blockWithNext('maze_nectar',
-                blockUtils.blockWithNext('maze_moveForward',
-                  blockUtils.blockWithNext('maze_honey',
-                    blockUtils.blockOfType('maze_honey')
-                  )
-                )
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey'
+      ]) + '</xml>'
     },
     {
       description: "Make only one honey",
@@ -107,17 +93,32 @@ module.exports = {
       customValidator: function () {
         return Maze.bee.nectar_ === 1 && Maze.bee.honey_ === 1;
       },
-      xml: '<xml>' +
-        blockUtils.blockWithNext('maze_moveForward',
-          blockUtils.blockWithNext('maze_nectar',
-            blockUtils.blockWithNext('maze_nectar',
-              blockUtils.blockWithNext('maze_moveForward',
-                blockUtils.blockOfType('maze_honey')
-              )
-            )
-          )
-        ) +
-        '</xml>'
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_honey'
+      ]) + '</xml>'
+    },
+    {
+      description: "Make honey without a hive",
+      expected: {
+        result: false,
+        testResult: 2
+      },
+      customValidator: function () {
+        return Maze.bee.nectar_ === 2 && Maze.bee.honey_ === 0;
+      },
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey'
+      ]) + '</xml>'
     }
   ]
 };
