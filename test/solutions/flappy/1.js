@@ -7,7 +7,10 @@ module.exports = {
     {
       description: "Expected solution",
       missingBlocks: [],
-      xml: '<xml><block type="flappy_whenClick" deletable="false"><next><block type="flappy_flap"></block></next></block></xml>'
+      xml: '<xml><block type="flappy_whenClick" deletable="false"><next><block type="flappy_flap"></block></next></block></xml>',
+      customValidator: function () {
+        return BlocklyApps.enableShowCode === false && BlocklyApps.enableShowBlockCount === false;
+      }
     },
     {
       description: "missing flap block",
