@@ -156,6 +156,7 @@ Jigsaw.init = function(config) {
   config.concreteBlocks = true;
 
   config.enableShowCode = false;
+  config.enableShowBlockCount = false;
 
   BlocklyApps.init(config);
 

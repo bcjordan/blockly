@@ -771,6 +771,7 @@ Bounce.init = function(config) {
   config.makeImage = BlocklyApps.assetUrl('media/promo.png');
 
   config.enableShowCode = false;
+  config.enableShowBlockCount = false;
 
   config.preventExtraTopLevelBlocks = true;
 
