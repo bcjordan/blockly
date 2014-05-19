@@ -1049,7 +1049,11 @@ Maze.performStep = function(stepMode) {
   // running/stepping will turn it off
   Blockly.mainWorkspace.traceOn(true);
 
-  var action = BlocklyApps.log.shift();
+  var action;
+  // get first non-null action
+  do {
+    action = BlocklyApps.log.shift();
+  } while (action && action[ACTION_COMMAND] === null);
   if (!action) {
     BlocklyApps.clearHighlighting();
     Maze.animating_ = false;
