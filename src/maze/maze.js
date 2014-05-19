@@ -1050,7 +1050,7 @@ Maze.performStep = function(stepMode) {
   Blockly.mainWorkspace.traceOn(true);
 
   var action;
-  // get first non-null action
+  // get action with non-null command
   do {
     action = BlocklyApps.log.shift();
   } while (action && action[ACTION_COMMAND] === null);
