@@ -25,11 +25,6 @@ exports.simpleBlock = function(block_type) {
     type: block_type};
 };
 
-exports.simpleBlockWithParam = function(block_type, param) {
-  return {test: function(block) {return block.type == block_type; },
-    type: block_type, values: {param: '<block type="colour_random"></block>'}};
-};
-
 /**
  * Generate a required blocks dictionary for a repeat loop.  This does not
  * test for the specified repeat count but includes it in the suggested block.
