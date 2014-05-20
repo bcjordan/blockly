@@ -25,6 +25,9 @@ BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
 //The number of blocks to show as feedback.
 BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
 
+// Never bump neighbors for Jigsaw
+Blockly.BUMP_UNCONNECTED = false;
+
 function useLargeNotches() {
   Blockly.BlockSvg.NOTCH_WIDTH = 50;
 
@@ -156,6 +159,7 @@ Jigsaw.init = function(config) {
   config.concreteBlocks = true;
 
   config.enableShowCode = false;
+  config.enableShowBlockCount = false;
 
   BlocklyApps.init(config);
 

@@ -10,7 +10,7 @@ var jigsawBlock = function (type, x, y, child, childType) {
   if (childType === 'statement') {
     childAttr = " name='child'";
   }
-  return '<block type="' + type + '" deletable="true"' +
+  return '<block type="' + type + '" deletable="false"' +
     ' x="' + x + '"' +
     ' y="' + y + '">' +
     (child ? '<' + childType + childAttr + '>' + child + '</' + childType + '>' : '') +

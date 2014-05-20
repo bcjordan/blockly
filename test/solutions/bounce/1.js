@@ -7,7 +7,10 @@ module.exports = {
     {
       description: "Expected solution",
       missingBlocks: [],
-      xml: '<xml><block type="bounce_whenLeft" deletable="false"><next><block type="bounce_moveLeft"></block></next></block></xml>'
+      xml: '<xml><block type="bounce_whenLeft" deletable="false"><next><block type="bounce_moveLeft"></block></next></block></xml>',
+      customValidator: function () {
+        return BlocklyApps.enableShowCode === false && BlocklyApps.enableShowBlockCount === false;
+      }
     },
     {
       description: "missing moveLeft block",
