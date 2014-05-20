@@ -97,8 +97,9 @@ exports.blockTitlesMatch = function(blockA, blockB) {
   var blockATitles = blockA.getTitles();
   var blockBTitles = blockB.getTitles();
 
-  blockATitles.sort(utils.propertySort('name'));
-  blockBTitles.sort(utils.propertySort('name'));
+  var nameCompare = function(a,b) { return a.name < b.name; };
+  blockATitles.sort(nameCompare);
+  blockBTitles.sort(nameCompare);
 
   for (var i = 0; i < blockATitles.length || i < blockBTitles.length; i++) {
     var blockATitle = blockATitles[i];
