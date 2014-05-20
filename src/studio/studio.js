@@ -766,8 +766,8 @@ BlocklyApps.reset = function(first) {
   // Reset the Globals object used to contain program variables:
   Studio.Globals = [];
 
-  var spriteStartingSkins = [ "witch", "cat", "dinosaur", "dog", "octopus",
-                              "penguin" ];
+  var spriteStartingSkins = [ "dog", "cat", "penguin", "dinosaur", "octopus",
+                              "witch" ];
   var numStartingSkins = spriteStartingSkins.length;
   var skinBias = Studio.spriteStartingImage || 0;
 
