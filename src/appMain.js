@@ -1,4 +1,5 @@
 var utils = require('./utils');
+var requiredBlockUtils = require('./required_block_utils');
 window.BlocklyApps = require('./base');
 
 if (typeof global !== 'undefined') {
@@ -35,8 +36,8 @@ module.exports = function(app, levels, options, requiredBlockTests) {
     }
 
     if (requiredBlockTests && options.level.required_blocks) {
-      level.requiredBlocks = utils.parseRequiredBlocks(
-          options.level.required_blocks, requiredBlockTests);
+      level.requiredBlocks = requiredBlockUtils.makeTestsFromBuilderRequiredBlocks(
+          options.level.required_blocks);
     }
 
     options.level = level;

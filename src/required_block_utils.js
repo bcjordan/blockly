@@ -1,3 +1,6 @@
+var xml = require('./xml');
+var blockUtils = require('./block_utils');
+
 /**
  * Create the textual XML for a math_number block.
  * @param {number|string} number The numeric amount, expressed as a
@@ -20,6 +23,11 @@ exports.makeMathNumber = function(number) {
 exports.simpleBlock = function(block_type) {
   return {test: function(block) {return block.type == block_type; },
     type: block_type};
+};
+
+exports.simpleBlockWithParam = function(block_type, param) {
+  return {test: function(block) {return block.type == block_type; },
+    type: block_type, values: {param: '<block type="colour_random"></block>'}};
 };
 
 /**
@@ -46,4 +54,69 @@ exports.repeat = function(count) {
 exports.repeatSimpleBlock = function(count) {
   return {test: function(block) {return block.type == 'controls_repeat_simplified';},
     type: 'controls_repeat_simplified', titles: {'TIMES': count}};
+};
+
+/**
+ * Returns an array of required blocks by comparing a list of blocks with
+ * a list of app specific block tests (defined in <app>/requiredBlocks.js)
+ */
+exports.makeTestsFromBuilderRequiredBlocks = function (customRequiredBlocks) {
+  var blocksXml = xml.parseElement(customRequiredBlocks);
+
+  var requiredBlocksTests = [];
+  Array.prototype.forEach.call(blocksXml.children, function(requiredBlockXML) {
+    requiredBlocksTests.push([{
+      test: function(userBlock) {
+        var temporaryRequiredBlock = blockUtils.domToBlock(requiredBlockXML);
+        var blockMeetsRequirements = exports.blockMeetsRequirements(userBlock, temporaryRequiredBlock);
+        temporaryRequiredBlock.dispose();
+        return blockMeetsRequirements;
+      },
+      blockDisplayXML: xml.serialize(requiredBlockXML)
+    }]);
+  });
+
+  return requiredBlocksTests;
+};
+
+/**
+ * Compares a given block with a requiredBlock XML
+ * @param userBlock
+ * @param requiredBlock
+ */
+exports.blockMeetsRequirements = function(userBlock, requiredBlock) {
+  var typesMatch = requiredBlock.type == userBlock.type;
+  var titlesMatch = exports.titlesMatch(userBlock, requiredBlock);
+  return typesMatch && titlesMatch;
+};
+
+/**
+ * Compares two blocks' titles, returns true if they all match
+ * @returns {boolean}
+ * @param userBlock
+ * @param requiredBlock
+ */
+exports.titlesMatch = function(userBlock, requiredBlock) {
+  var userTitles = userBlock.getTitles();
+  var requiredTitles = requiredBlock.getTitles();
+
+  if (userTitles.length === 0 && requiredTitles.length === 0) {
+    return true;
+  }
+
+  for (var i = 0; i < requiredTitles.length; i++) {
+    var requiredTitle = requiredTitles[i];
+    var titleValuesMatch = userTitles.some(exports.generateTitleMatchChecker_(requiredTitle));
+    if (!titleValuesMatch) {
+      return false;
+    }
+  }
+  return true;
+};
+
+exports.generateTitleMatchChecker_ = function(requiredTitle) {
+  return function (userTitle) {
+    return requiredTitle.name == userTitle.name &&
+      requiredTitle.getValue() == userTitle.getValue();
+  };
 };
