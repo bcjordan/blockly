@@ -4,7 +4,7 @@ var assert = chai.assert;
 exports.assert = assert;
 var SRC = '../../src/';
 
-var blockFactory = require('./blockFactory');
+var testBlockFactory = require('./testBlockFactory');
 
 require('./requireUncache').wrap(require);
 
@@ -78,7 +78,7 @@ exports.setupTestBlockly = function() {
     }
   };
   Blockly.inject(blocklyAppDiv, options);
-  blockFactory.installTestBlocks(Blockly);
+  testBlockFactory.installTestBlocks(Blockly);
 
   assert(Blockly.Blocks.text_print, "text_print block exists");
   assert(Blockly.Blocks.text, "text block exists");
