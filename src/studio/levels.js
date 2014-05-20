@@ -294,6 +294,8 @@ module.exports = {
     ],
     'toolbox':
       tb(createCategory(msg.catActions(),
+                          blockOfType('studio_setSprite') +
+                          blockOfType('studio_setBackground') +
                           blockOfType('studio_move') +
                           blockOfType('studio_moveDistance') +
                           blockOfType('studio_stop') +
@@ -303,9 +305,7 @@ module.exports = {
                           defaultSayBlock() +
                           blockOfType('studio_setSpritePosition') +
                           blockOfType('studio_setSpriteSpeed') +
-                          blockOfType('studio_setSpriteEmotion') +
-                          blockOfType('studio_setBackground') +
-                          blockOfType('studio_setSprite')) +
+                          blockOfType('studio_setSpriteEmotion')) +
          createCategory(msg.catEvents(),
                           blockOfType('studio_whenGameStarts') +
                           blockOfType('studio_whenLeft') +
@@ -325,6 +325,7 @@ module.exports = {
                           blockOfType('logic_boolean')) +
          createCategory(msg.catMath(),
                           blockOfType('math_number') +
+                          blockOfType('math_change') +
                           blockOfType('math_arithmetic')) +
          createCategory(msg.catVariables(), '', 'VARIABLE')),
     'startBlocks':

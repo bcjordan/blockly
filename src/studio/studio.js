@@ -414,7 +414,7 @@ var callHandler = function (name) {
         (!handler.cmdQueue || 0 === handler.cmdQueue.length)) {
       handler.cmdQueue = [];
       Studio.currentCmdQueue = handler.cmdQueue;
-      try { handler.func(BlocklyApps, api); } catch (e) { }
+      try { handler.func(BlocklyApps, api, Studio.Globals); } catch (e) { }
       Studio.currentCmdQueue = null;
     }
   });
@@ -666,6 +666,7 @@ Studio.init = function(config) {
   config.makeImage = BlocklyApps.assetUrl('media/promo.png');
 
   config.enableShowCode = false;
+  config.varsInGlobals = true;
   config.enableShowBlockCount = false;
 
   config.preventExtraTopLevelBlocks = true;
@@ -761,6 +762,9 @@ BlocklyApps.reset = function(first) {
   // Reset currentCmdQueue and sayComplete count:
   Studio.currentCmdQueue = null;
   Studio.sayComplete = 0;
+
+  // Reset the Globals object used to contain program variables:
+  Studio.Globals = [];
 
   var spriteStartingSkins = [ "witch", "cat", "dinosaur", "dog", "octopus",
                               "penguin", "green", "purple", "pink", "orange" ];
@@ -911,7 +915,8 @@ var registerHandlers =
       if (code) {
         var func = codegen.functionFromCode(code, {
                                             BlocklyApps: BlocklyApps,
-                                            Studio: api } );
+                                            Studio: api,
+                                            Globals: Studio.Globals } );
         var eventName = eventNameBase;
         if (nameParam1) {
           eventName += '-' + matchParam1Val;
