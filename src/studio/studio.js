@@ -1090,6 +1090,9 @@ frameDirTable[Direction.NORTHWEST]  = 4;
 frameDirTable[Direction.WEST]       = 5;
 frameDirTable[Direction.SOUTHWEST]  = 6;
 
+var ANIM_PERIOD = 20;
+var ANIM_OFFSET = 3; // Each sprite animates at a slightly different time
+
 var spriteFrameNumber = function (index) {
   var sprite = Studio.sprite[index];
   var showThisAnimFrame = 0;
@@ -1099,7 +1102,8 @@ var spriteFrameNumber = function (index) {
   }
   if ((sprite.flags & SpriteFlags.ANIMATION) &&
       Studio.tickCount &&
-      Math.round(Studio.tickCount / 20) % 2) {
+      Math.round((Studio.tickCount + index * ANIM_OFFSET) / ANIM_PERIOD) % 2) {
+    // we only support two-frame animation for now
     showThisAnimFrame = sprite.firstAnimFrameNum;
   }
   if (sprite.emotion !== Emotions.NORMAL &&
