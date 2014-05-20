@@ -4,6 +4,8 @@ var assert = chai.assert;
 exports.assert = assert;
 var SRC = '../../src/';
 
+var blockFactory = require('./blockFactory');
+
 require('./requireUncache').wrap(require);
 
 var GlobalDiff = require('./globalDiff');
@@ -47,6 +49,13 @@ exports.requireWithGlobalsCheckSrcFolder = function(path, allowedChanges, useOve
   return this.requireWithGlobalsCheck(SRC + path, allowedChanges, useOverloader);
 };
 
+/**
+ * Initializes an instance of blockly for testing
+ *
+ * Warning: this likely doesn't do exactly the same thing each time.
+ * For example, the first time requiring ./frame in setupTestBlockly will actually load frame.js.
+ * Subsequent times, it will use the cached version of frame.js.
+ */
 exports.setupTestBlockly = function() {
   this.requireWithGlobalsCheck('./frame',
   ['document', 'window', 'DOMParser', 'XMLSerializer', 'Blockly'], false);
@@ -69,6 +78,7 @@ exports.setupTestBlockly = function() {
     }
   };
   Blockly.inject(blocklyAppDiv, options);
+  blockFactory.installTestBlocks(Blockly);
 
   assert(Blockly.Blocks.text_print, "text_print block exists");
   assert(Blockly.Blocks.text, "text block exists");

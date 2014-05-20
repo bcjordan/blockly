@@ -1,5 +1,6 @@
 var xml = require('./xml');
 var blockUtils = require('./block_utils');
+var utils = require('./utils');
 
 /**
  * Create the textual XML for a math_number block.
@@ -63,7 +64,7 @@ exports.makeTestsFromBuilderRequiredBlocks = function (customRequiredBlocks) {
     requiredBlocksTests.push([{
       test: function(userBlock) {
         var temporaryRequiredBlock = blockUtils.domToBlock(requiredBlockXML);
-        var blockMeetsRequirements = exports.blockMeetsRequirements(userBlock, temporaryRequiredBlock);
+        var blockMeetsRequirements = exports.blocksMatch(userBlock, temporaryRequiredBlock);
         temporaryRequiredBlock.dispose();
         return blockMeetsRequirements;
       },
@@ -75,43 +76,42 @@ exports.makeTestsFromBuilderRequiredBlocks = function (customRequiredBlocks) {
 };
 
 /**
- * Compares a given block with a requiredBlock XML
- * @param userBlock
- * @param requiredBlock
+ * Checks if two blocks are "equivalent"
+ * Currently means their type and all of their titles match exactly
+ * @param blockA
+ * @param blockB
  */
-exports.blockMeetsRequirements = function(userBlock, requiredBlock) {
-  var typesMatch = requiredBlock.type == userBlock.type;
-  var titlesMatch = exports.titlesMatch(userBlock, requiredBlock);
+exports.blocksMatch = function(blockA, blockB) {
+  var typesMatch = blockA.type === blockB.type;
+  var titlesMatch = exports.blockTitlesMatch(blockA, blockB);
   return typesMatch && titlesMatch;
 };
 
 /**
  * Compares two blocks' titles, returns true if they all match
  * @returns {boolean}
- * @param userBlock
- * @param requiredBlock
+ * @param blockA
+ * @param blockB
  */
-exports.titlesMatch = function(userBlock, requiredBlock) {
-  var userTitles = userBlock.getTitles();
-  var requiredTitles = requiredBlock.getTitles();
+exports.blockTitlesMatch = function(blockA, blockB) {
+  var blockATitles = blockA.getTitles();
+  var blockBTitles = blockB.getTitles();
 
-  if (userTitles.length === 0 && requiredTitles.length === 0) {
-    return true;
-  }
+  blockATitles.sort(utils.propertySort('name'));
+  blockBTitles.sort(utils.propertySort('name'));
 
-  for (var i = 0; i < requiredTitles.length; i++) {
-    var requiredTitle = requiredTitles[i];
-    var titleValuesMatch = userTitles.some(exports.generateTitleMatchChecker_(requiredTitle));
-    if (!titleValuesMatch) {
+  for (var i = 0; i < blockATitles.length || i < blockBTitles.length; i++) {
+    var blockATitle = blockATitles[i];
+    var blockBTitle = blockBTitles[i];
+    if (!blockATitle || !blockBTitle ||
+      !titlesMatch(blockATitle, blockBTitle)) {
       return false;
     }
   }
   return true;
 };
 
-exports.generateTitleMatchChecker_ = function(requiredTitle) {
-  return function (userTitle) {
-    return requiredTitle.name == userTitle.name &&
-      requiredTitle.getValue() == userTitle.getValue();
-  };
+var titlesMatch = function(titleA, titleB) {
+  return titleB.name === titleA.name &&
+    titleB.getValue() === titleA.getValue();
 };

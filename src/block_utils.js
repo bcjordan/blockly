@@ -49,12 +49,18 @@ exports.generateSimpleBlock = function (blockly, generator, options) {
   };
 };
 
+/**
+ * Generates a single block from a <block/> DOM element, adding it to the main workspace
+ * @param blockDOM {Element}
+ * @returns {*}
+ */
 exports.domToBlock = function(blockDOM) {
   return Blockly.Xml.domToBlock_(Blockly.mainWorkspace, blockDOM);
 };
 
 /**
- * Generates a block from a block XML string—e.g., <block type="testBlock"></block>
+ * Generates a single block from a block XML string—e.g., <block type="testBlock"></block>,
+ * and adds it to the main workspace
  * @param blockDOMString
  * @returns {*}
  */

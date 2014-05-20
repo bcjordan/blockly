@@ -56,3 +56,11 @@ exports.range = function(start, end) {
   }
   return ints;
 };
+
+/**
+ * Returns a function suitable for use in Array.prototype.sort
+ * which sorts by a given property name
+ */
+exports.propertySort = function(propertyName) {
+  return function(a,b) { return a[propertyName] < b[propertyName]; };
+};
