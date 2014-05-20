@@ -92,7 +92,7 @@ var drawHouse = function(length) {
  * Warning: Has side effects to BlocklyApps.
  */
 exports.answer = function(page, level) {
-  BlocklyApps.executionInfo = new ExecutionInfo({ticks: Infinity});
+  api.executionInfo = new ExecutionInfo({ticks: Infinity});
   var count, sideIdx, len;
   if (page == 1) {
     switch (level) {
@@ -345,5 +345,5 @@ exports.answer = function(page, level) {
     }
   }
   BlocklyApps.reset();
-  return BlocklyApps.executionInfo.log;
+  return api.executionInfo.log;
 };

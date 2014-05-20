@@ -171,18 +171,16 @@ Turtle.drawLogOnCanvas = function(log, canvas) {
 };
 
 Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
-  Turtle.drawLogOnCanvas(BlocklyApps.executionInfo.log, canvas);
+  var domBlocks = Blockly.Xml.textToDom(blocks);
+  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, domBlocks);
+  var code = Blockly.Generator.workspaceToCode('JavaScript');
+  Turtle.evalCode(code);
+  Blockly.mainWorkspace.clear();
+  Turtle.drawCurrentBlocksOnCanvas(canvas);
 };
 
 Turtle.drawCurrentBlocksOnCanvas = function(canvas) {
-  BlocklyApps.reset();
-  while (BlocklyApps.executionInfo.log.length) {
-    var tuple = BlocklyApps.executionInfo.log.shift();
-    Turtle.step(tuple[0], tuple.splice(1));
-  }
-  canvas.globalCompositeOperation = 'copy';
-  canvas.drawImage(Turtle.ctxScratch.canvas, 0, 0);
-  canvas.globalCompositeOperation = 'source-over';
+  Turtle.drawLogOnCanvas(api.executionInfo.log);
 };
 
 /**
@@ -354,7 +352,8 @@ Turtle.evalCode = function(code) {
  * Execute the user's code.  Heaven help us...
  */
 Turtle.execute = function() {
-  BlocklyApps.executionInfo = new ExecutionInfo({ticks: 1000000});
+  api.executionInfo = new ExecutionInfo();
+  BlocklyApps.ticks = 1000000;
 
   Turtle.code = Blockly.Generator.workspaceToCode('JavaScript');
   Turtle.evalCode(Turtle.code);
@@ -376,7 +375,7 @@ Turtle.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Turtle.pid = 0;
 
-  var tuple = BlocklyApps.executionInfo.log.shift();
+  var tuple = api.executionInfo.log.shift();
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);

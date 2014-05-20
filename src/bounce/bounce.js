@@ -17,7 +17,6 @@ var api = require('./api');
 var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
-var ExecutionInfo = require('../executionInfo');
 
 var Direction = tiles.Direction;
 var SquareType = tiles.SquareType;

@@ -17,7 +17,6 @@ var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
 var constants = require('./constants');
-var ExecutionInfo = require('../executionInfo');
 
 /**
  * Create a namespace for the application.

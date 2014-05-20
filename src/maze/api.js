@@ -10,7 +10,7 @@ var utils = require('../utils');
  */
 var API_FUNCTION = function (fn) {
   return utils.executeIfConditional(function () {
-    return !BlocklyApps.executionInfo.isTerminated();
+    return !Maze.executionInfo.isTerminated();
   }, fn);
 };
 
@@ -47,7 +47,7 @@ var isPath = function(direction, id) {
       break;
   }
   if (id) {
-    BlocklyApps.executionInfo.log.push([command, id]);
+    Maze.executionInfo.log.push([command, id]);
   }
   return square !== SquareType.WALL &&
         square !== SquareType.OBSTACLE &&
@@ -63,8 +63,8 @@ var isPath = function(direction, id) {
  */
 var move = function(direction, id) {
   if (!isPath(direction, null)) {
-    BlocklyApps.executionInfo.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
-    BlocklyApps.executionInfo.terminateWithValue(false);
+    Maze.executionInfo.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
+    Maze.executionInfo.terminateWithValue(false);
     return;
   }
   // If moving backward, flip the effective direction.
@@ -88,7 +88,7 @@ var move = function(direction, id) {
       command = 'west';
       break;
   }
-  BlocklyApps.executionInfo.log.push([command, id]);
+  Maze.executionInfo.log.push([command, id]);
   Maze.checkSuccess();
 };
 
@@ -101,11 +101,11 @@ var turn = function(direction, id) {
   if (direction == TurnDirection.RIGHT) {
     // Right turn (clockwise).
     Maze.pegmanD += TurnDirection.RIGHT;
-    BlocklyApps.executionInfo.log.push(['right', id]);
+    Maze.executionInfo.log.push(['right', id]);
   } else {
     // Left turn (counterclockwise).
     Maze.pegmanD += TurnDirection.LEFT;
-    BlocklyApps.executionInfo.log.push(['left', id]);
+    Maze.executionInfo.log.push(['left', id]);
   }
   Maze.pegmanD = tiles.constrainDirection4(Maze.pegmanD);
 };
@@ -223,14 +223,14 @@ exports.currentPositionNotClear = API_FUNCTION(function(id) {
 });
 
 exports.fill = API_FUNCTION(function(id) {
-  BlocklyApps.executionInfo.log.push(['putdown', id]);
+  Maze.executionInfo.log.push(['putdown', id]);
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   Maze.dirt_[y][x] = Maze.dirt_[y][x] + 1;
 });
 
 exports.dig = API_FUNCTION(function(id) {
-  BlocklyApps.executionInfo.log.push(['pickup', id]);
+  Maze.executionInfo.log.push(['pickup', id]);
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   Maze.dirt_[y][x] = Maze.dirt_[y][x] - 1;

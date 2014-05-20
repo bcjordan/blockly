@@ -1,5 +1,5 @@
-// todo - should ticks also be in here?
 var ExecutionInfo = function (options) {
+  options = options || {};
   this.terminated_ = false;
   this.terminationValue_ = null;
   this.log = [];

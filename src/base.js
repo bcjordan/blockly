@@ -646,12 +646,6 @@ BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = undefined;
 BlocklyApps.levelComplete = null;
 
 /**
- * Transcript of user's actions.  The format is application-dependent.
- * @type {?Array.<Array>}
- */
-BlocklyApps.executionInfo = null;
-
-/**
  * The number of attempts (how many times the run button has been pressed)
  * @type {?number}
  */
