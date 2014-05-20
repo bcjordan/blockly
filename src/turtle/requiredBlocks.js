@@ -187,18 +187,4 @@ module.exports = {
   SET_COLOUR_PICKER: SET_COLOUR_PICKER,
   SET_COLOUR_RANDOM: SET_COLOUR_RANDOM,
   defineWithArg: defineWithArg,
-  controls_repeat_simplified: requiredBlockUtils.repeatSimpleBlock('???'),
-  draw_colour_simple: requiredBlockUtils.simpleBlock('draw_colour_simple'),
-  simple_move_up: requiredBlockUtils.simpleBlock('simple_move_up'),
-  simple_move_down: requiredBlockUtils.simpleBlock('simple_move_down'),
-  simple_move_left: requiredBlockUtils.simpleBlock('simple_move_left'),
-  simple_move_right: requiredBlockUtils.simpleBlock('simple_move_right'),
-  simple_jump_up: requiredBlockUtils.simpleBlock('simple_jump_up'),
-  simple_jump_down: requiredBlockUtils.simpleBlock('simple_jump_down'),
-  simple_jump_left: requiredBlockUtils.simpleBlock('simple_jump_left'),
-  simple_jump_right: requiredBlockUtils.simpleBlock('simple_jump_right'),
-  simple_move_up_length: requiredBlockUtils.simpleBlock('simple_move_up_length'),
-  simple_move_down_length: requiredBlockUtils.simpleBlock('simple_move_down_length'),
-  simple_move_left_length: requiredBlockUtils.simpleBlock('simple_move_left_length'),
-  simple_move_right_length: requiredBlockUtils.simpleBlock('simple_move_right_length')
 };

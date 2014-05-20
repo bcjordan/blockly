@@ -1,3 +1,5 @@
+var xml = require('./xml');
+
 exports.createToolbox = function(blocks) {
   return '<xml id="toolbox" style="display: none;">' + blocks + '</xml>';
 };
@@ -61,4 +63,23 @@ exports.generateSimpleBlock = function (blockly, generator, options) {
     // Generate JavaScript for putting dirt on to a tile.
     return functionName + '(\'block_id_' + this.id + '\');\n';
   };
+};
+
+/**
+ * Generates a single block from a <block/> DOM element, adding it to the main workspace
+ * @param blockDOM {Element}
+ * @returns {*}
+ */
+exports.domToBlock = function(blockDOM) {
+  return Blockly.Xml.domToBlock_(Blockly.mainWorkspace, blockDOM);
+};
+
+/**
+ * Generates a single block from a block XML string—e.g., <block type="testBlock"></block>,
+ * and adds it to the main workspace
+ * @param blockDOMString
+ * @returns {*}
+ */
+exports.domStringToBlock = function(blockDOMString) {
+  return exports.domToBlock(xml.parseElement(blockDOMString).firstChild);
 };

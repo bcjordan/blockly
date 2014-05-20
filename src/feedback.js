@@ -585,17 +585,15 @@ var getMissingRequiredBlocks = function () {
          i < BlocklyApps.REQUIRED_BLOCKS.length &&
              missingBlockNum < BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG;
          i++) {
-      var blocks = BlocklyApps.REQUIRED_BLOCKS[i];
+      var requiredBlock = BlocklyApps.REQUIRED_BLOCKS[i];
       // For each of the test
       // If at least one of the tests succeeded, we consider the required block
       // is used
       var usedRequiredBlock = false;
-      for (var testId = 0; testId < blocks.length; testId++) {
-        var test = blocks[testId].test;
+      for (var testId = 0; testId < requiredBlock.length; testId++) {
+        var test = requiredBlock[testId].test;
         if (typeof test === 'string') {
-          if (!code) {
-            code = Blockly.Generator.workspaceToCode('JavaScript');
-          }
+          code = code || Blockly.Generator.workspaceToCode('JavaScript');
           if (code.indexOf(test) !== -1) {
             // Succeeded, moving to the next list of tests
             usedRequiredBlock = true;
@@ -702,6 +700,10 @@ var generateXMLForBlocks = function(blocks) {
   var k, name;
   for (var i = 0; i < blocks.length; i++) {
     var block = blocks[i];
+    if (block.blockDisplayXML) {
+      blockXMLStrings.push(block.blockDisplayXML);
+      continue;
+    }
     blockXMLStrings.push('<block', ' type="', block.type, '" x="',
                         blockX.toString(), '" y="', blockY, '">');
     if (block.titles) {

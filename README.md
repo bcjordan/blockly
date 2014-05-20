@@ -82,8 +82,25 @@ grunt build # run a build before testing
 grunt test
 ```
 
-* Blockly tests target the `build/js/app_name` folder
-* If you see an error like `ReferenceError: Blockly is not defined` or notes about missing npm packages, double check that you've run `grunt build` before `grunt test`
+To run an individual test, use the `--grep` option to target a file or Mocha `describe` identifier:
+
+```
+grunt test --grep myTestName # e.g., 2_11, or requiredBlockUtils
+```
+
+To debug tests using the node-inspector Chrome-like debugger:
+
+```
+npm install -g node-inspector
+node-inspector &
+# open debugger URL
+node --debug-brk $(which grunt) --grep='testname'
+# This will breakpoint your inspector at the beginning of that test
+```
+
+* You can add new test files as /test/*Tests.js, see `/test/feedbackTests.js` as an example of adding a mock Blockly instance
+* Blockly tests typically target the `build/js` folder
+* If you see an error like `ReferenceError: Blockly is not defined` or notes about missing npm packages, run `grunt build` before `grunt test`
 
 ### Localization
 

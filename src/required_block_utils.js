@@ -1,3 +1,7 @@
+var xml = require('./xml');
+var blockUtils = require('./block_utils');
+var utils = require('./utils');
+
 /**
  * Create the textual XML for a math_number block.
  * @param {number|string} number The numeric amount, expressed as a
@@ -46,4 +50,69 @@ exports.repeat = function(count) {
 exports.repeatSimpleBlock = function(count) {
   return {test: function(block) {return block.type == 'controls_repeat_simplified';},
     type: 'controls_repeat_simplified', titles: {'TIMES': count}};
+};
+
+/**
+ * Returns an array of required blocks by comparing a list of blocks with
+ * a list of app specific block tests (defined in <app>/requiredBlocks.js)
+ */
+exports.makeTestsFromBuilderRequiredBlocks = function (customRequiredBlocks) {
+  var blocksXml = xml.parseElement(customRequiredBlocks);
+
+  var requiredBlocksTests = [];
+  Array.prototype.forEach.call(blocksXml.children, function(requiredBlockXML) {
+    requiredBlocksTests.push([{
+      test: function(userBlock) {
+        var temporaryRequiredBlock = blockUtils.domToBlock(requiredBlockXML);
+        var blockMeetsRequirements = exports.blocksMatch(userBlock, temporaryRequiredBlock);
+        temporaryRequiredBlock.dispose();
+        return blockMeetsRequirements;
+      },
+      blockDisplayXML: xml.serialize(requiredBlockXML)
+    }]);
+  });
+
+  return requiredBlocksTests;
+};
+
+/**
+ * Checks if two blocks are "equivalent"
+ * Currently means their type and all of their titles match exactly
+ * @param blockA
+ * @param blockB
+ */
+exports.blocksMatch = function(blockA, blockB) {
+  var typesMatch = blockA.type === blockB.type;
+  var titlesMatch = exports.blockTitlesMatch(blockA, blockB);
+  return typesMatch && titlesMatch;
+};
+
+/**
+ * Compares two blocks' titles, returns true if they all match
+ * @returns {boolean}
+ * @param blockA
+ * @param blockB
+ */
+exports.blockTitlesMatch = function(blockA, blockB) {
+  var blockATitles = blockA.getTitles();
+  var blockBTitles = blockB.getTitles();
+
+  var nameCompare = function(a,b) { return a.name < b.name; };
+  blockATitles.sort(nameCompare);
+  blockBTitles.sort(nameCompare);
+
+  for (var i = 0; i < blockATitles.length || i < blockBTitles.length; i++) {
+    var blockATitle = blockATitles[i];
+    var blockBTitle = blockBTitles[i];
+    if (!blockATitle || !blockBTitle ||
+      !titlesMatch(blockATitle, blockBTitle)) {
+      return false;
+    }
+  }
+  return true;
+};
+
+var titlesMatch = function(titleA, titleB) {
+  return titleB.name === titleA.name &&
+    titleB.getValue() === titleA.getValue();
 };
