@@ -78,10 +78,10 @@ exports.parseRequiredBlocks = function(requiredBlocks, blockTests) {
 };
 
 /**
- * Given two functions, returns the result of the second function if and only if
- * the first function returns true
+ * Given two functions, generates a function that returns the result of the
+ * second function if and only if the first function returns true
  */
-exports.wrapWithConditional = function (conditional, fn) {
+exports.executeIfConditional = function (conditional, fn) {
   return function () {
     if (conditional()) {
       return fn.apply(this, arguments);

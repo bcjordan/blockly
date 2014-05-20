@@ -9,7 +9,7 @@ var utils = require('../utils');
  * Only call API functions if we haven't yet terminated execution
  */
 var API_FUNCTION = function (fn) {
-  return utils.wrapWithConditional(function () {
+  return utils.executeIfConditional(function () {
     return !BlocklyApps.executionInfo.isTerminated();
   }, fn);
 };

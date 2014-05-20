@@ -1,4 +1,4 @@
-var INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(); if (BlocklyApps.executionInfo.isTerminated()){break;}\n';
+var INFINITE_LOOP_TRAP = '  BlocklyApps.executionInfo.checkTimeout(); if (BlocklyApps.executionInfo.isTerminated()){return;}\n';
 var INFINITE_LOOP_TRAP_RE =
     new RegExp(INFINITE_LOOP_TRAP.replace(/\(.*\)/, '\\(.*\\)'), 'g');
 

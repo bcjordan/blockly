@@ -899,8 +899,7 @@ Maze.onReportComplete = function(response) {
  */
 Maze.execute = function(stepMode) {
 
-  BlocklyApps.executionInfo = new ExecutionInfo();
-  BlocklyApps.ticks = 100; //TODO: Set higher for some levels
+  BlocklyApps.executionInfo = new ExecutionInfo({ticks: 100});
   var code = Blockly.Generator.workspaceToCode('JavaScript');
   Maze.result = ResultType.UNSET;
   Maze.testResults = BlocklyApps.TestResults.NO_TESTS_RUN;

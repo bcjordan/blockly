@@ -1064,8 +1064,7 @@ Bounce.onReportComplete = function(response) {
  * Execute the user's code.  Heaven help us...
  */
 Bounce.execute = function() {
-  BlocklyApps.executionInfo = new ExecutionInfo();
-  BlocklyApps.ticks = 100; //TODO: Set higher for some levels
+  BlocklyApps.executionInfo = new ExecutionInfo({ticks: 100});
   var code = Blockly.Generator.workspaceToCode('JavaScript', 'bounce_whenRun');
   Bounce.result = ResultType.UNSET;
   Bounce.testResults = BlocklyApps.TestResults.NO_TESTS_RUN;
