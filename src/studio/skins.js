@@ -54,22 +54,6 @@ exports.load = function(assetUrl, id) {
     sprite: skin.assetUrl('penguin_spritesheet_200px.png'),
     spriteFlags: 28,
   };
-  skin.green = {
-    sprite: skin.assetUrl('avatar1.png'),
-    spriteFlags: 0,
-  };
-  skin.purple = {
-    sprite: skin.assetUrl('avatar2.png'),
-    spriteFlags: 0,
-  };
-  skin.orange = {
-    sprite: skin.assetUrl('avatar3.png'),
-    spriteFlags: 0,
-  };
-  skin.pink = {
-    sprite: skin.assetUrl('avatar4.png'),
-    spriteFlags: 0,
-  };
 
   // Images
   skin.goal = skin.assetUrl('goal.png');

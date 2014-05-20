@@ -767,7 +767,7 @@ BlocklyApps.reset = function(first) {
   Studio.Globals = [];
 
   var spriteStartingSkins = [ "witch", "cat", "dinosaur", "dog", "octopus",
-                              "penguin", "green", "purple", "pink", "orange" ];
+                              "penguin" ];
   var numStartingSkins = spriteStartingSkins.length;
   var skinBias = Studio.spriteStartingImage || 0;
 
@@ -955,9 +955,22 @@ var registerHandlersWithSpriteParams =
   }
 };
 
+//
+// Generates code with user-generated function definitions and evals that code
+// so these can be called from event handlers. This should be called for each
+// block type that defines functions.
+//
+
+var defineProcedures = function (blockType) {
+  var code = Blockly.Generator.workspaceToCode('JavaScript', blockType);
+  try { codegen.evalWith(code, {
+                         BlocklyApps: BlocklyApps,
+                         Studio: api,
+                         Globals: Studio.Globals } ); } catch (e) { }
+};
 
 /**
- * Execute the user's code.  Heaven help us...
+ * Execute the story
  */
 Studio.execute = function() {
   BlocklyApps.log = [];
@@ -1004,6 +1017,11 @@ Studio.execute = function() {
   BlocklyApps.playAudio('start', {volume: 0.5});
 
   BlocklyApps.reset(false);
+
+  // Define any top-level procedures the user may have created
+  // (must be after reset(), which resets the Studio.Globals namespace)
+  defineProcedures('procedures_defreturn');
+  defineProcedures('procedures_defnoreturn');
 
   // Set event handlers and start the onTick timer
   Studio.eventHandlers = handlers;

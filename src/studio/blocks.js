@@ -608,11 +608,7 @@ exports.install = function(blockly, skin) {
        [msg.setSpriteDinosaur(), '"dinosaur"'],
        [msg.setSpriteDog(), '"dog"'],
        [msg.setSpriteOctopus(), '"octopus"'],
-       [msg.setSpritePenguin(), '"penguin"'],
-       [msg.setSpriteGreen(), '"green"'],
-       [msg.setSpritePurple(), '"purple"'],
-       [msg.setSpritePink(), '"pink"'],
-       [msg.setSpriteOrange(), '"orange"']];
+       [msg.setSpritePenguin(), '"penguin"']];
 
   generator.studio_setSprite = function() {
     return generateSetterCode({
@@ -744,6 +740,4 @@ exports.install = function(blockly, skin) {
       name: 'wait'});
   };
 
-  delete blockly.Blocks.procedures_defreturn;
-  delete blockly.Blocks.procedures_ifreturn;
 };

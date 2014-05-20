@@ -327,7 +327,8 @@ module.exports = {
                           blockOfType('math_number') +
                           blockOfType('math_change') +
                           blockOfType('math_arithmetic')) +
-         createCategory(msg.catVariables(), '', 'VARIABLE')),
+         createCategory(msg.catVariables(), '', 'VARIABLE') +
+         createCategory(msg.catProcedures(), '', 'PROCEDURE')),
     'startBlocks':
      '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block>'
   },
