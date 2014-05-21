@@ -72,7 +72,7 @@ ExecutionInfo.prototype.collectActions = function () {
 };
 
 ExecutionInfo.prototype.stopCollecting = function () {
-  if (!this.collecting_) {
+  if (!this.collection_) {
     throw new Error("Not currently collecting");
   }
   this.steps_.push(this.collection_);
