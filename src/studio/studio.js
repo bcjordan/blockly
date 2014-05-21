@@ -974,8 +974,6 @@ var defineProcedures = function (blockType) {
  * Execute the story
  */
 Studio.execute = function() {
-  BlocklyApps.log = [];
-  BlocklyApps.ticks = 100; //TODO: Set higher for some levels
   var code;
   Studio.result = ResultType.UNSET;
   Studio.testResults = BlocklyApps.TestResults.NO_TESTS_RUN;

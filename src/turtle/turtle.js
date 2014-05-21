@@ -37,6 +37,7 @@ var Colours = require('./core').Colours;
 var codegen = require('../codegen');
 var api = require('./api');
 var page = require('../templates/page.html');
+var ExecutionInfo = require('../executionInfo');
 
 var level;
 var skin;
@@ -159,8 +160,14 @@ Turtle.drawAnswer = function() {
 };
 
 Turtle.drawLogOnCanvas = function(log, canvas) {
-  BlocklyApps.log = log;
-  Turtle.drawCurrentBlocksOnCanvas(canvas);
+  BlocklyApps.reset();
+  while (log.length) {
+    var tuple = log.shift();
+    Turtle.step(tuple[0], tuple.splice(1));
+  }
+  canvas.globalCompositeOperation = 'copy';
+  canvas.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+  canvas.globalCompositeOperation = 'source-over';
 };
 
 Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
@@ -173,14 +180,7 @@ Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
 };
 
 Turtle.drawCurrentBlocksOnCanvas = function(canvas) {
-  BlocklyApps.reset();
-  while (BlocklyApps.log.length) {
-    var tuple = BlocklyApps.log.shift();
-    Turtle.step(tuple[0], tuple.splice(1));
-  }
-  canvas.globalCompositeOperation = 'copy';
-  canvas.drawImage(Turtle.ctxScratch.canvas, 0, 0);
-  canvas.globalCompositeOperation = 'source-over';
+  Turtle.drawLogOnCanvas(api.executionInfo.log);
 };
 
 /**
@@ -352,13 +352,12 @@ Turtle.evalCode = function(code) {
  * Execute the user's code.  Heaven help us...
  */
 Turtle.execute = function() {
-  BlocklyApps.log = [];
-  BlocklyApps.ticks = 1000000;
+  api.executionInfo = new ExecutionInfo({ticks: 1000000});
 
   Turtle.code = Blockly.Generator.workspaceToCode('JavaScript');
   Turtle.evalCode(Turtle.code);
 
-  // BlocklyApps.log now contains a transcript of all the user's actions.
+  // BlocklyApps.executionInfo.log now contains a transcript of all the user's actions.
   // Reset the graphic and animate the transcript.
   BlocklyApps.reset();
   BlocklyApps.playAudio('start', {volume : 0.5, loop : true});
@@ -375,7 +374,7 @@ Turtle.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Turtle.pid = 0;
 
-  var tuple = BlocklyApps.log.shift();
+  var tuple = api.executionInfo.log.shift();
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);

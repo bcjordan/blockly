@@ -728,8 +728,6 @@ Flappy.onReportComplete = function(response) {
  * Execute the user's code.  Heaven help us...
  */
 Flappy.execute = function() {
-  BlocklyApps.log = [];
-  BlocklyApps.ticks = 100; //TODO: Set higher for some levels
   Flappy.result = ResultType.UNSET;
   Flappy.testResults = BlocklyApps.TestResults.NO_TESTS_RUN;
   Flappy.waitingForReport = false;

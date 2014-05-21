@@ -599,21 +599,6 @@ BlocklyApps.clearHighlighting = function () {
   BlocklyApps.highlight(null);
 };
 
-/**
- * If the user has executed too many actions, we're probably in an infinite
- * loop.  Sadly I wasn't able to solve the Halting Problem.
- * @param {?string} opt_id ID of loop block to highlight.
- * @throws {Infinity} Throws an error to terminate the user's program.
- */
-BlocklyApps.checkTimeout = function(opt_id) {
-  if (opt_id) {
-    BlocklyApps.log.push([null, opt_id]);
-  }
-  if (BlocklyApps.ticks-- < 0) {
-    throw Infinity;
-  }
-};
-
 // The following properties get their non-default values set by the application.
 
 /**
@@ -659,19 +644,6 @@ BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = undefined;
  * @type {?boolean}
  */
 BlocklyApps.levelComplete = null;
-
-/**
- * Transcript of user's actions.  The format is application-dependent.
- * @type {?Array.<Array>}
- */
-BlocklyApps.log = null;
-
-/**
- * The number of steps remaining before the currently running program
- * is deemed to be in an infinite loop and terminated.
- * @type {?number}
- */
-BlocklyApps.ticks = null;
 
 /**
  * The number of attempts (how many times the run button has been pressed)

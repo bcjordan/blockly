@@ -86,6 +86,18 @@ Bee.prototype.hiveRemainingCapacity = function (row, col) {
   return Math.abs(currentVal + 1);
 };
 
+/**
+ * Update model to represent made honey.  Does no validation
+ */
+Bee.prototype.makeHoneyAt = function (row, col) {
+  var capacity = this.hiveRemainingCapacity(row, col);
+  if (capacity > 0 && capacity !== Infinity) {
+    this.maze_.dirt_[row][col] += 1; // update progress towards goal
+  }
+
+  this.nectar_ -= 1;
+  this.honey_ += 1;
+};
 
 // API
 
@@ -95,11 +107,11 @@ Bee.prototype.getNectar = function (id) {
 
   // Nectar is positive.  Make sure we have it.
   if (this.maze_.dirt_[row][col] <= 0) {
-    // todo - rationalize with exception throwing changes
-    throw false;
+    this.maze_.executionInfo.terminateWithValue(false);
+    return;
   }
 
-  BlocklyApps.log.push(['nectar', id]);
+  this.maze_.executionInfo.log.push(['nectar', id]);
   this.nectar_ += 1;
 };
 
@@ -108,30 +120,13 @@ Bee.prototype.makeHoney = function (id) {
   var row = this.maze_.pegmanY;
 
   if (this.nectar_ === 0 || this.hiveRemainingCapacity(row, col) === 0) {
-    // todo - rationalize with exception throwing changes
-    throw false;
+    this.maze_.executionInfo.terminateWithValue(false);
+    return;
   }
 
-  BlocklyApps.log.push(['honey', id]);
+  this.maze_.executionInfo.log.push(['honey', id]);
   this.makeHoneyAt(row, col);
 };
-
-/**
- * Update model to represent made honey.  Does no validation
- */
-Bee.prototype.makeHoneyAt = function (row, col) {
-  var capacity = this.hiveRemainingCapacity(row, col);
-  if (capacity > 0 && capacity !== Infinity) {
-    this.maze_.dirt_[row][col] += 1; // update progress towards goal
-
-    // todo (brent) - when a hive with a goal goes to 0, should we display
-    // something different than the goalless hive? (answer is prob yes)
-  }
-
-  this.nectar_ -= 1;
-  this.honey_ += 1;
-};
-
 
 // ANIMATIONS
 
