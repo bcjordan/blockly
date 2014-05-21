@@ -37,7 +37,6 @@ var Colours = require('./core').Colours;
 var codegen = require('../codegen');
 var api = require('./api');
 var page = require('../templates/page.html');
-var ExecutionInfo = require('../executionInfo');
 
 var level;
 var skin;
@@ -180,7 +179,7 @@ Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
 };
 
 Turtle.drawCurrentBlocksOnCanvas = function(canvas) {
-  Turtle.drawLogOnCanvas(api.executionInfo.log, canvas);
+  Turtle.drawLogOnCanvas(api.log, canvas);
 };
 
 /**
@@ -352,12 +351,12 @@ Turtle.evalCode = function(code) {
  * Execute the user's code.  Heaven help us...
  */
 Turtle.execute = function() {
-  api.executionInfo = new ExecutionInfo({ticks: 1000000});
+  api.log = [];
 
   Turtle.code = Blockly.Generator.workspaceToCode('JavaScript');
   Turtle.evalCode(Turtle.code);
 
-  // BlocklyApps.executionInfo.log now contains a transcript of all the user's actions.
+  // api.log now contains a transcript of all the user's actions.
   // Reset the graphic and animate the transcript.
   BlocklyApps.reset();
   BlocklyApps.playAudio('start', {volume : 0.5, loop : true});
@@ -374,7 +373,7 @@ Turtle.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Turtle.pid = 0;
 
-  var tuple = api.executionInfo.log.shift();
+  var tuple = api.log.shift();
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);

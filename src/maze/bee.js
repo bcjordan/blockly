@@ -111,7 +111,7 @@ Bee.prototype.getNectar = function (id) {
     return;
   }
 
-  this.maze_.executionInfo.log.push(['nectar', id]);
+  this.maze_.executionInfo.queueAction('nectar', id);
   this.nectar_ += 1;
 };
 
@@ -124,7 +124,7 @@ Bee.prototype.makeHoney = function (id) {
     return;
   }
 
-  this.maze_.executionInfo.log.push(['honey', id]);
+  this.maze_.executionInfo.queueAction('honey', id);
   this.makeHoneyAt(row, col);
 };
 

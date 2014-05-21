@@ -2,7 +2,7 @@ var ExecutionInfo = function (options) {
   options = options || {};
   this.terminated_ = false;
   this.terminationValue_ = null;
-  this.log = [];
+  this.log_ = [];
   this.ticks = options.ticks || Infinity;
 };
 
@@ -21,6 +21,20 @@ ExecutionInfo.prototype.terminationValue = function () {
   return this.terminationValue_;
 };
 
+ExecutionInfo.prototype.queueAction = function (command, id) {
+  this.log_.push({command: command, id: id});
+};
+
+ExecutionInfo.prototype.dequeueAction = function (command, id) {
+  var action = this.log_.shift();
+  // todo (brent) - maybe have app take this an object too
+  return action ? [action.command, action.id] : undefined;
+};
+
+ExecutionInfo.prototype.onLastStep = function () {
+  return this.log_.length === 0 || (this.log_.length === 1 && this.log_.command === "finish");
+};
+
 /**
  * If the user has executed too many actions, we're probably in an infinite
  * loop.  Sadly I wasn't able to solve the Halting Problem.
@@ -29,7 +43,7 @@ ExecutionInfo.prototype.terminationValue = function () {
  */
 ExecutionInfo.prototype.checkTimeout = function(opt_id) {
   if (opt_id) {
-    this.log.push([null, opt_id]);
+    this.log_.push([null, opt_id]);
   }
   if (this.ticks-- < 0) {
     this.terminateWithValue(Infinity);

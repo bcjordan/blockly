@@ -25,7 +25,6 @@
 
 var api = require('./api');
 var BlocklyApps = require('../base');
-var ExecutionInfo = require('../executionInfo');
 
 var setRandomVisibleColour = function() {
   var num = Math.floor(Math.random() * Math.pow(2, 24));
@@ -92,7 +91,7 @@ var drawHouse = function(length) {
  * Warning: Has side effects to BlocklyApps.
  */
 exports.answer = function(page, level) {
-  api.executionInfo = new ExecutionInfo({ticks: Infinity});
+  api.log = [];
   var count, sideIdx, len;
   if (page == 1) {
     switch (level) {
@@ -345,5 +344,5 @@ exports.answer = function(page, level) {
     }
   }
   BlocklyApps.reset();
-  return api.executionInfo.log;
+  return api.log;
 };

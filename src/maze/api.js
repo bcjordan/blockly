@@ -47,7 +47,7 @@ var isPath = function(direction, id) {
       break;
   }
   if (id) {
-    Maze.executionInfo.log.push([command, id]);
+    Maze.executionInfo.queueAction(command, id);
   }
   return square !== SquareType.WALL &&
         square !== SquareType.OBSTACLE &&
@@ -63,7 +63,7 @@ var isPath = function(direction, id) {
  */
 var move = function(direction, id) {
   if (!isPath(direction, null)) {
-    Maze.executionInfo.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
+    Maze.executionInfo.queueAction('fail_' + (direction ? 'backward' : 'forward'), id);
     Maze.executionInfo.terminateWithValue(false);
     return;
   }
@@ -88,7 +88,7 @@ var move = function(direction, id) {
       command = 'west';
       break;
   }
-  Maze.executionInfo.log.push([command, id]);
+  Maze.executionInfo.queueAction(command, id);
   Maze.checkSuccess();
 };
 
@@ -101,11 +101,11 @@ var turn = function(direction, id) {
   if (direction == TurnDirection.RIGHT) {
     // Right turn (clockwise).
     Maze.pegmanD += TurnDirection.RIGHT;
-    Maze.executionInfo.log.push(['right', id]);
+    Maze.executionInfo.queueAction('right', id);
   } else {
     // Left turn (counterclockwise).
     Maze.pegmanD += TurnDirection.LEFT;
-    Maze.executionInfo.log.push(['left', id]);
+    Maze.executionInfo.queueAction('left', id);
   }
   Maze.pegmanD = tiles.constrainDirection4(Maze.pegmanD);
 };
@@ -223,14 +223,14 @@ exports.currentPositionNotClear = API_FUNCTION(function(id) {
 });
 
 exports.fill = API_FUNCTION(function(id) {
-  Maze.executionInfo.log.push(['putdown', id]);
+  Maze.executionInfo.queueAction('putdown', id);
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   Maze.dirt_[y][x] = Maze.dirt_[y][x] + 1;
 });
 
 exports.dig = API_FUNCTION(function(id) {
-  Maze.executionInfo.log.push(['pickup', id]);
+  Maze.executionInfo.queueAction('pickup', id);
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
   Maze.dirt_[y][x] = Maze.dirt_[y][x] - 1;
