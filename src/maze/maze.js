@@ -915,14 +915,17 @@ Maze.execute = function(stepMode) {
     }
   }
 
-  // todo - update comment - actually do this
-  // Try running the user's code.  There are four possible outcomes:
-  // 1. If pegman reaches the finish [SUCCESS], true is thrown.
+  // Try running the user's code.  There are a few possible outcomes:
+  // 1. If pegman reaches the finish [SUCCESS], executionInfo's termination
+  //    value is set to true.
   // 2. If the program is terminated due to running too long [TIMEOUT],
-  //    false is thrown.
-  // 3. If another error occurs [ERROR], that error is thrown.
-  // 4. If the program ended normally but without solving the maze [FAILURE],
-  //    no error or exception is thrown.
+  //    the termination value is set to Infinity
+  // 3. If the program terminated because of hitting a wall/obstacle, the
+  //    termination value is set to false and the ResultType is ERROR
+  // 4. If the program finishes without meeting success condition, we have no
+  //    termination value and set ResultType to FAILURE
+  // 5. The only other time we should fail should be if an exception is thrown
+  //    during execution, in which case we set ResultType to ERROR.
   // The animation should be fast if execution was successful, slow otherwise
   // to help the user see the mistake.
   BlocklyApps.playAudio('start', {volume: 0.5});
