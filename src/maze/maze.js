@@ -56,12 +56,6 @@ var skin;
  */
 var stepSpeed;
 
-/**
- * Actions in executionInfo are a tuple in the form [command, block_id]
- */
-var ACTION_COMMAND = 0;
-var ACTION_BLOCK_ID = 1;
-
 //TODO: Make configurable.
 BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
 
@@ -1063,7 +1057,7 @@ Maze.performStep = function(stepMode) {
   // get action with non-null command
   do {
     action = Maze.executionInfo.dequeueAction();
-  } while (action && action[ACTION_COMMAND] === null);
+  } while (action && action.command === null);
   if (!action) {
     BlocklyApps.clearHighlighting();
     Maze.animating_ = false;
@@ -1096,9 +1090,9 @@ Maze.performStep = function(stepMode) {
  * Animates a single action
  */
 function animateAction (action, stepMode) {
-  BlocklyApps.highlight(action[ACTION_BLOCK_ID], stepMode);
+  BlocklyApps.highlight(action.blockId, stepMode);
 
-  switch (action[ACTION_COMMAND]) {
+  switch (action.command) {
     case 'north':
       Maze.animatedMove(Direction.NORTH);
       break;

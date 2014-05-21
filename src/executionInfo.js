@@ -21,14 +21,12 @@ ExecutionInfo.prototype.terminationValue = function () {
   return this.terminationValue_;
 };
 
-ExecutionInfo.prototype.queueAction = function (command, id) {
-  this.log_.push({command: command, id: id});
+ExecutionInfo.prototype.queueAction = function (command, blockId) {
+  this.log_.push({command: command, blockId: blockId});
 };
 
-ExecutionInfo.prototype.dequeueAction = function (command, id) {
-  var action = this.log_.shift();
-  // todo (brent) - maybe have app take this an object too
-  return action ? [action.command, action.id] : undefined;
+ExecutionInfo.prototype.dequeueAction = function () {
+  return this.log_.shift();
 };
 
 ExecutionInfo.prototype.onLastStep = function () {
