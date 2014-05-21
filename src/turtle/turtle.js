@@ -180,7 +180,7 @@ Turtle.drawBlocksOnCanvas = function(blocks, canvas) {
 };
 
 Turtle.drawCurrentBlocksOnCanvas = function(canvas) {
-  Turtle.drawLogOnCanvas(api.executionInfo.log);
+  Turtle.drawLogOnCanvas(api.executionInfo.log, canvas);
 };
 
 /**
