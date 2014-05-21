@@ -102,10 +102,6 @@ Bee.prototype.makeHoneyAt = function (row, col) {
 // API
 
 Bee.prototype.getNectar = function (id) {
-  if (this.maze_.executionInfo.isTerminated()) {
-    return;
-  }
-
   var col = this.maze_.pegmanX;
   var row = this.maze_.pegmanY;
 
@@ -120,10 +116,6 @@ Bee.prototype.getNectar = function (id) {
 };
 
 Bee.prototype.makeHoney = function (id) {
-  if (this.maze_.executionInfo.isTerminated()) {
-    return;
-  }
-
   var col = this.maze_.pegmanX;
   var row = this.maze_.pegmanY;
 

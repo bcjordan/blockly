@@ -939,8 +939,7 @@ Maze.execute = function(stepMode) {
       Maze: api,
       executionInfo: Maze.executionInfo
     });
-    Maze.checkSuccess();
-    if (!Maze.executionInfo.isTerminated()) {
+    if (!Maze.executionInfo.isTerminated() && !Maze.checkSuccess()) {
       // If did not finish, shedule a failure.
       Maze.executionInfo.log.push(['finish', null]);
       Maze.result = ResultType.FAILURE;
@@ -1628,4 +1627,5 @@ Maze.checkSuccess = function() {
   // Finished.  Terminate the user's program.
   Maze.executionInfo.log.push(['finish', null]);
   Maze.executionInfo.terminateWithValue(true);
+  return true;
 };

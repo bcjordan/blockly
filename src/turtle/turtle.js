@@ -352,8 +352,7 @@ Turtle.evalCode = function(code) {
  * Execute the user's code.  Heaven help us...
  */
 Turtle.execute = function() {
-  api.executionInfo = new ExecutionInfo();
-  BlocklyApps.ticks = 1000000;
+  api.executionInfo = new ExecutionInfo({ticks: 1000000});
 
   Turtle.code = Blockly.Generator.workspaceToCode('JavaScript');
   Turtle.evalCode(Turtle.code);
