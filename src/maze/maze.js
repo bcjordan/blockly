@@ -59,6 +59,8 @@ var stepSpeed;
 //TODO: Make configurable.
 BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
 
+Blockly.JavaScript.INFINITE_LOOP_TRAP = codegen.loopHighlight("Maze");
+
 var getTile = function(map, x, y) {
   if (map && map[y]) {
     return map[y][x];
@@ -1064,7 +1066,7 @@ Maze.performStep = function(stepMode) {
   }
 
   for (var i = 0; i < step.length; i++) {
-    animateAction(step[i]);
+    animateAction(step[i], stepMode);
   }
 
   var finishSteps = !stepMode;

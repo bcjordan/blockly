@@ -1,8 +1,8 @@
 var INFINITE_LOOP_TRAP = '  executionInfo.checkTimeout(); if (executionInfo.isTerminated()){return;}\n';
 
-var LOOP_HIGHLIGHT = '.loopHighlight();';
+var LOOP_HIGHLIGHT = 'loopHighlight();\n';
 var LOOP_HIGHLIGHT_RE =
-    new RegExp(INFINITE_LOOP_TRAP.replace(/\(.*\)/, '\\(.*\\)'));
+    new RegExp(LOOP_HIGHLIGHT.replace(/\(.*\)/, '\\(.*\\)'));
 
 /**
  * Returns javascript code to call a timeout check
@@ -13,7 +13,10 @@ exports.loopTrap = function() {
 
 exports.loopHighlight = function (apiName, blockId) {
   var args = "'block_id_" + blockId + "'";
-  return apiName + LOOP_HIGHLIGHT.replace('()', '(' + args + ')');
+  if (blockId === undefined) {
+    args = "%1";
+  }
+  return apiName + '.' + LOOP_HIGHLIGHT.replace('()', '(' + args + ')');
 };
 
 /**

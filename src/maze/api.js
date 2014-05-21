@@ -149,8 +149,10 @@ function isTurnAround(direction, newDirection) {
 }
 
 function moveAbsoluteDirection(direction, id) {
+  Maze.executionInfo.collectActions();
   turnTo(direction, id);
   move(MoveDirection.FORWARD, id);
+  Maze.executionInfo.stopCollecting();
 }
 
 exports.moveForward = API_FUNCTION(function(id) {
