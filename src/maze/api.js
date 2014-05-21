@@ -240,6 +240,11 @@ exports.notFinished = API_FUNCTION(function() {
   return !Maze.checkSuccess();
 });
 
+// The code for this API should get stripped when showing code
+exports.loopHighlight = API_FUNCTION(function (id) {
+  Maze.executionInfo.queueAction('null', id);
+});
+
 exports.nectar = API_FUNCTION(function(id) {
   Maze.bee.getNectar(id);
 });

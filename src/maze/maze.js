@@ -913,7 +913,7 @@ Maze.execute = function(stepMode) {
     }
   }
 
-  // todo - update comment
+  // todo - update comment - actually do this
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
   // 2. If the program is terminated due to running too long [TIMEOUT],
@@ -1053,12 +1053,8 @@ Maze.performStep = function(stepMode) {
   // running/stepping will turn it off
   Blockly.mainWorkspace.traceOn(true);
 
-  var action;
-  // get action with non-null command
-  do {
-    action = Maze.executionInfo.dequeueAction();
-  } while (action && action.command === null);
-  if (!action) {
+  var step = Maze.executionInfo.dequeueStep();
+  if (!step) {
     BlocklyApps.clearHighlighting();
     Maze.animating_ = false;
     Blockly.mainWorkspace.setEnableToolbox(true); // reenable toolbox
@@ -1067,7 +1063,9 @@ Maze.performStep = function(stepMode) {
     return;
   }
 
-  animateAction(action, stepMode);
+  for (var i = 0; i < step.length; i++) {
+    animateAction(step[i]);
+  }
 
   var finishSteps = !stepMode;
   if (stepMode) {
