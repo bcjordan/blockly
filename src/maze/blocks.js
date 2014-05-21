@@ -310,7 +310,7 @@ exports.install = function(blockly, skin) {
     var argument = 'Maze.' + this.getTitleValue('DIR') +
       '(\'block_id_' + this.id + '\')';
     var branch = generator.statementToCode(this, 'DO');
-    branch = codegen.loopTrap(this.id) + branch;
+    branch = codegen.loopTrap() + branch;
     return 'while (' + argument + ') {\n' + branch + '}\n';
   };
 
@@ -336,7 +336,7 @@ exports.install = function(blockly, skin) {
   generator.maze_untilBlocked = function() {
     var argument = 'Maze.isPathForward' + '(\'block_id_' + this.id + '\')';
     var branch = generator.statementToCode(this, 'DO');
-    branch = codegen.loopTrap(this.id) + branch;
+    branch = codegen.loopTrap() + branch;
     return 'while (' + argument + ') {\n' + branch + '}\n';
   };
 
@@ -358,7 +358,7 @@ exports.install = function(blockly, skin) {
   generator.maze_forever = function() {
     // Generate JavaScript for do forever loop.
     var branch = generator.statementToCode(this, 'DO');
-    branch = codegen.loopTrap(this.id) + branch;
+    branch = codegen.loopTrap() + codegen.loopHighlight('Maze', this.id) + branch;
     return 'while (Maze.notFinished()) {\n' + branch + '}\n';
   };
 
@@ -380,7 +380,7 @@ exports.install = function(blockly, skin) {
     var argument = 'Maze.' + this.getTitleValue('DIR') +
         '(\'block_id_' + this.id + '\')';
     var branch = generator.statementToCode(this, 'DO');
-    branch = codegen.loopTrap(this.id) + branch;
+    branch = codegen.loopTrap() + branch;
     return 'while (' + argument + ') {\n' + branch + '}\n';
   };
 

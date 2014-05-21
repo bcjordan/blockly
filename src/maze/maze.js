@@ -56,14 +56,10 @@ var skin;
  */
 var stepSpeed;
 
-/**
- * Actions in Maze.executionInfo.log are a tuple in the form [command, block_id]
- */
-var ACTION_COMMAND = 0;
-var ACTION_BLOCK_ID = 1;
-
 //TODO: Make configurable.
 BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
+
+Blockly.JavaScript.INFINITE_LOOP_TRAP = codegen.loopHighlight("Maze");
 
 var getTile = function(map, x, y) {
   if (map && map[y]) {
@@ -919,14 +915,17 @@ Maze.execute = function(stepMode) {
     }
   }
 
-  // todo - update comment
-  // Try running the user's code.  There are four possible outcomes:
-  // 1. If pegman reaches the finish [SUCCESS], true is thrown.
+  // Try running the user's code.  There are a few possible outcomes:
+  // 1. If pegman reaches the finish [SUCCESS], executionInfo's termination
+  //    value is set to true.
   // 2. If the program is terminated due to running too long [TIMEOUT],
-  //    false is thrown.
-  // 3. If another error occurs [ERROR], that error is thrown.
-  // 4. If the program ended normally but without solving the maze [FAILURE],
-  //    no error or exception is thrown.
+  //    the termination value is set to Infinity
+  // 3. If the program terminated because of hitting a wall/obstacle, the
+  //    termination value is set to false and the ResultType is ERROR
+  // 4. If the program finishes without meeting success condition, we have no
+  //    termination value and set ResultType to FAILURE
+  // 5. The only other time we should fail should be if an exception is thrown
+  //    during execution, in which case we set ResultType to ERROR.
   // The animation should be fast if execution was successful, slow otherwise
   // to help the user see the mistake.
   BlocklyApps.playAudio('start', {volume: 0.5});
@@ -938,7 +937,7 @@ Maze.execute = function(stepMode) {
     });
     if (!Maze.executionInfo.isTerminated() && !Maze.checkSuccess()) {
       // If did not finish, shedule a failure.
-      Maze.executionInfo.log.push(['finish', null]);
+      Maze.executionInfo.queueAction('finish', null);
       Maze.result = ResultType.FAILURE;
       stepSpeed = 150;
     } else {
@@ -1001,7 +1000,7 @@ Maze.execute = function(stepMode) {
     onComplete: Maze.onReportComplete
   });
 
-  // Maze.executionInfo.log now contains a transcript of all the user's actions.
+  // Maze. now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   BlocklyApps.reset(false);
   Maze.animating_ = true;
@@ -1059,12 +1058,8 @@ Maze.performStep = function(stepMode) {
   // running/stepping will turn it off
   Blockly.mainWorkspace.traceOn(true);
 
-  var action;
-  // get action with non-null command
-  do {
-    action = Maze.executionInfo.log.shift();
-  } while (action && action[ACTION_COMMAND] === null);
-  if (!action) {
+  var step = Maze.executionInfo.dequeueStep();
+  if (!step) {
     BlocklyApps.clearHighlighting();
     Maze.animating_ = false;
     Blockly.mainWorkspace.setEnableToolbox(true); // reenable toolbox
@@ -1073,13 +1068,14 @@ Maze.performStep = function(stepMode) {
     return;
   }
 
-  animateAction(action, stepMode);
+  for (var i = 0; i < step.length; i++) {
+    animateAction(step[i], stepMode);
+  }
 
   var finishSteps = !stepMode;
   if (stepMode) {
     // If we've run out of steps, finish things up
-    if (Maze.executionInfo.log.length === 0 || Maze.executionInfo.log.length === 1 &&
-      Maze.executionInfo.log[0][ACTION_COMMAND] === "finish") {
+    if (Maze.executionInfo.onLastStep()) {
       var stepButton = document.getElementById('stepButton');
       stepButton.style.display = 'none';
       finishSteps = true;
@@ -1097,9 +1093,9 @@ Maze.performStep = function(stepMode) {
  * Animates a single action
  */
 function animateAction (action, stepMode) {
-  BlocklyApps.highlight(action[ACTION_BLOCK_ID], stepMode);
+  BlocklyApps.highlight(action.blockId, stepMode);
 
-  switch (action[ACTION_COMMAND]) {
+  switch (action.command) {
     case 'north':
       Maze.animatedMove(Direction.NORTH);
       break;
@@ -1448,7 +1444,7 @@ Maze.scheduleDance = function(sound) {
 
   // Setting the tiles to be transparent
   if (sound && skin.transparentTileEnding) {
-    Maze.executionInfo.log.push(['tile_transparent', null]);
+    Maze.executionInfo.queueAction('tile_transparent', null);
   }
 
   // If sound == true, play the goal animation, else reset it
@@ -1622,7 +1618,7 @@ Maze.checkSuccess = function() {
   }
 
   // Finished.  Terminate the user's program.
-  Maze.executionInfo.log.push(['finish', null]);
+  Maze.executionInfo.queueAction('finish', null);
   Maze.executionInfo.terminateWithValue(true);
   return true;
 };
