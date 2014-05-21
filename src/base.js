@@ -34,6 +34,7 @@ var Slider = require('./slider');
 //TODO: These should be members of a BlocklyApp instance.
 var onAttempt;
 var onContinue;
+var onResetPressed;
 var backToPreviousLevel;
 
 /**
@@ -104,6 +105,9 @@ BlocklyApps.init = function(config) {
   };
   onContinue = config.onContinue || function() {
     console.log('Continue!');
+  };
+  onResetPressed = config.onResetPressed || function() {
+    console.log('Reset!');
   };
   backToPreviousLevel = config.backToPreviousLevel || function() {};
 
@@ -660,7 +664,7 @@ BlocklyApps.initTime = undefined;
 
 /**
  * Reset the playing field to the start position and kill any pending
- * animation tasks.  This will benerally be replaced by an application.
+ * animation tasks.  This will typically be replaced by an application.
  * @param {boolean} first True if an opening animation is to be played.
  */
 BlocklyApps.reset = function(first) {};
@@ -736,8 +740,6 @@ BlocklyApps.report = function(options) {
 
   // Disable the run button until onReportComplete is called.
   if (!BlocklyApps.share) {
-    document.getElementById('runButton').setAttribute('disabled', 'disabled');
-
     var onAttemptCallback = (function() {
       return function(builderDetails) {
         for (var option in builderDetails) {
@@ -761,6 +763,7 @@ BlocklyApps.report = function(options) {
  * Click the reset button.  Reset the application.
  */
 BlocklyApps.resetButtonClick = function() {
+  onResetPressed();
   document.getElementById('runButton').style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   BlocklyApps.clearHighlighting();

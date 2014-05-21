@@ -718,9 +718,6 @@ var displayFeedback = function() {
 Flappy.onReportComplete = function(response) {
   Flappy.response = response;
   Flappy.waitingForReport = false;
-  // Disable the run button until onReportComplete is called.
-  var runButton = document.getElementById('runButton');
-  runButton.disabled = false;
   displayFeedback();
 };
 

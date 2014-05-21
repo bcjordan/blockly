@@ -221,9 +221,6 @@ var displayFeedback = function() {
 Jigsaw.onReportComplete = function(response) {
   Jigsaw.response = response;
   Jigsaw.waitingForReport = false;
-  // Disable the run button until onReportComplete is called.
-  var runButton = document.getElementById('runButton');
-  runButton.disabled = false;
   displayFeedback();
 };
 

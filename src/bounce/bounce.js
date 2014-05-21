@@ -1053,9 +1053,6 @@ var displayFeedback = function() {
 Bounce.onReportComplete = function(response) {
   Bounce.response = response;
   Bounce.waitingForReport = false;
-  // Disable the run button until onReportComplete is called.
-  var runButton = document.getElementById('runButton');
-  runButton.disabled = false;
   displayFeedback();
 };
 
