@@ -15,7 +15,7 @@ module.exports = {
         testResult: 100
       },
       missingBlocks: [],
-      xml: '<xml><block type="maze_forever" deletable="false" movable="false" editable="false"><statement name="DO"><block type="maze_ifElse" deletable="false" movable="false" editable="false"><title name="DIR">isPathForward</title><statement name="DO"><block type="maze_moveForward"></block></statement><statement name="ELSE"><block type="maze_ifElse" deletable="false" movable="false" editable="false"><title name="DIR">isPathRight</title><statement name="DO"><block type="maze_turn"><title name="DIR">turnRight</title></block></statement><statement name="ELSE"><block type="maze_turn"><title name="DIR">turnLeft</title></block></statement></block></statement></block></statement></block></xml>'
+      xml: '<xml><block type="maze_forever" deletable="false" editable="false"><statement name="DO"><block type="maze_ifElse" deletable="false" editable="false"><title name="DIR">isPathForward</title><statement name="DO"><block type="maze_moveForward"></block></statement><statement name="ELSE"><block type="maze_ifElse" deletable="false" editable="false"><title name="DIR">isPathRight</title><statement name="DO"><block type="maze_turn"><title name="DIR">turnRight</title></block></statement><statement name="ELSE"><block type="maze_turn"><title name="DIR">turnLeft</title></block></statement></block></statement></block></statement></block></xml>'
     }
   ]
 };

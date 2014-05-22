@@ -9,7 +9,7 @@ module.exports = {
         result: true,
         testResult: 100
       },
-      xml: '<xml><block type="controls_repeat" deletable="false" movable="false" editable="false"><title name="TIMES">3</title><statement name="DO"><block type="maze_moveForward"><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnRight</title></block></next></block></next></block></statement></block></xml>'
+      xml: '<xml><block type="controls_repeat" deletable="false" editable="false"><title name="TIMES">3</title><statement name="DO"><block type="maze_moveForward"><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnRight</title></block></next></block></next></block></statement></block></xml>'
     }
   ]
 };

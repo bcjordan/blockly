@@ -24,7 +24,7 @@ module.exports = {
         testResult: 4
       },
       missingBlocks: [rblocks().repeat(8)],
-      xml: '<xml><block type="controls_repeat" deletable="false" movable="false"><title name="TIMES">??</title><statement name="DO"><block type="draw_move" inline="true" deletable="false" movable="false" editable="false"><title name="DIR">moveForward</title><value name="VALUE"><block type="math_number" deletable="false" movable="false" editable="false"><title name="NUM">1</title></block></value><next><block type="draw_turn" inline="true" deletable="false" movable="false" editable="false"><title name="DIR">turnRight</title><value name="VALUE"><block type="math_number" deletable="false" movable="false" editable="false"><title name="NUM">1</title></block></value></block></next></block></statement></block></xml>'
+      xml: '<xml><block type="controls_repeat" deletable="false"><title name="TIMES">??</title><statement name="DO"><block type="draw_move" inline="true" deletable="false" editable="false"><title name="DIR">moveForward</title><value name="VALUE"><block type="math_number" deletable="false" editable="false"><title name="NUM">1</title></block></value><next><block type="draw_turn" inline="true" deletable="false" editable="false"><title name="DIR">turnRight</title><value name="VALUE"><block type="math_number" deletable="false" editable="false"><title name="NUM">1</title></block></value></block></next></block></statement></block></xml>'
     }
   ]
 };
