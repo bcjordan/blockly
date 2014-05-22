@@ -7,12 +7,6 @@ var tb = blockUtils.createToolbox;
 var blockOfType = blockUtils.blockOfType;
 var createCategory = blockUtils.createCategory;
 
-var defaultSayBlock = function () {
-  return '<block type="studio_saySprite"><title name="TEXT">' +
-          msg.defaultSayText() +
-          '</title></block>';
-};
-
 /*
  * Configuration for all levels.
  */
@@ -43,7 +37,7 @@ module.exports = {
     'timeoutFailureTick': 100,
     'toolbox':
       tb('<block type="studio_moveDistance"><title name="DIR">2</title></block>' +
-         defaultSayBlock()),
+         blockOfType('studio_saySprite')),
     'startBlocks':
      '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block>'
   },
@@ -67,7 +61,7 @@ module.exports = {
     'timeoutFailureTick': 100,
     'toolbox':
       tb('<block type="studio_moveDistance"><title name="DIR">2</title></block>' +
-         defaultSayBlock()),
+         blockOfType('studio_saySprite')),
     'startBlocks':
      '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block>'
   },
@@ -98,7 +92,7 @@ module.exports = {
     'timeoutFailureTick': 200,
     'toolbox':
       tb('<block type="studio_moveDistance"><title name="DIR">2</title></block>' +
-         defaultSayBlock()),
+         blockOfType('studio_saySprite')),
     'startBlocks':
      '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block> \
       <block type="studio_whenSpriteCollided" deletable="false" x="20" y="120"></block>'
@@ -129,7 +123,7 @@ module.exports = {
     'spriteStartingImage': 2,
     'toolbox':
       tb(blockOfType('studio_move') +
-         defaultSayBlock()),
+         blockOfType('studio_saySprite')),
     'startBlocks':
      '<block type="studio_whenLeft" deletable="false" x="20" y="20"></block> \
       <block type="studio_whenRight" deletable="false" x="180" y="20"></block> \
@@ -157,7 +151,7 @@ module.exports = {
     'timeoutFailureTick': 200,
     'toolbox':
       tb(blockOfType('studio_moveDistance') +
-         defaultSayBlock()),
+         blockOfType('studio_saySprite')),
     'startBlocks':
      '<block type="studio_repeatForever" deletable="false" x="20" y="20"></block>'
   },
@@ -189,7 +183,7 @@ module.exports = {
     'toolbox':
       tb(blockOfType('studio_moveDistance') +
          blockOfType('studio_move') +
-         defaultSayBlock()),
+         blockOfType('studio_saySprite')),
     'minWorkspaceHeight': 600,
     'startBlocks':
      '<block type="studio_whenLeft" deletable="false" x="20" y="20"> \
@@ -232,7 +226,7 @@ module.exports = {
       'downButton',
       'upButton'
     ],
-    'minWorkspaceHeight': 1200,
+    'minWorkspaceHeight': 1300,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -256,13 +250,14 @@ module.exports = {
          blockOfType('studio_whenSpriteClicked') +
          blockOfType('studio_whenSpriteCollided') +
          blockOfType('studio_repeatForever') +
+         blockOfType('studio_showTitleScreen') +
          blockOfType('studio_move') +
          blockOfType('studio_moveDistance') +
          blockOfType('studio_stop') +
          blockOfType('studio_wait') +
          blockOfType('studio_playSound') +
          blockOfType('studio_incrementScore') +
-         defaultSayBlock() +
+         blockOfType('studio_saySprite') +
          blockOfType('studio_setSpritePosition') +
          blockOfType('studio_setSpriteSpeed') +
          blockOfType('studio_setSpriteEmotion')),
@@ -281,7 +276,7 @@ module.exports = {
       'downButton',
       'upButton'
     ],
-    'minWorkspaceHeight': 900,
+    'minWorkspaceHeight': 1000,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -298,13 +293,14 @@ module.exports = {
       tb(createCategory(msg.catActions(),
                           blockOfType('studio_setSprite') +
                           blockOfType('studio_setBackground') +
+                          blockOfType('studio_showTitleScreen') +
                           blockOfType('studio_move') +
                           blockOfType('studio_moveDistance') +
                           blockOfType('studio_stop') +
                           blockOfType('studio_wait') +
                           blockOfType('studio_playSound') +
                           blockOfType('studio_incrementScore') +
-                          defaultSayBlock() +
+                          blockOfType('studio_saySprite') +
                           blockOfType('studio_setSpritePosition') +
                           blockOfType('studio_setSpriteSpeed') +
                           blockOfType('studio_setSpriteEmotion')) +

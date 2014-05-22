@@ -564,6 +564,43 @@ exports.install = function(blockly, skin) {
   };
 
   /**
+   * showTitleScreen
+   */
+  blockly.Blocks.studio_showTitleScreen = {
+    helpUrl: '',
+    init: function() {
+      this.setHSV(184, 1.00, 0.74);
+      this.appendDummyInput()
+        .appendTitle(msg.showTitleScreen());
+      this.appendDummyInput()
+        .appendTitle(msg.showTitleScreenTitle())
+        .appendTitle(new Blockly.FieldImage(
+                Blockly.assetUrl('media/quote0.png'), 12, 12))
+        .appendTitle(new Blockly.FieldTextInput(msg.showTSDefTitle()), 'TITLE')
+        .appendTitle(new Blockly.FieldImage(
+                Blockly.assetUrl('media/quote1.png'), 12, 12));
+      this.appendDummyInput()
+        .appendTitle(msg.showTitleScreenText())
+        .appendTitle(new Blockly.FieldImage(
+                Blockly.assetUrl('media/quote0.png'), 12, 12))
+        .appendTitle(new Blockly.FieldTextInput(msg.showTSDefText()), 'TEXT')
+        .appendTitle(new Blockly.FieldImage(
+                Blockly.assetUrl('media/quote1.png'), 12, 12));
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setTooltip(msg.showTitleScreenTooltip());
+    }
+  };
+
+  generator.studio_showTitleScreen = function() {
+    // Generate JavaScript for saying.
+    return 'Studio.showTitleScreen(\'block_id_' + this.id +
+               '\', ' +
+               blockly.JavaScript.quote_(this.getTitleValue('TITLE')) + ', ' +
+               blockly.JavaScript.quote_(this.getTitleValue('TEXT')) + ');\n';
+  };
+
+  /**
    * setSprite
    */
   blockly.Blocks.studio_setSprite = {
@@ -611,10 +648,22 @@ exports.install = function(blockly, skin) {
        [msg.setSpritePenguin(), '"penguin"']];
 
   generator.studio_setSprite = function() {
+    var value = this.getTitleValue('VALUE');
+    var indexString = this.getTitleValue('SPRITE') || '0';
+    if (!blockly.Blocks.studio_firstSetSprite &&
+        'random' !== value &&
+        '"hidden"' !== value) {
+      // Store the params for the first non-random, non-hidden setSprite
+      // call so we can auto-reference this sprite in showTitleScreen() later
+      blockly.Blocks.studio_firstSetSprite = {
+        'index': parseInt(indexString, 10),
+        'value': value.replace(/^"+|"+$/g, ''), // remove quotes
+      };
+    }
     return generateSetterCode({
       ctx: this,
       random: 1,
-      extraParams: (this.getTitleValue('SPRITE') || '0'),
+      extraParams: indexString,
       name: 'setSprite'});
   };
 
@@ -682,7 +731,7 @@ exports.install = function(blockly, skin) {
       this.appendDummyInput()
         .appendTitle(new Blockly.FieldImage(
                 Blockly.assetUrl('media/quote0.png'), 12, 12))
-        .appendTitle(new Blockly.FieldTextInput(''), 'TEXT')
+        .appendTitle(new Blockly.FieldTextInput(msg.defaultSayText()), 'TEXT')
         .appendTitle(new Blockly.FieldImage(
                 Blockly.assetUrl('media/quote1.png'), 12, 12));
       this.setInputsInline(true);
