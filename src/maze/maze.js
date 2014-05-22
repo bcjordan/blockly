@@ -420,6 +420,8 @@ Maze.init = function(config) {
   skin = config.skin;
   level = config.level;
 
+  config.grayOutUndeletableBlocks = true;
+
   if (config.skinId === 'bee') {
     Maze.bee = new Bee(Maze, config);
   }
@@ -475,8 +477,6 @@ Maze.init = function(config) {
     Blockly.HSV_SATURATION = 0.6;
 
     Blockly.SNAP_RADIUS *= Maze.scale.snapRadius;
-
-    Blockly.GRAY_OUT_UNDELETABLE = true;
 
     Maze.start_ = undefined;
     Maze.finish_ = undefined;
