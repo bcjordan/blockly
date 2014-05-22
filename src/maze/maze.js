@@ -476,6 +476,8 @@ Maze.init = function(config) {
 
     Blockly.SNAP_RADIUS *= Maze.scale.snapRadius;
 
+    Blockly.GRAY_OUT_UNDELETABLE = true;
+
     Maze.start_ = undefined;
     Maze.finish_ = undefined;
 

@@ -103,6 +103,8 @@ Turtle.init = function(config) {
     //XXX Not sure if this is still right.
     Blockly.JavaScript.addReservedWords('Turtle,code');
 
+    Blockly.GRAY_OUT_UNDELETABLE = true;
+
     // Helper for creating canvas elements.
     var createCanvas = function(id, width, height) {
       var el = document.createElement('canvas');

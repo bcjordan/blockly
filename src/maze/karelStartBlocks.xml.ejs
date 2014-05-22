@@ -11,12 +11,10 @@ var fillShovelfuls = function(n) { -%>
     <mutation></mutation>
     <title name="NAME"><%= msg.fillN({shovelfuls: n}) %></title>
     <statement name="STACK">
-      <block type="controls_repeat" editable="false" deletable="false"
-        movable="false">
+      <block type="controls_repeat" editable="false" deletable="false">
         <title name="TIMES"><%= n %></title>
         <statement name="DO">
-          <block type="maze_fill" editable="false" deletable="false"
-            movable="false">
+          <block type="maze_fill" editable="false" deletable="false">
           </block>
         </statement>
        </block>
@@ -34,12 +32,10 @@ var removeShovelfuls = function(n) { -%>
     <mutation></mutation>
     <title name="NAME"><%= msg.removeN({shovelfuls: n}) %></title>
     <statement name="STACK">
-      <block type="controls_repeat" editable="false" deletable="false"
-        movable="false">
+      <block type="controls_repeat" editable="false" deletable="false">
         <title name="TIMES"><%= n %></title>
         <statement name="DO">
-          <block type="maze_dig" editable="false" deletable="false"
-            movable="false">
+          <block type="maze_dig" editable="false" deletable="false">
           </block>
         </statement>
        </block>
@@ -111,38 +107,32 @@ var removeShovelfuls = function(n) { -%>
       <mutation></mutation>
       <title name="NAME"><%= msg.avoidCowAndRemove() %></title>
       <statement name="STACK">
-        <block type="maze_turn" editable="false" deletable="false"
-          movable="false">
+        <block type="maze_turn" editable="false" deletable="false">
           <title name="DIR">turnLeft</title>
           <next>
-            <block type="maze_moveForward" editable="false" deletable="false"
-              movable="false">
+            <block type="maze_moveForward" editable="false" deletable="false">
               <next>
-                <block type="maze_turn" editable="false" deletable="false"
-                  movable="false">
+                <block type="maze_turn" editable="false" deletable="false">
                   <title name="DIR">turnRight</title>
                   <next>
                     <block type="maze_moveForward" editable="false"
-                      deletable="false" movable="false">
+                      deletable="false">
                       <next>
                         <block type="maze_moveForward" editable="false"
-                          deletable="false" movable="false">
+                          deletable="false">
                           <next>
                             <block type="maze_turn" editable="false"
-                              deletable="false" movable="false">
+                              deletable="false">
                               <title name="DIR">turnRight</title>
                               <next>
                                 <block type="maze_moveForward"
-                                  editable="false" deletable="false"
-                                  movable="false">
+                                  editable="false" deletable="false">
                                   <next>
                                     <block type="maze_dig"
-                                      editable="false" deletable="false"
-                                      movable="false">
+                                      editable="false" deletable="false">
                                       <next>
                                         <block type="maze_turn"
-                                          editable="false" deletable="false"
-                                          movable="false">
+                                          editable="false" deletable="false">
                                           <title name="DIR">turnLeft</title>
                                         </block>
                                       </next>
@@ -169,41 +159,37 @@ var removeShovelfuls = function(n) { -%>
       <mutation></mutation>
       <title name="NAME"><%= msg.removeStack({shovelfuls: 4}) %></title>
       <statement name="STACK">
-        <block type="maze_turn" editable="false" deletable="false"
-          movable="false">
+        <block type="maze_turn" editable="false" deletable="false">
           <title name="DIR">turnLeft</title>
           <next>
-            <block type="controls_repeat" editable="false" deletable="false"
-              movable="false">
+            <block type="controls_repeat" editable="false" deletable="false">
               <title name="TIMES">4</title>
               <statement name="DO">
                 <block type="maze_dig" editable="false"
-                  deletable="false" movable="false">
+                  deletable="false">
                   <next>
                     <block type="maze_moveForward" editable="false"
-                      deletable="false" movable="false"></block>
+                      deletable="false"></block>
                   </next>
                 </block>
               </statement>
               <next>
-                <block type="maze_turn" editable="false" deletable="false"
-                  movable="false">
+                <block type="maze_turn" editable="false" deletable="false">
                   <title name="DIR">turnRight</title>
                   <next>
-                    <block type="maze_turn" editable="false" deletable="false"
-                      movable="false">
+                    <block type="maze_turn" editable="false" deletable="false">
                       <title name="DIR">turnRight</title>
                       <next>
                         <block type="controls_repeat" editable="false"
-                          deletable="false" movable="false">
+                          deletable="false">
                           <title name="TIMES">4</title>
                           <statement name="DO">
                             <block type="maze_moveForward" editable="false"
-                              deletable="false" movable="false"></block>
+                              deletable="false"></block>
                           </statement>
                           <next>
                             <block type="maze_turn" editable="false"
-                              deletable="false" movable="false">
+                              deletable="false">
                               <title name="DIR">turnLeft</title>
                             </block>
                           </next>
@@ -224,41 +210,37 @@ var removeShovelfuls = function(n) { -%>
       <mutation></mutation>
       <title name="NAME"><%= msg.removeStack({shovelfuls: 4}) %></title>
       <statement name="STACK">
-        <block type="maze_turn" editable="false" deletable="false"
-          movable="false">
+        <block type="maze_turn" editable="false" deletable="false">
           <title name="DIR">turnLeft</title>
           <next>
-            <block type="controls_repeat" editable="false" deletable="false"
-              movable="false">
+            <block type="controls_repeat" editable="false" deletable="false">
               <title name="TIMES">4</title>
               <statement name="DO">
                 <block type="maze_dig" editable="false"
-                  deletable="false" movable="false">
+                  deletable="false">
                   <next>
                     <block type="maze_moveForward" editable="false"
-                      deletable="false" movable="false"></block>
+                      deletable="false"></block>
                   </next>
                 </block>
               </statement>
               <next>
-                <block type="maze_turn" editable="false" deletable="false"
-                  movable="false">
+                <block type="maze_turn" editable="false" deletable="false">
                   <title name="DIR">turnRight</title>
                   <next>
-                    <block type="maze_turn" editable="false" deletable="false"
-                      movable="false">
+                    <block type="maze_turn" editable="false" deletable="false">
                       <title name="DIR">turnRight</title>
                       <next>
                         <block type="controls_repeat" editable="false"
-                          deletable="false" movable="false">
+                          deletable="false">
                           <title name="TIMES">4</title>
                           <statement name="DO">
                             <block type="maze_moveForward" editable="false"
-                              deletable="false" movable="false"></block>
+                              deletable="false"></block>
                           </statement>
                           <next>
                             <block type="maze_turn" editable="false"
-                              deletable="false" movable="false">
+                              deletable="false">
                               <title name="DIR">turnLeft</title>
                             </block>
                           </next>
@@ -278,41 +260,37 @@ var removeShovelfuls = function(n) { -%>
       <mutation></mutation>
       <title name="NAME"><%= msg.fillStack({shovelfuls: 2}) %></title>
       <statement name="STACK">
-        <block type="maze_turn" editable="false" deletable="false"
-          movable="false">
+        <block type="maze_turn" editable="false" deletable="false">
           <title name="DIR">turnLeft</title>
           <next>
-            <block type="controls_repeat" editable="false" deletable="false"
-              movable="false">
+            <block type="controls_repeat" editable="false" deletable="false">
               <title name="TIMES">2</title>
               <statement name="DO">
                 <block type="maze_fill" editable="false"
-                  deletable="false" movable="false">
+                  deletable="false">
                   <next>
                     <block type="maze_moveForward" editable="false"
-                      deletable="false" movable="false"></block>
+                      deletable="false"></block>
                   </next>
                 </block>
               </statement>
               <next>
-                <block type="maze_turn" editable="false" deletable="false"
-                  movable="false">
+                <block type="maze_turn" editable="false" deletable="false">
                   <title name="DIR">turnRight</title>
                   <next>
-                    <block type="maze_turn" editable="false" deletable="false"
-                      movable="false">
+                    <block type="maze_turn" editable="false" deletable="false">
                       <title name="DIR">turnRight</title>
                       <next>
                         <block type="controls_repeat" editable="false"
-                          deletable="false" movable="false">
+                          deletable="false">
                           <title name="TIMES">2</title>
                           <statement name="DO">
                             <block type="maze_moveForward" editable="false"
-                              deletable="false" movable="false"></block>
+                              deletable="false"></block>
                           </statement>
                           <next>
                             <block type="maze_turn" editable="false"
-                              deletable="false" movable="false">
+                              deletable="false">
                               <title name="DIR">turnLeft</title>
                             </block>
                           </next>
@@ -333,37 +311,32 @@ var removeShovelfuls = function(n) { -%>
       <mutation></mutation>
       <title name="NAME"><%= msg.removeAndAvoidTheCow() %></title>
       <statement name="STACK">
-        <block type="maze_dig" editable="false" deletable="false"
-          movable="false">
+        <block type="maze_dig" editable="false" deletable="false">
           <next>
-            <block type="maze_turn" editable="false" deletable="false"
-              movable="false">
+            <block type="maze_turn" editable="false" deletable="false">
               <title name="DIR">turnLeft</title>
               <next>
                 <block type="maze_moveForward" editable="false"
-                  deletable="false" movable="false">
+                  deletable="false">
                   <next>
-                    <block type="maze_turn" editable="false" deletable="false"
-                      movable="false">
+                    <block type="maze_turn" editable="false" deletable="false">
                       <title name="DIR">turnRight</title>
                       <next>
                         <block type="maze_moveForward" editable="false"
-                          deletable="false" movable="false">
+                          deletable="false">
                           <next>
                             <block type="maze_moveForward" editable="false"
-                              deletable="false" movable="false">
+                              deletable="false">
                               <next>
                                 <block type="maze_turn" editable="false"
-                                  deletable="false" movable="false">
+                                  deletable="false">
                                   <title name="DIR">turnRight</title>
                                   <next>
                                     <block type="maze_moveForward"
-                                      editable="false" deletable="false"
-                                      movable="false">
+                                      editable="false" deletable="false">
                                       <next>
                                         <block type="maze_turn"
-                                          editable="false" deletable="false"
-                                          movable="false">
+                                          editable="false" deletable="false">
                                           <title name="DIR">turnLeft
                                           </title>
                                         </block>
@@ -552,11 +525,10 @@ var removeShovelfuls = function(n) { -%>
     </block>
   <% } else if (level == 7) { -%>
     <block type="procedures_callnoreturn" x="20" y="70"
-      editable="false" deletable="false" movable="false">
+      editable="false" deletable="false">
       <mutation name="<%= msg.removeSquare() %>"></mutation>
     </block>
-    <block type="procedures_defnoreturn" x="20" y="200"
-      editable="false" deletable="false" movable="false">
+    <block type="procedures_defnoreturn" x="20" y="200" editable="false" deletable="false">
       <mutation></mutation>
       <title name="NAME"><%= msg.removeSquare() %></title>
       <statement name="STACK">
@@ -599,7 +571,7 @@ var removeShovelfuls = function(n) { -%>
         </block>
       </next>
     </block>
-    <block type="procedures_defnoreturn" deletable="false" movable="false"
+    <block type="procedures_defnoreturn" deletable="false"
       editable="false" x="20" y="250">
       <mutation></mutation>
       <title name="NAME"><%= msg.removeSquare() %></title>
@@ -626,7 +598,7 @@ var removeShovelfuls = function(n) { -%>
         </block>
       </statement>
     </block>
-    <block type="procedures_defnoreturn" deletable="false" movable="false"
+    <block type="procedures_defnoreturn" deletable="false"
       editable="false" x="350" y="250">
       <mutation></mutation>
       <title name="NAME"><%= msg.fillSquare() %></title>
@@ -687,8 +659,7 @@ var removeShovelfuls = function(n) { -%>
         </block>
       </statement>
     </block>
-    <block type="procedures_defnoreturn" x="20" y="250" editable="false"
-      deletable="false" movable="false">
+    <block type="procedures_defnoreturn" x="20" y="250" editable="false" deletable="false">
       <mutation>
         <arg name="<%= msg.heightParameter() %>"></arg>
       </mutation>
