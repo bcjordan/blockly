@@ -621,7 +621,7 @@ function cloneWithStep(level, step, stepOnly) {
   module.exports[level + '_step'] = obj;
 }
 
-cloneWithStep('2_1', true, false);
+cloneWithStep('2_1', true, true);
 cloneWithStep('2_2', true, false);
 cloneWithStep('2_17', true, false);
 cloneWithStep('karel_1_9', true, false);
