@@ -284,7 +284,7 @@ describe("getMissingRequiredBlocks tests", function () {
       var levels = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/' +
         collection.levelFile, []);
       var blocks = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/blocks');
-      blocks.install(Blockly, "maze");
+      blocks.install(Blockly, {skin: "maze", isK1: false});
 
       validateBlocks({
         requiredBlocks: levels[collection.levelId].requiredBlocks,

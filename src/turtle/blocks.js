@@ -28,7 +28,8 @@ var msg = require('../../locale/current/turtle');
 var commonMsg = require('../../locale/current/common');
 
 // Install extensions to Blockly's language and JavaScript generator.
-exports.install = function(blockly, skin) {
+exports.install = function(blockly, blockInstallOptions) {
+  var skin = blockInstallOptions.skin;
 
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;

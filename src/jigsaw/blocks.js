@@ -151,7 +151,8 @@ function addQueuedWhenReady() {
 
 
 // Install extensions to Blockly's language and JavaScript generator.
-exports.install = function(blockly, skin) {
+exports.install = function(blockly, blockInstallOptions) {
+  var skin = blockInstallOptions.skin;
   // could make this settable on the level if I need
   var HSV = [0, 1.00, 0.98];
 

@@ -35,17 +35,17 @@ exports.setSpriteCount = function(blockly, count) {
 };
 
 // Install extensions to Blockly's language and JavaScript generator.
-exports.install = function(blockly, skin) {
-
+exports.install = function(blockly, blockInstallOptions) {
+  var skin = blockInstallOptions.skin;
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
-  
+
   generator.studio_eventHandlerPrologue = function() {
     return '\n';
   };
 
   blockly.Blocks.studio_spriteCount = 6;
-  
+
   blockly.Blocks.studio_whenLeft = {
     // Block to handle event when the Left arrow button is pressed.
     helpUrl: '',
@@ -58,9 +58,9 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenLeftTooltip());
     }
   };
-  
+
   generator.studio_whenLeft = generator.studio_eventHandlerPrologue;
-  
+
   blockly.Blocks.studio_whenRight = {
     // Block to handle event when the Right arrow button is pressed.
     helpUrl: '',
@@ -73,9 +73,9 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenRightTooltip());
     }
   };
-  
+
   generator.studio_whenRight = generator.studio_eventHandlerPrologue;
-  
+
   blockly.Blocks.studio_whenUp = {
     // Block to handle event when the Up arrow button is pressed.
     helpUrl: '',
@@ -88,9 +88,9 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenUpTooltip());
     }
   };
-  
+
   generator.studio_whenUp = generator.studio_eventHandlerPrologue;
-  
+
   blockly.Blocks.studio_whenDown = {
     // Block to handle event when the Down arrow button is pressed.
     helpUrl: '',
@@ -103,9 +103,9 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenDownTooltip());
     }
   };
-  
+
   generator.studio_whenDown = generator.studio_eventHandlerPrologue;
-  
+
   blockly.Blocks.studio_whenGameStarts = {
     // Block to handle event when the game starts
     helpUrl: '',
@@ -169,7 +169,7 @@ exports.install = function(blockly, skin) {
      [msg.whenSpriteClicked4(), '3'],
      [msg.whenSpriteClicked5(), '4'],
      [msg.whenSpriteClicked6(), '5']];
-  
+
   generator.studio_whenSpriteClicked = generator.studio_eventHandlerPrologue;
 
   blockly.Blocks.studio_whenSpriteCollided = {
@@ -212,7 +212,7 @@ exports.install = function(blockly, skin) {
        [msg.whenSpriteCollidedWith4(), '3'],
        [msg.whenSpriteCollidedWith5(), '4'],
        [msg.whenSpriteCollidedWith6(), '5']];
-  
+
   generator.studio_whenSpriteCollided = generator.studio_eventHandlerPrologue;
 
   blockly.Blocks.studio_stop = {
@@ -243,7 +243,7 @@ exports.install = function(blockly, skin) {
        [msg.stopSprite4(), '3'],
        [msg.stopSprite5(), '4'],
        [msg.stopSprite6(), '5']];
-  
+
   generator.studio_stop = function() {
     // Generate JavaScript for stopping the movement of a sprite.
     return 'Studio.stop(\'block_id_' + this.id + '\', ' +
@@ -282,7 +282,7 @@ exports.install = function(blockly, skin) {
        [msg.setSprite4(), '3'],
        [msg.setSprite5(), '4'],
        [msg.setSprite6(), '5']];
-  
+
   blockly.Blocks.studio_setSpritePosition.VALUES =
       [[msg.positionRandom(), 'random'],
        [msg.positionTopLeft(), Position.TOPLEFT.toString()],
@@ -334,7 +334,7 @@ exports.install = function(blockly, skin) {
        [msg.moveSprite4(), '3'],
        [msg.moveSprite5(), '4'],
        [msg.moveSprite6(), '5']];
-  
+
   blockly.Blocks.studio_move.DIR =
       [[msg.moveDirectionUp(), Direction.NORTH.toString()],
        [msg.moveDirectionDown(), Direction.SOUTH.toString()],
@@ -451,13 +451,13 @@ exports.install = function(blockly, skin) {
        [msg.playSoundLosePoint2(), 'losepoint2'],
        [msg.playSoundGoal1(), 'goal1'],
        [msg.playSoundGoal2(), 'goal2']];
-  
+
   generator.studio_playSound = function() {
     // Generate JavaScript for playing a sound.
     return 'Studio.playSound(\'block_id_' + this.id + '\', \'' +
                this.getTitleValue('SOUND') + '\');\n';
   };
-  
+
   blockly.Blocks.studio_incrementScore = {
     // Block for incrementing the score.
     helpUrl: '',
@@ -470,17 +470,17 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.incrementScoreTooltip());
     }
   };
-  
+
   blockly.Blocks.studio_incrementScore.PLAYERS =
       [[msg.incrementPlayerScore(), 'player'],
        [msg.incrementOpponentScore(), 'opponent']];
-  
+
   generator.studio_incrementScore = function() {
     // Generate JavaScript for incrementing the score.
     return 'Studio.incrementScore(\'block_id_' + this.id + '\', \'' +
                 this.getTitleValue('PLAYER') + '\');\n';
   };
-  
+
   blockly.Blocks.studio_setSpriteSpeed = {
     // Block for setting sprite speed
     helpUrl: '',
@@ -756,7 +756,7 @@ exports.install = function(blockly, skin) {
                (this.getTitleValue('SPRITE') || '0') + ', ' +
                blockly.JavaScript.quote_(this.getTitleValue('TEXT')) + ');\n';
   };
-  
+
   blockly.Blocks.studio_wait = {
     helpUrl: '',
     init: function() {
