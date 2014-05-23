@@ -115,7 +115,8 @@ BlocklyApps.init = function(config) {
   container.innerHTML = config.html;
   var runButton = container.querySelector('#runButton');
   var resetButton = container.querySelector('#resetButton');
-  dom.addClickTouchEvent(runButton, BlocklyApps.runButtonClick);
+  var throttledRunClick = utils.debounce(BlocklyApps.runButtonClick, 250, true);
+  dom.addClickTouchEvent(runButton, throttledRunClick);
   dom.addClickTouchEvent(resetButton, BlocklyApps.resetButtonClick);
 
   var belowViz = document.getElementById('belowVisualization');
