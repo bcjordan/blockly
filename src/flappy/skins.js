@@ -111,7 +111,10 @@ exports.load = function(assetUrl, id) {
   skin.clickrun = skin.assetUrl('clickrun.png');
   skin.getready = skin.assetUrl('getready.png');
   skin.gameover = skin.assetUrl('gameover.png');
-
+  skin.flapIcon = skin.assetUrl('flap-bird.png');
+  skin.crashIcon = skin.assetUrl('when-crash.png');
+  skin.collideObstacleIcon = skin.assetUrl('when-obstacle.png');
+  skin.collideGroundIcon = skin.assetUrl('when-crash.png');
   skin.tiles = skin.assetUrl('tiles.png');
   skin.goal = skin.assetUrl('goal.png');
   skin.goalSuccess = skin.assetUrl('goal_success.png');

@@ -7,6 +7,7 @@
 'use strict';
 
 var msg = require('../../locale/current/flappy');
+var commonMsg = require('../../locale/current/common');
 
 var generateSetterCode = function (ctx, name) {
   var value = ctx.getTitleValue('VALUE');
@@ -33,7 +34,8 @@ exports.install = function(blockly, skin) {
     init: function () {
       this.setHSV(140, 1.00, 0.74);
       this.appendDummyInput()
-        .appendTitle(msg.whenClick());
+        .appendTitle(commonMsg.when())
+        .appendTitle(new blockly.FieldImage(skin.clickIcon));
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenClickTooltip());
@@ -51,7 +53,8 @@ exports.install = function(blockly, skin) {
     init: function () {
       this.setHSV(140, 1.00, 0.74);
       this.appendDummyInput()
-        .appendTitle(msg.whenCollideGround());
+        .appendTitle(commonMsg.when())
+        .appendTitle(new blockly.FieldImage(skin.collideGroundIcon));
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenCollideGroundTooltip());
@@ -69,7 +72,8 @@ exports.install = function(blockly, skin) {
     init: function () {
       this.setHSV(140, 1.00, 0.74);
       this.appendDummyInput()
-        .appendTitle(msg.whenCollideObstacle());
+        .appendTitle(commonMsg.when())
+        .appendTitle(new blockly.FieldImage(skin.collideObstacleIcon));
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenCollideObstacleTooltip());
@@ -110,7 +114,8 @@ exports.install = function(blockly, skin) {
     init: function () {
       this.setHSV(140, 1.00, 0.74);
       this.appendDummyInput()
-        .appendTitle(msg.whenRunButtonClick());
+        .appendTitle(commonMsg.when())
+        .appendTitle(new blockly.FieldImage(skin.startIcon));
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenRunButtonClickTooltip());
@@ -128,7 +133,8 @@ exports.install = function(blockly, skin) {
     init: function() {
       this.setHSV(184, 1.00, 0.74);
       this.appendDummyInput()
-        .appendTitle(msg.flap());
+        .appendTitle(msg.flap())
+        .appendTitle(new blockly.FieldImage(skin.flapIcon));
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setTooltip(msg.flapTooltip());
@@ -226,7 +232,8 @@ exports.install = function(blockly, skin) {
     init: function() {
       this.setHSV(184, 1.00, 0.74);
       this.appendDummyInput()
-        .appendTitle(msg.endGame());
+        .appendTitle(commonMsg.end())
+        .appendTitle(new blockly.FieldImage(skin.endIcon));
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setTooltip(msg.endGameTooltip());
