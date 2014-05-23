@@ -1,13 +1,28 @@
 var testUtils = require('./util/testUtils');
 var buildDir = '../build';
 var xml = require(buildDir + '/js/xml');
+var utils = require(buildDir + '/js/utils');
 var requiredBlockUtils = require(buildDir + '/js/required_block_utils');
 var blockUtils = require(buildDir + '/js/block_utils');
 var assert = testUtils.assert;
 
 beforeEach(function () {
   testUtils.setupTestBlockly();
+});
 
+describe("utils", function() {
+  it("can debounce a repeated function call", function() {
+    var counter = 0;
+    var incrementCounter = function () { counter++; };
+    var debounced = utils.debounce(incrementCounter, 2000, true);
+    debounced();
+    debounced();
+    debounced();
+    debounced();
+    assert(counter === 1);
+    incrementCounter();
+    assert(counter === 2);
+  });
 });
 
 describe("blockUtils", function () {
