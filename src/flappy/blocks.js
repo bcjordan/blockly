@@ -23,8 +23,7 @@ var generateSetterCode = function (ctx, name) {
 };
 
 // Install extensions to Blockly's language and JavaScript generator.
-exports.install = function(blockly, skin) {
-
+exports.install = function(blockly, skin, isK1) {
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
 
@@ -33,9 +32,13 @@ exports.install = function(blockly, skin) {
     helpUrl: '',
     init: function () {
       this.setHSV(140, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(commonMsg.when())
-        .appendTitle(new blockly.FieldImage(skin.clickIcon));
+      if (isK1) {
+        this.appendDummyInput()
+          .appendTitle(commonMsg.when())
+          .appendTitle(new blockly.FieldImage(skin.clickIcon));
+      } else {
+        this.appendDummyInput().appendTitle(msg.whenClick());
+      }
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenClickTooltip());
@@ -52,9 +55,13 @@ exports.install = function(blockly, skin) {
     helpUrl: '',
     init: function () {
       this.setHSV(140, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(commonMsg.when())
-        .appendTitle(new blockly.FieldImage(skin.collideGroundIcon));
+      if (isK1) {
+        this.appendDummyInput()
+          .appendTitle(commonMsg.when())
+          .appendTitle(new blockly.FieldImage(skin.collideGroundIcon));
+      } else {
+        this.appendDummyInput().appendTitle(msg.whenCollideGround());
+      }
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenCollideGroundTooltip());
@@ -71,9 +78,13 @@ exports.install = function(blockly, skin) {
     helpUrl: '',
     init: function () {
       this.setHSV(140, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(commonMsg.when())
-        .appendTitle(new blockly.FieldImage(skin.collideObstacleIcon));
+      if (isK1) {
+        this.appendDummyInput()
+          .appendTitle(commonMsg.when())
+          .appendTitle(new blockly.FieldImage(skin.collideObstacleIcon));
+      } else {
+        this.appendDummyInput().appendTitle(msg.whenCollideObstacle());
+      }
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenCollideObstacleTooltip());
@@ -113,9 +124,13 @@ exports.install = function(blockly, skin) {
     helpUrl: '',
     init: function () {
       this.setHSV(140, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(commonMsg.when())
-        .appendTitle(new blockly.FieldImage(skin.startIcon));
+      if (isK1) {
+        this.appendDummyInput()
+          .appendTitle(commonMsg.when())
+          .appendTitle(new blockly.FieldImage(skin.startIcon));
+      } else {
+        this.appendDummyInput().appendTitle(msg.whenRunButtonClick());
+      }
       this.setPreviousStatement(false);
       this.setNextStatement(true);
       this.setTooltip(msg.whenRunButtonClickTooltip());
@@ -132,9 +147,13 @@ exports.install = function(blockly, skin) {
     helpUrl: '',
     init: function() {
       this.setHSV(184, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(msg.flap())
-        .appendTitle(new blockly.FieldImage(skin.flapIcon));
+      if (isK1) {
+        this.appendDummyInput()
+          .appendTitle(msg.flap())
+          .appendTitle(new blockly.FieldImage(skin.flapIcon));
+      } else {
+        this.appendDummyInput().appendTitle(msg.flap());
+      }
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setTooltip(msg.flapTooltip());
@@ -231,9 +250,13 @@ exports.install = function(blockly, skin) {
     helpUrl: '',
     init: function() {
       this.setHSV(184, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(commonMsg.end())
-        .appendTitle(new blockly.FieldImage(skin.endIcon));
+      if (isK1) {
+        this.appendDummyInput()
+          .appendTitle(commonMsg.end())
+          .appendTitle(new blockly.FieldImage(skin.endIcon));
+      } else {
+        this.appendDummyInput().appendTitle(msg.endGame());
+      }
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setTooltip(msg.endGameTooltip());
