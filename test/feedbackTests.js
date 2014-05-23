@@ -1,6 +1,10 @@
 var wrench = require('wrench');
 var testUtils = require('./util/testUtils');
 var assert = testUtils.assert;
+var canvas = require('canvas');
+
+// Some of our feedback tests need to use Image
+global.Image = canvas.Image;
 
 /**
  * Loads options.startBlocks into the workspace, then calls
@@ -305,6 +309,3 @@ describe("getMissingRequiredBlocks tests", function () {
     });
   });
 });
-
-
-
