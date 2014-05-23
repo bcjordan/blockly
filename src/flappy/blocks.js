@@ -23,7 +23,10 @@ var generateSetterCode = function (ctx, name) {
 };
 
 // Install extensions to Blockly's language and JavaScript generator.
-exports.install = function(blockly, skin, isK1) {
+exports.install = function(blockly, blockInstallOptions) {
+  var skin = blockInstallOptions.skin;
+  var isK1 = blockInstallOptions.isK1;
+
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
 
