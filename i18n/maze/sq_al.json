@@ -51,7 +51,7 @@
   "turnLeft": "kthehu majtas",
   "turnRight": "kthehu djathtas",
   "turnTooltip": "Te kthen majtas ose djathtas prej 90 gradesh.",
-  "while": "ndersa",
+  "whileMsg": "ndersa",
   "whileTooltip": "Perserit veprimet e brendshme derisa pika e mbarimit arritet.",
   "yes": "Po"
 }

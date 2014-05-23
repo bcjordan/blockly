@@ -51,7 +51,7 @@
   "turnLeft": "বামে যান",
   "turnRight": "ডানে যান",
   "turnTooltip": "Turns me left or right by 90 degrees.",
-  "while": "যখন",
+  "whileMsg": "যখন",
   "whileTooltip": "Repeat the enclosed actions until finish point is reached.",
   "yes": "\"হ্যাঁ\""
 }

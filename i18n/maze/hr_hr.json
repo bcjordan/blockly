@@ -51,7 +51,7 @@
   "turnLeft": "okreni ulijevo",
   "turnRight": "okreni udesno",
   "turnTooltip": "Okreće me ulijevo ili udesno za 90 stupnjeva.",
-  "while": "dok",
+  "whileMsg": "dok",
   "whileTooltip": "Ponavlja umetnute radnje dok se ne dosegne zadani cilj.",
   "yes": "Da"
 }

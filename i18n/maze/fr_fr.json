@@ -51,7 +51,7 @@
   "turnLeft": "tourner à gauche",
   "turnRight": "tourner à droite",
   "turnTooltip": "Me tourne 90 degrés à gauche ou à droite.",
-  "while": "tant que",
+  "whileMsg": "tant que",
   "whileTooltip": "Répète les actions incluses jusqu'à ce que le point final soit atteint.",
   "yes": "Oui"
 }

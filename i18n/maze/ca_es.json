@@ -51,7 +51,7 @@
   "turnLeft": "gira a l'esquerra",
   "turnRight": "gira a la dreta",
   "turnTooltip": "Gira'm 90 graus cap a l'esquerra o cap a la dreta.",
-  "while": "mentres",
+  "whileMsg": "mentres",
   "whileTooltip": "Repetiu les accions tancades fins que s'arribi al punt final.",
   "yes": "Sí"
 }

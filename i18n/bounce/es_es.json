@@ -114,7 +114,7 @@
   "whenUpTooltip": "Realiza las instrucciones de abajo cuando se presiona la tecla de fecha hacia arriba.",
   "whenWallCollided": "Cuando la bola golpea la pared",
   "whenWallCollidedTooltip": "Realiza las instrucciones de abajo cuando la bola choca con una pared.",
-  "while": "mientras",
+  "whileMsg": "mientras",
   "whileTooltip": "Repetir las acciones dentro del bloque hasta alcanzar el punto final.",
   "yes": "Sí"
 }

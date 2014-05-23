@@ -51,7 +51,7 @@
   "turnLeft": "snu mot venstre",
   "turnRight": "snu mot høyre",
   "turnTooltip": "Snur meg mot venstre eller høyre med 90 grader.",
-  "while": "så lenge",
+  "whileMsg": "så lenge",
   "whileTooltip": "Gjenta disse handlingene inntil målet er nådd.",
   "yes": "Ja"
 }

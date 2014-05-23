@@ -51,7 +51,7 @@
   "turnLeft": "snúa til vinstri",
   "turnRight": "snúa til hægri",
   "turnTooltip": "Snýr mér til vinstri eða hægri um 90 gráður.",
-  "while": "meðan",
+  "whileMsg": "meðan",
   "whileTooltip": "Endurtaka innifaldar aðgerðir þar til endapunkti er náð.",
   "yes": "Já"
 }

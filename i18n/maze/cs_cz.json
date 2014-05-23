@@ -51,7 +51,7 @@
   "turnLeft": "otočit vlevo",
   "turnRight": "otočit vpravo",
   "turnTooltip": "Otočí mě doleva nebo doprava o 90 stupňů.",
-  "while": "dokud",
+  "whileMsg": "dokud",
   "whileTooltip": "Opakuje obsažené akce dokud nedosáhne cíle.",
   "yes": "Ano"
 }
