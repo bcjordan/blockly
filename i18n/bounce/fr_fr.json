@@ -114,7 +114,7 @@
   "whenUpTooltip": "Exécute les actions ci-dessous quand on presse la touche 'flèche en haut'.",
   "whenWallCollided": "quand balle touche mur",
   "whenWallCollidedTooltip": "Exécute les actions ci-dessous quand une balle se heurte à un mur.",
-  "while": "tant que",
+  "whileMsg": "tant que",
   "whileTooltip": "Répète les actions incluses jusqu'à ce que le point final soit atteint.",
   "yes": "Oui"
 }

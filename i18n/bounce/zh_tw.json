@@ -114,7 +114,7 @@
   "whenUpTooltip": "Execute the actions below when the Up arrow button is pressed.",
   "whenWallCollided": "when ball hits wall",
   "whenWallCollidedTooltip": "Execute the actions below when a ball collides with a wall.",
-  "while": "當",
+  "whileMsg": "當",
   "whileTooltip": "重覆程式積木內的動作，直到完成為止。",
   "yes": "確定"
 }

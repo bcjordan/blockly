@@ -114,7 +114,7 @@
   "whenUpTooltip": "Execute the actions below when the up arrow key is pressed.",
   "whenWallCollided": "when ball hits wall",
   "whenWallCollidedTooltip": "Execute the actions below when a ball collides with a wall.",
-  "while": "while",
+  "whileMsg": "while",
   "whileTooltip": "Repeat the enclosed actions until finish point is reached.",
   "yes": "Yes"
 }

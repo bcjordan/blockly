@@ -114,7 +114,7 @@
   "whenUpTooltip": "Execute the actions below when the Up arrow button is pressed.",
   "whenWallCollided": "when ball hits wall",
   "whenWallCollidedTooltip": "Execute the actions below when a ball collides with a wall.",
-  "while": "반복(~인 동안):",
+  "whileMsg": "반복(~인 동안):",
   "whileTooltip": "어떤 조건이 될 때까지(~할 때까지), 반복적으로 실행합니다.",
   "yes": "예"
 }

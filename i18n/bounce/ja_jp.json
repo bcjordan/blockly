@@ -114,7 +114,7 @@
   "whenUpTooltip": "Execute the actions below when the Up arrow button is pressed.",
   "whenWallCollided": "when ball hits wall",
   "whenWallCollidedTooltip": "Execute the actions below when a ball collides with a wall.",
-  "while": "しばらくの間",
+  "whileMsg": "しばらくの間",
   "whileTooltip": "終点に到着するまで、封じられた行動を繰り返してください",
   "yes": "はい"
 }

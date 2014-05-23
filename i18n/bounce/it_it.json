@@ -114,7 +114,7 @@
   "whenUpTooltip": "Esegue le azioni qua sotto quando viene premuto il tasto \"freccia in alto\".",
   "whenWallCollided": "quando la palla colpisce il muro",
   "whenWallCollidedTooltip": "Esegue le azioni qua sotto quando una palla colpisce il muro.",
-  "while": "mentre",
+  "whileMsg": "mentre",
   "whileTooltip": "Ripeti le azioni incluse per tutto il tempo in cui rimane vera la condizione.",
   "yes": "Sì"
 }

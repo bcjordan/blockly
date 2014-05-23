@@ -51,7 +51,7 @@
   "turnLeft": "fordulj balra",
   "turnRight": "fordulj jobbra",
   "turnTooltip": "Balra vagy jobbra fordít 90 fokkal.",
-  "while": "amíg",
+  "whileMsg": "amíg",
   "whileTooltip": "Ismételjük a közbülső műveleteket amíg végponthoz nem ér.",
   "yes": "igen"
 }

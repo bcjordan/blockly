@@ -51,7 +51,7 @@
   "turnLeft": "skręć w lewo",
   "turnRight": "skręć w prawo",
   "turnTooltip": "Obraca mnie w lewo lub w prawo o 90 stopni.",
-  "while": "dopóki",
+  "whileMsg": "dopóki",
   "whileTooltip": "Powtarzaj załączone czynności, aż do osiągnięcia punktu zakończenia.",
   "yes": "Tak"
 }

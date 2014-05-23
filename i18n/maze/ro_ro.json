@@ -51,7 +51,7 @@
   "turnLeft": "ia-o la stânga",
   "turnRight": "ia-o la dreapta",
   "turnTooltip": "Mă roteşte la stânga sau la dreapta cu 90 de grade.",
-  "while": "în timp ce",
+  "whileMsg": "în timp ce",
   "whileTooltip": "Repetă acţiunile cuprinse până când punctul final este atins.",
   "yes": "Da"
 }

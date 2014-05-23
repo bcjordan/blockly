@@ -51,7 +51,7 @@
   "turnLeft": "girar a la izquierda",
   "turnRight": "girar a la derecha",
   "turnTooltip": "Me gira a la izquierda o a la derecha 90 grados.",
-  "while": "mientras",
+  "whileMsg": "mientras",
   "whileTooltip": "Repetir las acciones dentro del bloque hasta alcanzar el punto final.",
   "yes": "Sí"
 }

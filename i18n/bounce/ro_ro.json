@@ -114,7 +114,7 @@
   "whenUpTooltip": "Execută acțiunile de mai jos atunci când tasta săgeată în sus este apăsată.",
   "whenWallCollided": "când mingea loveşte peretele",
   "whenWallCollidedTooltip": "Execută acţiunile de mai jos când o bilă se ciocneşte cu un perete.",
-  "while": "în timp ce",
+  "whileMsg": "în timp ce",
   "whileTooltip": "Repetă acţiunile cuprinse până când punctul final este atins.",
   "yes": "Da"
 }

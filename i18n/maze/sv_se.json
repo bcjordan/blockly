@@ -51,7 +51,7 @@
   "turnLeft": "Sväng vänster",
   "turnRight": "Sväng höger",
   "turnTooltip": "Vänder mig åt vänster eller höger 90 grader.",
-  "while": "medan",
+  "whileMsg": "medan",
   "whileTooltip": "Upprepa de omslutna åtgärderna tills målet nåtts.",
   "yes": "Ja"
 }

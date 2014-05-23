@@ -51,7 +51,7 @@
   "turnLeft": "இடதுபுறம் திரும்பவும்",
   "turnRight": "வலதுபுறம் திரும்பவும்",
   "turnTooltip": "Turns me left or right by 90 degrees.",
-  "while": "while",
+  "whileMsg": "while",
   "whileTooltip": "Repeat the enclosed actions until finish point is reached.",
   "yes": "ஆம்"
 }

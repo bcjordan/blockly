@@ -51,7 +51,7 @@
   "turnLeft": "pasisuk į kairę",
   "turnRight": "pasisuk į dešinę",
   "turnTooltip": "Pasuka mane į kairę arba į dešinę per 90 laipsnių.",
-  "while": "kol",
+  "whileMsg": "kol",
   "whileTooltip": "Pakartok sujungtus veiksmus, kol bus pasiektas finišas.",
   "yes": "Taip"
 }
