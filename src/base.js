@@ -400,7 +400,8 @@ exports.inject = function(div, options) {
     assetUrl: BlocklyApps.assetUrl,
     rtl: BlocklyApps.isRtl(),
     toolbox: document.getElementById('toolbox'),
-    trashcan: true
+    trashcan: true,
+    scrollbarThickness: 30
   };
   Blockly.inject(div, utils.extend(defaults, options));
 };
