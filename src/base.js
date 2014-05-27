@@ -684,7 +684,7 @@ BlocklyApps.TestResults = {
 
   // Zero stars.  The level was not solved.
   EMPTY_BLOCK_FAIL: 1,        // A container block, such as "repeat", was empty.
-  TOO_FEW_BLOCKS_FAIL: 2,
+  TOO_FEW_BLOCKS_FAIL: 2,     // Fewer than the ideal number of blocks used.
   LEVEL_INCOMPLETE_FAIL: 3,   // Default failure to complete a level.
   MISSING_BLOCK_UNFINISHED: 4,// A required block was not used.
   EXTRA_TOP_BLOCKS_FAIL: 5,   // There was more than one top-level block.
@@ -696,7 +696,7 @@ BlocklyApps.TestResults = {
   // Two stars.  The level was solved in an acceptable, but not ideal, manner.
   TOO_MANY_BLOCKS_FAIL: 20,   // More than the ideal number of blocks were used.
   OTHER_2_STAR_FAIL: 21,      // Application-specific 2-star failure.
-  FLAPPY_SPECIFIC_FAIL: 22,   // Flappy failure.  TODO(Ellen): Refactor away.
+  FLAPPY_SPECIFIC_FAIL: 22,   // Flappy app failure. TODO: Fold into prior case.
 
   // Other.
   FREE_PLAY: 30,              // The user is in free-play mode.
