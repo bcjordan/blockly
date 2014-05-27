@@ -293,14 +293,28 @@ module.exports = {
       tb(createCategory(msg.catActions(),
                           blockOfType('studio_setSprite') +
                           blockOfType('studio_setBackground') +
-                          blockOfType('studio_showTitleScreen') +
+                        '<block type="studio_showTitleScreenParams"> \
+                          <value name="TITLE"><block type="text"></block> \
+                          </value> \
+                          <value name="TEXT"><block type="text"></block> \
+                          </value></block>' +
                           blockOfType('studio_move') +
-                          blockOfType('studio_moveDistance') +
+                      '<block type="studio_moveDistanceParams" inline="true"> \
+                        <value name="DISTANCE"><block type="math_number"> \
+                                <title name="NUM">25</title></block> \
+                        </value></block>' +
                           blockOfType('studio_stop') +
-                          blockOfType('studio_wait') +
+                        '<block type="studio_waitParams" inline="true"> \
+                          <value name="VALUE"><block type="math_number"> \
+                                  <title name="NUM">1</title></block> \
+                          </value></block>' +
                           blockOfType('studio_playSound') +
-                          blockOfType('studio_incrementScore') +
-                          blockOfType('studio_saySprite') +
+                        '<block type="studio_setScoreText" inline="true"> \
+                          <value name="TEXT"><block type="text"></block> \
+                          </value></block>' +
+                        '<block type="studio_saySpriteParams" inline="true"> \
+                          <value name="TEXT"><block type="text"></block> \
+                          </value></block>' +
                           blockOfType('studio_setSpritePosition') +
                           blockOfType('studio_setSpriteSpeed') +
                           blockOfType('studio_setSpriteEmotion')) +
@@ -313,8 +327,33 @@ module.exports = {
                           blockOfType('studio_whenSpriteClicked') +
                           blockOfType('studio_whenSpriteCollided')) +
          createCategory(msg.catControl(),
-                          blockOfType('controls_repeat') +
-                          blockOfType('studio_repeatForever')) +
+                          blockOfType('studio_repeatForever') +
+                         '<block type="controls_repeat_ext"> \
+                            <value name="TIMES"> \
+                              <block type="math_number"> \
+                                <title name="NUM">10</title> \
+                              </block> \
+                            </value> \
+                          </block>' +
+                          blockOfType('controls_whileUntil') +
+                         '<block type="controls_for"> \
+                            <value name="FROM"> \
+                              <block type="math_number"> \
+                                <title name="NUM">1</title> \
+                              </block> \
+                            </value> \
+                            <value name="TO"> \
+                              <block type="math_number"> \
+                                <title name="NUM">10</title> \
+                              </block> \
+                            </value> \
+                            <value name="BY"> \
+                              <block type="math_number"> \
+                                <title name="NUM">1</title> \
+                              </block> \
+                            </value> \
+                          </block>' +
+                          blockOfType('controls_flow_statements')) +
          createCategory(msg.catLogic(),
                           blockOfType('controls_if') +
                           blockOfType('logic_compare') +
@@ -323,8 +362,34 @@ module.exports = {
                           blockOfType('logic_boolean')) +
          createCategory(msg.catMath(),
                           blockOfType('math_number') +
-                          blockOfType('math_change') +
+                         '<block type="math_change"> \
+                            <value name="DELTA"> \
+                              <block type="math_number"> \
+                                <title name="NUM">1</title> \
+                              </block> \
+                            </value> \
+                          </block>' +
+                         '<block type="math_random_int"> \
+                            <value name="FROM"> \
+                              <block type="math_number"> \
+                                <title name="NUM">1</title> \
+                              </block> \
+                            </value> \
+                            <value name="TO"> \
+                              <block type="math_number"> \
+                                <title name="NUM">100</title> \
+                              </block> \
+                            </value> \
+                          </block>' +
                           blockOfType('math_arithmetic')) +
+         createCategory(msg.catText(),
+                          blockOfType('text') +
+                          blockOfType('text_join') +
+                         '<block type="text_append"> \
+                            <value name="TEXT"> \
+                              <block type="text"></block> \
+                            </value> \
+                          </block>') +
          createCategory(msg.catVariables(), '', 'VARIABLE') +
          createCategory(msg.catProcedures(), '', 'PROCEDURE')),
     'startBlocks':

@@ -515,6 +515,28 @@ exports.install = function(blockly, blockInstallOptions) {
                 this.getTitleValue('PLAYER') + '\');\n';
   };
 
+  blockly.Blocks.studio_setScoreText = {
+    // Block for setting the score text.
+    helpUrl: '',
+    init: function() {
+      this.setHSV(184, 1.00, 0.74);
+      this.appendValueInput('TEXT')
+        .setCheck('String')
+        .appendTitle(msg.setScoreText());
+      this.setInputsInline(true);
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.setTooltip(msg.setScoreTextTooltip());
+    }
+  };
+
+  generator.studio_setScoreText = function() {
+    // Generate JavaScript for setting the score text.
+    var arg = Blockly.JavaScript.valueToCode(this, 'TEXT',
+        Blockly.JavaScript.ORDER_NONE) || '';
+    return 'Studio.setScoreText(\'block_id_' + this.id + '\', ' + arg + ');\n';
+  };
+
   blockly.Blocks.studio_setSpriteSpeed = {
     // Block for setting sprite speed
     helpUrl: '',
@@ -600,38 +622,66 @@ exports.install = function(blockly, blockInstallOptions) {
   /**
    * showTitleScreen
    */
-  blockly.Blocks.studio_showTitleScreen = {
-    helpUrl: '',
-    init: function() {
+  var initShowTitleScreenBlock = function (block) {
+    block.helpUrl = '';
+    block.init = function() {
       this.setHSV(184, 1.00, 0.74);
       this.appendDummyInput()
         .appendTitle(msg.showTitleScreen());
-      this.appendDummyInput()
-        .appendTitle(msg.showTitleScreenTitle())
-        .appendTitle(new Blockly.FieldImage(
-                Blockly.assetUrl('media/quote0.png'), 12, 12))
-        .appendTitle(new Blockly.FieldTextInput(msg.showTSDefTitle()), 'TITLE')
-        .appendTitle(new Blockly.FieldImage(
-                Blockly.assetUrl('media/quote1.png'), 12, 12));
-      this.appendDummyInput()
-        .appendTitle(msg.showTitleScreenText())
-        .appendTitle(new Blockly.FieldImage(
-                Blockly.assetUrl('media/quote0.png'), 12, 12))
-        .appendTitle(new Blockly.FieldTextInput(msg.showTSDefText()), 'TEXT')
-        .appendTitle(new Blockly.FieldImage(
-                Blockly.assetUrl('media/quote1.png'), 12, 12));
+      if (block.params) {
+        this.appendValueInput('TITLE')
+          .setCheck('String')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendTitle(msg.showTitleScreenTitle());
+        this.appendValueInput('TEXT')
+          .setCheck('String')
+          .setAlign(Blockly.ALIGN_RIGHT)
+          .appendTitle(msg.showTitleScreenText());
+      } else {
+        this.appendDummyInput()
+          .appendTitle(msg.showTitleScreenTitle())
+          .appendTitle(new Blockly.FieldImage(
+                  Blockly.assetUrl('media/quote0.png'), 12, 12))
+          .appendTitle(new Blockly.FieldTextInput(
+              msg.showTSDefTitle()),
+              'TITLE')
+          .appendTitle(new Blockly.FieldImage(
+                  Blockly.assetUrl('media/quote1.png'), 12, 12));
+        this.appendDummyInput()
+          .appendTitle(msg.showTitleScreenText())
+          .appendTitle(new Blockly.FieldImage(
+                  Blockly.assetUrl('media/quote0.png'), 12, 12))
+          .appendTitle(new Blockly.FieldTextInput(msg.showTSDefText()), 'TEXT')
+          .appendTitle(new Blockly.FieldImage(
+                  Blockly.assetUrl('media/quote1.png'), 12, 12));
+      }
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setTooltip(msg.showTitleScreenTooltip());
-    }
+    };
   };
 
+  blockly.Blocks.studio_showTitleScreen = {};
+  initShowTitleScreenBlock(blockly.Blocks.studio_showTitleScreen);
+  blockly.Blocks.studio_showTitleScreenParams = { 'params': true };
+  initShowTitleScreenBlock(blockly.Blocks.studio_showTitleScreenParams);
+
   generator.studio_showTitleScreen = function() {
-    // Generate JavaScript for saying.
+    // Generate JavaScript for showing title screen.
     return 'Studio.showTitleScreen(\'block_id_' + this.id +
                '\', ' +
                blockly.JavaScript.quote_(this.getTitleValue('TITLE')) + ', ' +
                blockly.JavaScript.quote_(this.getTitleValue('TEXT')) + ');\n';
+  };
+
+  generator.studio_showTitleScreenParams = function() {
+    // Generate JavaScript for showing title screen (param version).
+    var titleParam = Blockly.JavaScript.valueToCode(this, 'TITLE',
+        Blockly.JavaScript.ORDER_NONE) || '';
+    var textParam = Blockly.JavaScript.valueToCode(this, 'TEXT',
+        Blockly.JavaScript.ORDER_NONE) || '';
+    return 'Studio.showTitleScreen(\'block_id_' + this.id +
+               '\', ' + titleParam + ', ' + textParam + ');\n';
   };
 
   /**
@@ -765,7 +815,7 @@ exports.install = function(blockly, blockInstallOptions) {
       }
       if (block.params) {
         this.appendValueInput('TEXT')
-        .setCheck('String');
+          .setCheck('String');
       } else {
         this.appendDummyInput()
           .appendTitle(new Blockly.FieldImage(
