@@ -1,6 +1,10 @@
 var wrench = require('wrench');
 var testUtils = require('./util/testUtils');
 var assert = testUtils.assert;
+var canvas = require('canvas');
+
+// Some of our feedback tests need to use Image
+global.Image = canvas.Image;
 
 /**
  * Loads options.startBlocks into the workspace, then calls
@@ -280,7 +284,7 @@ describe("getMissingRequiredBlocks tests", function () {
       var levels = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/' +
         collection.levelFile, []);
       var blocks = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/blocks');
-      blocks.install(Blockly, "maze");
+      blocks.install(Blockly, {skin: "maze", isK1: false});
 
       validateBlocks({
         requiredBlocks: levels[collection.levelId].requiredBlocks,
@@ -305,6 +309,3 @@ describe("getMissingRequiredBlocks tests", function () {
     });
   });
 });
-
-
-

@@ -51,7 +51,7 @@
   "turnLeft": "obrni se levo",
   "turnRight": "obrni se desno",
   "turnTooltip": "Obrni me levo ali desno za 90 stopinj.",
-  "while": "dokler",
+  "whileMsg": "dokler",
   "whileTooltip": "Ponavljaj vključena dejanja, dokler ne dosežeš zaključne točke.",
   "yes": "Ja"
 }

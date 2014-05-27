@@ -51,7 +51,7 @@
   "turnLeft": "gira a sinistra",
   "turnRight": "gira a destra",
   "turnTooltip": "Gira a sinistra o a destra di 90 gradi.",
-  "while": "mentre",
+  "whileMsg": "mentre",
   "whileTooltip": "Ripeti le azioni incluse per tutto il tempo in cui rimane vera la condizione.",
   "yes": "Sì"
 }

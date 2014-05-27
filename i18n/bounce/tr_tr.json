@@ -114,7 +114,7 @@
   "whenUpTooltip": "Yukarı oka basıldığında, aşağıdaki eylemleri yürüt.",
   "whenWallCollided": "top duvara çarptığında",
   "whenWallCollidedTooltip": "Top duvarla çarpıştığında, aşağıdaki işlemleri yürüt.",
-  "while": "sürece",
+  "whileMsg": "sürece",
   "whileTooltip": "Bitiş noktasına ulaşana kadar blok içindeki işlemleri tekrarla.",
   "yes": "Evet"
 }

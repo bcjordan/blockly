@@ -51,7 +51,7 @@
   "turnLeft": "左に回転",
   "turnRight": "右に回転",
   "turnTooltip": "私を左もしくは右に90 度曲がらせてください。",
-  "while": "以下の間",
+  "whileMsg": "以下の間",
   "whileTooltip": "終点に到着するまで、封じられた行動を繰り返してください",
   "yes": "はい"
 }

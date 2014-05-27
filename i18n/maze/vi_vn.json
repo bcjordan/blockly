@@ -51,7 +51,7 @@
   "turnLeft": "Rẽ Trái",
   "turnRight": "Rẽ Phải",
   "turnTooltip": "Quay tôi sang trái hoặc phải 90 độ.",
-  "while": "Lặp khi",
+  "whileMsg": "Lặp khi",
   "whileTooltip": "Lặp lại các hành động trong câu lệnh cho đến khi có kết quả.",
   "yes": "Có"
 }

@@ -51,7 +51,7 @@
   "turnLeft": "nach links drehen",
   "turnRight": "nach rechts drehen",
   "turnTooltip": "Dreht mich nach links oder rechts um 90 Grad.",
-  "while": "solange",
+  "whileMsg": "solange",
   "whileTooltip": "Wiederhole diese Aktionen bis das Ziel erreicht ist.",
   "yes": "Ja"
 }

@@ -114,7 +114,7 @@
   "whenUpTooltip": "Wykonaj poniższe czynności, gdy wciśnięty jest klawisz strzałki w górę.",
   "whenWallCollided": "kiedy piłka uderza w ścianę",
   "whenWallCollidedTooltip": "Wykonaj poniższe czynności, gdy piłka zderza się ze ścianą.",
-  "while": "dopóki",
+  "whileMsg": "dopóki",
   "whileTooltip": "Powtarzaj wymienione czynności, aż do osiągnięcia punktu końcowego.",
   "yes": "Tak"
 }

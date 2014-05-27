@@ -51,7 +51,7 @@
   "turnLeft": "vire à esquerda",
   "turnRight": "vire à direita",
   "turnTooltip": "Vira 90 graus à esquerda ou à direita.",
-  "while": "enquanto",
+  "whileMsg": "enquanto",
   "whileTooltip": "Repetir as ações contidas até satisfazer a condição.",
   "yes": "Sim"
 }

@@ -114,7 +114,7 @@
   "whenUpTooltip": "Gera aðgerðirnar fyrir neðan þegar ýtt er á örvarlykil upp.",
   "whenWallCollided": "þegar bolti hittir vegg",
   "whenWallCollidedTooltip": "Gera aðgerðirnar fyrir neðan þegar bolti rekst á vegg.",
-  "while": "meðan",
+  "whileMsg": "meðan",
   "whileTooltip": "Endurtaka aðgerðirnar í kubbnum þar til endamarki er náð.",
   "yes": "Já"
 }

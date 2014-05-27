@@ -51,7 +51,7 @@
   "turnLeft": "drej til venstre",
   "turnRight": "drej til højre",
   "turnTooltip": "Vender mig venstre eller højre med 90 grader.",
-  "while": "mens",
+  "whileMsg": "mens",
   "whileTooltip": "Gentag de lukkede handlinger indtil målet er nået.",
   "yes": "Ja"
 }

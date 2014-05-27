@@ -23,8 +23,7 @@ var generateSetterCode = function (ctx, name) {
 };
 
 // Install extensions to Blockly's language and JavaScript generator.
-exports.install = function(blockly, skin) {
-
+exports.install = function(blockly, blockInstallOptions) {
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
 
@@ -40,12 +39,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenLeftTooltip());
     }
   };
-  
+
   generator.bounce_whenLeft = function() {
     // Generate JavaScript for handling Left arrow button event.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenRight = {
     // Block to handle event when the Right arrow button is pressed.
     helpUrl: '',
@@ -58,12 +57,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenRightTooltip());
     }
   };
-  
+
   generator.bounce_whenRight = function() {
     // Generate JavaScript for handling Right arrow button event.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenUp = {
     // Block to handle event when the Up arrow button is pressed.
     helpUrl: '',
@@ -76,12 +75,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenUpTooltip());
     }
   };
-  
+
   generator.bounce_whenUp = function() {
     // Generate JavaScript for handling Up arrow button event.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenDown = {
     // Block to handle event when the Down arrow button is pressed.
     helpUrl: '',
@@ -94,12 +93,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenDownTooltip());
     }
   };
-  
+
   generator.bounce_whenDown = function() {
     // Generate JavaScript for handling Down arrow button event.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenWallCollided = {
     // Block to handle event when a wall/ball collision occurs.
     helpUrl: '',
@@ -112,12 +111,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenWallCollidedTooltip());
     }
   };
-  
+
   generator.bounce_whenWallCollided = function() {
     // Generate JavaScript for handling when a wall/ball collision occurs.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenBallInGoal = {
     // Block to handle event when a ball enters a goal.
     helpUrl: '',
@@ -130,12 +129,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenBallInGoalTooltip());
     }
   };
-  
+
   generator.bounce_whenBallInGoal = function() {
     // Generate JavaScript for handling when a ball in goal event occurs.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenBallMissesPaddle = {
     // Block to handle event when a ball misses the paddle.
     helpUrl: '',
@@ -148,12 +147,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenBallMissesPaddleTooltip());
     }
   };
-  
+
   generator.bounce_whenBallMissesPaddle = function() {
     // Generate JavaScript for handling when a ball misses the paddle.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenPaddleCollided = {
     // Block to handle event when a wall collision occurs.
     helpUrl: '',
@@ -166,12 +165,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.whenPaddleCollidedTooltip());
     }
   };
-  
+
   generator.bounce_whenPaddleCollided = function() {
     // Generate JavaScript for handling when a paddle/ball collision occurs.
     return '\n';
   };
-  
+
   blockly.Blocks.bounce_whenGameStarts = {
     // Block to handle event when the game starts
     helpUrl: '',
@@ -202,12 +201,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.moveLeftTooltip());
     }
   };
-  
+
   generator.bounce_moveLeft = function() {
     // Generate JavaScript for moving left.
     return 'Bounce.moveLeft(\'block_id_' + this.id + '\');\n';
   };
-  
+
   blockly.Blocks.bounce_moveRight = {
     // Block for moving right.
     helpUrl: '',
@@ -220,12 +219,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.moveRightTooltip());
     }
   };
-  
+
   generator.bounce_moveRight = function() {
     // Generate JavaScript for moving right.
     return 'Bounce.moveRight(\'block_id_' + this.id + '\');\n';
   };
-  
+
   blockly.Blocks.bounce_moveUp = {
     // Block for moving up.
     helpUrl: '',
@@ -238,12 +237,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.moveUpTooltip());
     }
   };
-  
+
   generator.bounce_moveUp = function() {
     // Generate JavaScript for moving up.
     return 'Bounce.moveUp(\'block_id_' + this.id + '\');\n';
   };
-  
+
   blockly.Blocks.bounce_moveDown = {
     // Block for moving down.
     helpUrl: '',
@@ -256,7 +255,7 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.moveDownTooltip());
     }
   };
-  
+
   generator.bounce_moveDown = function() {
     // Generate JavaScript for moving down.
     return 'Bounce.moveDown(\'block_id_' + this.id + '\');\n';
@@ -288,13 +287,13 @@ exports.install = function(blockly, skin) {
        [msg.playSoundLosePoint2(), 'losepoint2'],
        [msg.playSoundGoal1(), 'goal1'],
        [msg.playSoundGoal2(), 'goal2']];
-  
+
   generator.bounce_playSound = function() {
     // Generate JavaScript for playing a sound.
     return 'Bounce.playSound(\'block_id_' + this.id + '\', \'' +
                this.getTitleValue('SOUND') + '\');\n';
   };
-  
+
   blockly.Blocks.bounce_incrementPlayerScore = {
     // Block for incrementing the player's score.
     helpUrl: '',
@@ -307,12 +306,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.incrementPlayerScoreTooltip());
     }
   };
-  
+
   generator.bounce_incrementPlayerScore = function() {
     // Generate JavaScript for incrementing the player's score.
     return 'Bounce.incrementPlayerScore(\'block_id_' + this.id + '\');\n';
   };
-  
+
   blockly.Blocks.bounce_incrementOpponentScore = {
     // Block for incrementing the opponent's score.
     helpUrl: '',
@@ -325,12 +324,12 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.incrementOpponentScoreTooltip());
     }
   };
-  
+
   generator.bounce_incrementOpponentScore = function() {
     // Generate JavaScript for incrementing the opponent's score.
     return 'Bounce.incrementOpponentScore(\'block_id_' + this.id + '\');\n';
   };
-  
+
   blockly.Blocks.bounce_bounceBall = {
     // Block for bouncing a ball.
     helpUrl: '',
@@ -343,7 +342,7 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.bounceBallTooltip());
     }
   };
-  
+
   generator.bounce_bounceBall = function() {
     // Generate JavaScript for bouncing a ball.
     return 'Bounce.bounceBall(\'block_id_' + this.id + '\');\n';
@@ -361,7 +360,7 @@ exports.install = function(blockly, skin) {
       this.setTooltip(msg.launchBallTooltip());
     }
   };
-  
+
   generator.bounce_launchBall = function() {
     // Generate JavaScript for launching a ball.
     return 'Bounce.launchBall(\'block_id_' + this.id + '\');\n';
@@ -506,7 +505,7 @@ exports.install = function(blockly, skin) {
   generator.bounce_setPaddle = function() {
     return generateSetterCode(this, 'setPaddle');
   };
-  
+
   delete blockly.Blocks.procedures_defreturn;
   delete blockly.Blocks.procedures_ifreturn;
 };

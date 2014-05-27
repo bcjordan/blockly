@@ -51,7 +51,7 @@
   "turnLeft": "向左转",
   "turnRight": "向右转",
   "turnTooltip": "把我向左或者向右转90度。",
-  "while": "当",
+  "whileMsg": "当",
   "whileTooltip": "重复块所包含的操作直到完成。",
   "yes": "是"
 }

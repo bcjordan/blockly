@@ -51,7 +51,7 @@
   "turnLeft": "belok kiri",
   "turnRight": "belok kanan",
   "turnTooltip": "Pusingkan saya ke kiri atau kanan 90 darjah.",
-  "while": "semasa",
+  "whileMsg": "semasa",
   "whileTooltip": "Ulangi tindakan yang tertutup sehingga titik penamat dicapai.",
   "yes": "Ya"
 }

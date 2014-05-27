@@ -51,7 +51,7 @@
   "turnLeft": "sla linksaf",
   "turnRight": "sla rechtsaf",
   "turnTooltip": "Draait me 90 graden linksom of rechtsom.",
-  "while": "terwijl",
+  "whileMsg": "terwijl",
   "whileTooltip": "Herhaal de acties totdat je de finish hebt bereikt.",
   "yes": "Ja"
 }

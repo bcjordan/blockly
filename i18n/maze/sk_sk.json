@@ -51,7 +51,7 @@
   "turnLeft": "otočiť vľavo",
   "turnRight": "otočiť vpravo",
   "turnTooltip": "Obráť sa doľava alebo doprava o 90 stupňov.",
-  "while": "pokiaľ",
+  "whileMsg": "pokiaľ",
   "whileTooltip": "Opakujte uzavreté činnosti dokým dosiahnete cieľový bod.",
   "yes": "Áno"
 }

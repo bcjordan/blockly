@@ -51,7 +51,7 @@
   "turnLeft": "sola dön",
   "turnRight": "sağa dön",
   "turnTooltip": "Beni sağa ya da sola 90 derece döndür.",
-  "while": "sürece",
+  "whileMsg": "sürece",
   "whileTooltip": "Bitiş noktasına ulaşana kadar blok içindeki işlemleri tekrarlayın.",
   "yes": "Evet"
 }
