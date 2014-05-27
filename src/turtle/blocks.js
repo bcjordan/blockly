@@ -446,10 +446,10 @@ exports.install = function(blockly, blockInstallOptions) {
     SHORT_MOVE_LENGTH: 50,
     LONG_MOVE_LENGTH: 100,
     DIRECTION_CONFIGS: {
-      left: { title: commonMsg.directionWestLetter(), moveFunction: 'moveLeft', image: skin.leftArrow, tooltip: msg.moveWestTooltip() },
-      right: { title: commonMsg.directionEastLetter(), moveFunction: 'moveRight', image: skin.rightArrow, tooltip: msg.moveEastTooltip() },
-      up: { title: commonMsg.directionNorthLetter(), moveFunction: 'moveUp', image: skin.upArrow, tooltip: msg.moveNorthTooltip() },
-      down: { title: commonMsg.directionSouthLetter(), moveFunction: 'moveDown', image: skin.downArrow, tooltip: msg.moveSouthTooltip() },
+      left: { title: commonMsg.directionWestLetter(), moveFunction: 'moveLeft', image: skin.leftArrow, smallImage: skin.leftArrowSmall, tooltip: msg.moveWestTooltip() },
+      right: { title: commonMsg.directionEastLetter(), moveFunction: 'moveRight', image: skin.rightArrow, smallImage: skin.rightArrowSmall, tooltip: msg.moveEastTooltip() },
+      up: { title: commonMsg.directionNorthLetter(), moveFunction: 'moveUp', image: skin.upArrow, smallImage: skin.upArrowSmall, tooltip: msg.moveNorthTooltip() },
+      down: { title: commonMsg.directionSouthLetter(), moveFunction: 'moveDown', image: skin.downArrow, smallImage: skin.downArrowSmall, tooltip: msg.moveSouthTooltip() },
       jump_left: { title: commonMsg.jump() + " " + commonMsg.directionWestLetter(), moveFunction: 'jumpLeft', image: skin.leftJumpArrow, tooltip: msg.jumpWestTooltip() },
       jump_right: { title: commonMsg.jump() + " " + commonMsg.directionEastLetter(), moveFunction: 'jumpRight', image: skin.rightJumpArrow, tooltip: msg.jumpEastTooltip() },
       jump_up: { title: commonMsg.jump() + " " + commonMsg.directionNorthLetter(), moveFunction: 'jumpUp', image: skin.upJumpArrow, tooltip: msg.jumpNorthTooltip() },
@@ -479,8 +479,9 @@ exports.install = function(blockly, blockInstallOptions) {
         helpUrl: '',
         init: function () {
           this.setHSV(184, 1.00, 0.74);
+          var imageToUse = hasLengthInput ? directionConfig.smallImage : directionConfig.image;
           var input = this.appendDummyInput().appendTitle(directionConfig.title)
-            .appendTitle(new blockly.FieldImage(directionConfig.image));
+            .appendTitle(new blockly.FieldImage(imageToUse));
           this.setPreviousStatement(true);
           this.setNextStatement(true);
           this.setTooltip(directionConfig.tooltip);
