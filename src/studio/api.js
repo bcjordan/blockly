@@ -76,6 +76,10 @@ exports.incrementScore = function(id, player) {
   Studio.queueCmd(id, 'incrementScore', {'player': player});
 };
 
+exports.setScoreText = function(id, text) {
+  Studio.queueCmd(id, 'setScoreText', {'text': text});
+};
+
 exports.wait = function(id, value) {
   Studio.queueCmd(id, 'wait', {'value': value});
 };

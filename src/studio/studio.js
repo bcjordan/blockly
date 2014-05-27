@@ -822,6 +822,7 @@ BlocklyApps.reset = function(first) {
   // Reset the score and title screen.
   Studio.playerScore = 0;
   Studio.opponentScore = 0;
+  Studio.scoreText = null;
   document.getElementById('score')
     .setAttribute('visibility', 'hidden');
   document.getElementById('titleScreenTitle')
@@ -1293,10 +1294,14 @@ Studio.displaySprite = function(i) {
 
 Studio.displayScore = function() {
   var score = document.getElementById('score');
-  score.textContent = studioMsg.scoreText({
-    playerScore: Studio.playerScore,
-    opponentScore: Studio.opponentScore
-  });
+  if (Studio.scoreText) {
+    score.textContent = Studio.scoreText;
+  } else {
+    score.textContent = studioMsg.scoreText({
+      playerScore: Studio.playerScore,
+      opponentScore: Studio.opponentScore
+    });
+  }
   score.setAttribute('visibility', 'visible');
 };
 
@@ -1393,6 +1398,10 @@ Studio.callCmd = function (cmd) {
       BlocklyApps.highlight(cmd.id);
       Studio.incrementScore(cmd.opts);
       break;
+    case 'setScoreText':
+      BlocklyApps.highlight(cmd.id);
+      Studio.setScoreText(cmd.opts);
+      break;
     case 'wait':
       if (!cmd.opts.started) {
         BlocklyApps.highlight(cmd.id);
@@ -1416,6 +1425,11 @@ Studio.incrementScore = function (opts) {
   } else {
     Studio.playerScore++;
   }
+  Studio.displayScore();
+};
+
+Studio.setScoreText = function (opts) {
+  Studio.scoreText = opts.text;
   Studio.displayScore();
 };
 
