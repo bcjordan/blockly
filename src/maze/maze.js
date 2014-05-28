@@ -1498,6 +1498,7 @@ Maze.scheduleDance = function(sound) {
  * @param {number} frame Direction (0 - 15) or dance (16 - 17).
  */
 Maze.displayPegman = function(x, y, frame) {
+  console.log("displayPegman: " + frame);
   var pegmanIcon = document.getElementById('pegman');
   pegmanIcon.setAttribute('x',
       x * Maze.SQUARE_SIZE - frame * Maze.PEGMAN_WIDTH + 1);

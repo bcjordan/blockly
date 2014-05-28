@@ -13,6 +13,7 @@
   "flapLarge": "flap a large amount",
   "flapVeryLarge": "flap a very large amount",
   "flapTooltip": "Fly Flappy upwards.",
+  "finish": "Finish",
   "incrementPlayerScore" : "score a point",
   "incrementPlayerScoreTooltip" : "Add one to the current player score.",
   "nextLevel": "Congratulations! You have completed this puzzle.",
