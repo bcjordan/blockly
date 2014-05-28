@@ -434,6 +434,12 @@ input[type="radio"] {
   background: ""
 }
 
+.blocklyRectangularDropdownMenu {
+  .goog-menuitem-highlight, .goog-menuitem-hover {
+    background-color: rgba(255, 255, 255, 0.35);
+  }
+}
+
 .generated-code-container {
   margin-top: 10px;
   .generatedCodeMessage {
@@ -644,7 +650,7 @@ $modal-image-margin-gap: 10px;
   div {
     margin: 15px 0;
   }
-  
+
   .saved-to-gallery {
     color: $purple;
   }

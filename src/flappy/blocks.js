@@ -339,12 +339,21 @@ exports.install = function(blockly, blockInstallOptions) {
   blockly.Blocks.flappy_setBackground = {
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[1][1]);  // default to flappy
-
       this.setHSV(312, 0.32, 0.62);
-      this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
+
+      var input = this.appendDummyInput();
+
+      if (isK1) {
+        input.appendTitle(msg.setBackground());
+        var dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
+        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+      } else {
+        dropdown = new blockly.FieldDropdown(this.VALUES);
+        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+      }
+
+      input.appendTitle(dropdown, 'VALUE');
+
       this.setInputsInline(true);
       this.setPreviousStatement(true);
       this.setNextStatement(true);
@@ -361,6 +370,15 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setBackgroundCave(), '"cave"'],
        [msg.setBackgroundSanta(), '"santa"']];
 
+  blockly.Blocks.flappy_setBackground.K1_CHOICES =
+      [[skin.randomPurpleIcon, 'random'],
+       [skin.background, '"flappy"'],
+       [skin.night.background, '"night"'],
+       [skin.scifi.background, '"scifi"'],
+       [skin.underwater.background, '"underwater"'],
+       [skin.cave.background, '"cave"'],
+       [skin.santa.background, '"santa"']];
+
   generator.flappy_setBackground = function() {
     return generateSetterCode(this, 'setBackground');
   };
@@ -371,12 +389,18 @@ exports.install = function(blockly, blockInstallOptions) {
   blockly.Blocks.flappy_setPlayer = {
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[1][1]);  // default to flappy
-
       this.setHSV(312, 0.32, 0.62);
-      this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
+      var input = this.appendDummyInput();
+      if (isK1) {
+        input.appendTitle(msg.setPlayer());
+        var dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 34, 24);
+        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+      } else {
+        dropdown = new blockly.FieldDropdown(this.VALUES);
+        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+      }
+      input.appendTitle(dropdown, 'VALUE');
+
       this.setInputsInline(true);
       this.setPreviousStatement(true);
       this.setNextStatement(true);
@@ -401,6 +425,23 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setPlayerSuperman(), '"superman"'],
        [msg.setPlayerTurkey(), '"turkey"']];
 
+  blockly.Blocks.flappy_setPlayer.K1_CHOICES =
+      [[skin.randomPurpleIcon, 'random'],
+       [skin.avatar, '"flappy"'],
+       [skin.redbird.avatar, '"redbird"'],
+       [skin.scifi.avatar, '"scifi"'],
+       [skin.underwater.avatar, '"underwater"'],
+       [skin.santa.avatar, '"santa"'],
+       [skin.cave.avatar, '"cave"'],
+       [skin.shark.avatar, '"shark"'],
+       [skin.easter.avatar, '"easter"'],
+       [skin.batman.avatar, '"batman"'],
+       [skin.submarine.avatar, '"submarine"'],
+       [skin.unicorn.avatar, '"unicorn"'],
+       [skin.fairy.avatar, '"fairy"'],
+       [skin.superman.avatar, '"superman"'],
+       [skin.turkey.avatar, '"turkey"']];
+
   generator.flappy_setPlayer = function() {
     return generateSetterCode(this, 'setPlayer');
   };
@@ -411,12 +452,19 @@ exports.install = function(blockly, blockInstallOptions) {
   blockly.Blocks.flappy_setObstacle = {
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[1][1]);  // default to flappy
-
       this.setHSV(312, 0.32, 0.62);
-      this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
+
+      var input = this.appendDummyInput();
+      if (isK1) {
+        input.appendTitle(msg.setObstacle());
+        var dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
+        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+      } else {
+        dropdown = new blockly.FieldDropdown(this.VALUES);
+        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+      }
+
+      input.appendTitle(dropdown, 'VALUE');
       this.setInputsInline(true);
       this.setPreviousStatement(true);
       this.setNextStatement(true);
@@ -433,6 +481,15 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setObstacleSanta(), '"santa"'],
        [msg.setObstacleLaser(), '"laser"']];
 
+  blockly.Blocks.flappy_setObstacle.K1_CHOICES =
+      [[skin.randomPurpleIcon, 'random'],
+       [skin.obstacle_bottom, '"flappy"'],
+       [skin.scifi.obstacle_bottom, '"scifi"'],
+       [skin.underwater.obstacle_bottom, '"underwater"'],
+       [skin.cave.obstacle_bottom, '"cave"'],
+       [skin.santa.obstacle_bottom, '"santa"'],
+       [skin.laser.obstacle_bottom, '"laser"']];
+
   generator.flappy_setObstacle = function() {
     return generateSetterCode(this, 'setObstacle');
   };
@@ -443,12 +500,18 @@ exports.install = function(blockly, blockInstallOptions) {
   blockly.Blocks.flappy_setGround = {
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[1][1]);  // default to flappy
-
       this.setHSV(312, 0.32, 0.62);
-      this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
+      var input = this.appendDummyInput();
+      if (isK1) {
+        input.appendTitle(msg.setGround());
+        var dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
+        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+      } else {
+        dropdown = new blockly.FieldDropdown(this.VALUES);
+        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+      }
+      input.appendTitle(dropdown, 'VALUE');
+
       this.setInputsInline(true);
       this.setPreviousStatement(true);
       this.setNextStatement(true);
@@ -464,6 +527,15 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setGroundCave(), '"cave"'],
        [msg.setGroundSanta(), '"santa"'],
        [msg.setGroundLava(), '"lava"']];
+
+  blockly.Blocks.flappy_setGround.K1_CHOICES =
+      [[skin.randomPurpleIcon, 'random'],
+       [skin.ground, '"flappy"'],
+       [skin.scifi.ground, '"scifi"'],
+       [skin.underwater.ground, '"underwater"'],
+       [skin.cave.ground, '"cave"'],
+       [skin.santa.ground, '"santa"'],
+       [skin.lava.ground, '"lava"']];
 
   generator.flappy_setGround = function() {
     return generateSetterCode(this, 'setGround');
