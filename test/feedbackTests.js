@@ -286,7 +286,6 @@ describe("getMissingRequiredBlocks tests", function () {
 
       var skinForTests;
       if (collection.skinId) {
-        var skins = testUtils.requireWithGlobalsCheckSrcFolder('skins');
         var appSkins = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/skins');
         skinForTests = appSkins.load(BlocklyApps.assetUrl, collection.skinId);
       } else {
