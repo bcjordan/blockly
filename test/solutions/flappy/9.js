@@ -7,6 +7,7 @@ var setScoreRequiredBlock = {
 
 module.exports = {
   app: "flappy",
+  skinId: "flappy",
   levelFile: "levels",
   levelId: "9",
   tests: [

@@ -12,6 +12,7 @@ var setRandomBackgroundRequiredBlock = {
 
 module.exports = {
   app: "flappy",
+  skinId: "flappy",
   levelFile: "levels",
   levelId: "8",
   tests: [
