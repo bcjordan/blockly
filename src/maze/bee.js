@@ -18,7 +18,10 @@ module.exports = Bee;
 
 Bee.prototype.reset = function () {
   this.honey_ = 0;
+  // represents how much nectar we have currently
   this.nectar_ = 0;
+  // represents the total nectar collected
+  this.totalNectar_ = 0;
   this.updateNectarImages_();
   this.updateHoneyImages_();
 };
@@ -27,7 +30,7 @@ Bee.prototype.reset = function () {
  * Did we reach our total nectar/honey goals, and accomplish any specific hiveGoals
  */
 Bee.prototype.finished = function () {
-  if (this.honey_ < this.honeyGoal_ || this.nectar_ < this.nectarGoal_) {
+  if (this.honey_ < this.honeyGoal_ || this.totalNectar_ < this.nectarGoal_) {
     return false;
   }
 
@@ -113,6 +116,7 @@ Bee.prototype.getNectar = function (id) {
 
   this.maze_.executionInfo.queueAction('nectar', id);
   this.nectar_ += 1;
+  this.totalNectar_ += 1;
 };
 
 Bee.prototype.makeHoney = function (id) {
@@ -148,6 +152,7 @@ Bee.prototype.animateGetNectar = function () {
   }
 
   this.nectar_ += 1;
+  this.totalNectar_ += 1;
 
   this.updateNectarImages_();
 
