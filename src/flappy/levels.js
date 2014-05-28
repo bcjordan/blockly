@@ -412,5 +412,39 @@ module.exports = {
       eventBlock('flappy_whenCollideObstacle', COL2, ROW2) +
       eventBlock('flappy_whenEnterObstacle', COL2, ROW3) +
       eventBlock('flappy_whenRunButtonClick', COL1, ROW2)
+  },
+  'k1': {
+    'requiredBlocks': [
+    ],
+    'obstacles': true,
+    'ground': true,
+    'score': true,
+    'freePlay': true,
+    is_k1: true,
+    'scale': {
+      'snapRadius': 2
+    },
+    'toolbox':
+      tb(
+        flapBlock +
+        endGameBlock +
+        setBackgroundBlock +
+        setPlayerBlock +
+        setObstacleBlock +
+        setGroundBlock +
+        playSoundBlock +
+        flapHeightBlock +
+        setSpeedBlock +
+        incrementScoreBlock +
+        setGapHeightBlock +
+        setGravityBlock +
+        setScoreBlock
+      ),
+    'startBlocks':
+      eventBlock('flappy_whenClick', COL1, ROW1) +
+      eventBlock('flappy_whenCollideGround', COL2, ROW1) +
+      eventBlock('flappy_whenCollideObstacle', COL2, ROW2) +
+      eventBlock('flappy_whenEnterObstacle', COL2, ROW3) +
+      eventBlock('flappy_whenRunButtonClick', COL1, ROW2)
   }
 };
