@@ -283,10 +283,17 @@ describe("getMissingRequiredBlocks tests", function () {
       assert(global.Blockly, "Blockly is in global namespace");
       var levels = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/' +
         collection.levelFile, []);
-      var skins = testUtils.requireWithGlobalsCheckSrcFolder('skins');
-      var appSkins = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/skins');
-      var skin = appSkins.load(BlocklyApps.assetUrl, 'flappy');
-      var blockInstallOptions = { skin: skin, isK1: false };
+
+      var skinForTests;
+      if (collection.skinId) {
+        var skins = testUtils.requireWithGlobalsCheckSrcFolder('skins');
+        var appSkins = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/skins');
+        skinForTests = appSkins.load(BlocklyApps.assetUrl, collection.skinId);
+      } else {
+        skinForTests = {};
+      }
+
+      var blockInstallOptions = { skin: skinForTests, isK1: false };
       var blocksCommon = testUtils.requireWithGlobalsCheckSrcFolder('blocksCommon');
       blocksCommon.install(Blockly, blockInstallOptions);
       var blocks = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/blocks');

@@ -1,5 +1,6 @@
 module.exports = {
   app: "flappy",
+  skinId: "flappy",
   levelFile: "levels",
   levelId: "4",
   tests: [
