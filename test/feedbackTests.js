@@ -291,7 +291,6 @@ describe("getMissingRequiredBlocks tests", function () {
       blocksCommon.install(Blockly, blockInstallOptions);
       var blocks = testUtils.requireWithGlobalsCheckSrcFolder(collection.app + '/blocks');
       blocks.install(Blockly, blockInstallOptions);
-      console.log("skin is " + skin);
       validateBlocks({
         requiredBlocks: levels[collection.levelId].requiredBlocks,
         numToFlag: 1,
