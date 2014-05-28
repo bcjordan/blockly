@@ -72,10 +72,12 @@ exports.setupTestBlockly = function() {
   var blocklyAppDiv = document.getElementById('app');
   assert(blocklyAppDiv);
 
+  global.BlocklyApps.assetUrl = function (path) {
+    return '../lib/blockly/' + path;
+  };
+
   var options = {
-    assetUrl: function (path) {
-      return '../lib/blockly/' + path;
-    }
+    assetUrl: global.BlocklyApps.assetUrl
   };
   Blockly.inject(blocklyAppDiv, options);
   testBlockFactory.installTestBlocks(Blockly);
