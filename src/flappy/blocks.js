@@ -345,7 +345,7 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setBackground());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
-        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
         dropdown.setValue(this.VALUES[1][1]);  // default to flappy
@@ -370,13 +370,13 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setBackgroundSanta(), '"santa"']];
 
   blockly.Blocks.flappy_setBackground.K1_CHOICES =
-      [[skin.randomPurpleIcon, 'random'],
-       [skin.background, '"flappy"'],
+      [[skin.background, '"flappy"'],
        [skin.night.background, '"night"'],
        [skin.scifi.background, '"scifi"'],
        [skin.underwater.background, '"underwater"'],
        [skin.cave.background, '"cave"'],
-       [skin.santa.background, '"santa"']];
+       [skin.santa.background, '"santa"'],
+       [skin.randomPurpleIcon, 'random']];
 
   generator.flappy_setBackground = function() {
     return generateSetterCode(this, 'setBackground');
@@ -394,7 +394,7 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setPlayer());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 34, 24);
-        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
         dropdown.setValue(this.VALUES[1][1]);  // default to flappy
@@ -426,8 +426,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setPlayerTurkey(), '"turkey"']];
 
   blockly.Blocks.flappy_setPlayer.K1_CHOICES =
-      [[skin.randomPurpleIcon, 'random'],
-       [skin.avatar, '"flappy"'],
+      [[skin.avatar, '"flappy"'],
        [skin.redbird.avatar, '"redbird"'],
        [skin.scifi.avatar, '"scifi"'],
        [skin.underwater.avatar, '"underwater"'],
@@ -440,7 +439,8 @@ exports.install = function(blockly, blockInstallOptions) {
        [skin.unicorn.avatar, '"unicorn"'],
        [skin.fairy.avatar, '"fairy"'],
        [skin.superman.avatar, '"superman"'],
-       [skin.turkey.avatar, '"turkey"']];
+       [skin.turkey.avatar, '"turkey"'],
+       [skin.randomPurpleIcon, 'random']];
 
   generator.flappy_setPlayer = function() {
     return generateSetterCode(this, 'setPlayer');
@@ -458,7 +458,7 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setObstacle());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
-        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
         dropdown.setValue(this.VALUES[1][1]);  // default to flappy
@@ -482,13 +482,13 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setObstacleLaser(), '"laser"']];
 
   blockly.Blocks.flappy_setObstacle.K1_CHOICES =
-      [[skin.randomPurpleIcon, 'random'],
-       [skin.obstacle_bottom_thumb, '"flappy"'],
+      [[skin.obstacle_bottom_thumb, '"flappy"'],
        [skin.scifi.obstacle_bottom_thumb, '"scifi"'],
        [skin.underwater.obstacle_bottom_thumb, '"underwater"'],
        [skin.cave.obstacle_bottom_thumb, '"cave"'],
        [skin.santa.obstacle_bottom_thumb, '"santa"'],
-       [skin.laser.obstacle_bottom_thumb, '"laser"']];
+       [skin.laser.obstacle_bottom_thumb, '"laser"'],
+       [skin.randomPurpleIcon, 'random']];
 
   generator.flappy_setObstacle = function() {
     return generateSetterCode(this, 'setObstacle');
@@ -506,7 +506,7 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setGround());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
-        dropdown.setValue(this.K1_CHOICES[1][1]);  // default to flappy
+        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
         dropdown.setValue(this.VALUES[1][1]);  // default to flappy
@@ -530,13 +530,13 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setGroundLava(), '"lava"']];
 
   blockly.Blocks.flappy_setGround.K1_CHOICES =
-      [[skin.randomPurpleIcon, 'random'],
-       [skin.ground_thumb, '"flappy"'],
+      [[skin.ground_thumb, '"flappy"'],
        [skin.scifi.ground_thumb, '"scifi"'],
        [skin.underwater.ground_thumb, '"underwater"'],
        [skin.cave.ground_thumb, '"cave"'],
        [skin.santa.ground_thumb, '"santa"'],
-       [skin.lava.ground_thumb, '"lava"']];
+       [skin.lava.ground_thumb, '"lava"'],
+       [skin.randomPurpleIcon, 'random']];
 
   generator.flappy_setGround = function() {
     return generateSetterCode(this, 'setGround');

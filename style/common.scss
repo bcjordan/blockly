@@ -438,6 +438,20 @@ input[type="radio"] {
   .goog-menuitem-highlight, .goog-menuitem-hover {
     background-color: rgba(255, 255, 255, 0.35);
   }
+  &.blocklyGridDropdownMenu {
+    background-color: white !important;
+    padding-top: 5px !important;
+
+    .goog-menuitem {
+      display: inline-block;
+      margin-left: 4px;
+      margin-top: 4px;
+    }
+
+    .goog-menuitem-highlight, .goog-menuitem-hover {
+      margin: -4px -4px 0 0 !important
+    }
+  }
 }
 
 .generated-code-container {
