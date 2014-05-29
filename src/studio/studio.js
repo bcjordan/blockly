@@ -131,6 +131,7 @@ var loadLevel = function() {
   Studio.spriteStartingImage = level.spriteStartingImage;
   Studio.spritesHiddenToStart = level.spritesHiddenToStart;
   Studio.softButtons_ = level.softButtons || [];
+  Studio.spriteFinishIndex = level.spriteFinishIndex || 0;
 
   // Override scalars.
   for (var key in level.scale) {
@@ -240,17 +241,19 @@ var drawMap = function() {
     }
   }
 
-  if (Studio.sprite0Finish_) {
-    for (i = 0; i < Studio.sprite0FinishCount; i++) {
+  if (Studio.spriteFinish_) {
+    for (i = 0; i < Studio.spriteFinishCount; i++) {
       // Add finish markers.
-      var sprite0FinishMarker = document.createElementNS(Blockly.SVG_NS, 'image');
-      sprite0FinishMarker.setAttribute('id', 'sprite0finish' + i);
-      sprite0FinishMarker.setAttributeNS('http://www.w3.org/1999/xlink',
-                                         'xlink:href',
-                                         skin.goal);
-      sprite0FinishMarker.setAttribute('height', Studio.MARKER_HEIGHT);
-      sprite0FinishMarker.setAttribute('width', Studio.MARKER_WIDTH);
-      svg.appendChild(sprite0FinishMarker);
+      var spriteFinishMarker = document.createElementNS(
+          Blockly.SVG_NS,
+          'image');
+      spriteFinishMarker.setAttribute('id', 'spriteFinish' + i);
+      spriteFinishMarker.setAttributeNS('http://www.w3.org/1999/xlink',
+                                        'xlink:href',
+                                        skin.goal);
+      spriteFinishMarker.setAttribute('height', Studio.MARKER_HEIGHT);
+      spriteFinishMarker.setAttribute('width', Studio.MARKER_WIDTH);
+      svg.appendChild(spriteFinishMarker);
     }
   }
 
@@ -739,19 +742,19 @@ Studio.init = function(config) {
 
   config.preventExtraTopLevelBlocks = true;
 
-  Studio.sprite0FinishCount = 0;
+  Studio.spriteFinishCount = 0;
   Studio.spriteCount = 0;
   Studio.sprite = [];
 
   // Locate the start and finish squares.
   for (var y = 0; y < Studio.ROWS; y++) {
     for (var x = 0; x < Studio.COLS; x++) {
-      if (Studio.map[y][x] & SquareType.SPRITE0FINISH) {
-        if (0 === Studio.sprite0FinishCount) {
-          Studio.sprite0Finish_ = [];
+      if (Studio.map[y][x] & SquareType.SPRITEFINISH) {
+        if (0 === Studio.spriteFinishCount) {
+          Studio.spriteFinish_ = [];
         }
-        Studio.sprite0Finish_[Studio.sprite0FinishCount] = {x: x, y: y};
-        Studio.sprite0FinishCount++;
+        Studio.spriteFinish_[Studio.spriteFinishCount] = {x: x, y: y};
+        Studio.spriteFinishCount++;
       } else if (Studio.map[y][x] & SquareType.SPRITESTART) {
         if (0 === Studio.spriteCount) {
           Studio.spriteStart_ = [];
@@ -833,9 +836,10 @@ BlocklyApps.reset = function(first) {
   // Reset configurable variables
   Studio.setBackground({'value': 'cave'});
 
-  // Reset currentCmdQueue and sayComplete count:
+  // Reset currentCmdQueue and various counts:
   Studio.currentCmdQueue = null;
   Studio.sayComplete = 0;
+  Studio.playSoundCount = 0;
 
   // Reset the Globals object used to contain program variables:
   Studio.Globals = [];
@@ -868,20 +872,20 @@ BlocklyApps.reset = function(first) {
 
   var svg = document.getElementById('svgStudio');
 
-  if (Studio.sprite0Finish_) {
-    for (i = 0; i < Studio.sprite0FinishCount; i++) {
+  if (Studio.spriteFinish_) {
+    for (i = 0; i < Studio.spriteFinishCount; i++) {
       // Mark each finish as incomplete.
-      Studio.sprite0Finish_[i].finished = false;
+      Studio.spriteFinish_[i].finished = false;
 
       // Move the finish icons into position.
-      var sprite0FinishIcon = document.getElementById('sprite0finish' + i);
-      sprite0FinishIcon.setAttribute(
+      var spriteFinishIcon = document.getElementById('spriteFinish' + i);
+      spriteFinishIcon.setAttribute(
           'x',
-          Studio.SQUARE_SIZE * Studio.sprite0Finish_[i].x);
-      sprite0FinishIcon.setAttribute(
+          Studio.SQUARE_SIZE * Studio.spriteFinish_[i].x);
+      spriteFinishIcon.setAttribute(
           'y',
-          Studio.SQUARE_SIZE * Studio.sprite0Finish_[i].y);
-      sprite0FinishIcon.setAttributeNS(
+          Studio.SQUARE_SIZE * Studio.spriteFinish_[i].y);
+      spriteFinishIcon.setAttributeNS(
           'http://www.w3.org/1999/xlink',
           'xlink:href',
           skin.goal);
@@ -1375,6 +1379,7 @@ Studio.callCmd = function (cmd) {
     case 'playSound':
       BlocklyApps.highlight(cmd.id);
       BlocklyApps.playAudio(cmd.opts.soundName, {volume: 0.5});
+      Studio.playSoundCount++;
       break;
     case 'showTitleScreen':
       if (!cmd.opts.started) {
@@ -1775,23 +1780,23 @@ Studio.timedOut = function() {
 
 Studio.allFinishesComplete = function() {
   var i;
-  if (Studio.sprite0Finish_) {
+  if (Studio.spriteFinish_) {
     var finished, playSound;
-    for (i = 0, finished = 0; i < Studio.sprite0FinishCount; i++) {
-      if (!Studio.sprite0Finish_[i].finished) {
-        if (essentiallyEqual(Studio.sprite[0].x,
-                             Studio.sprite0Finish_[i].x,
+    for (i = 0, finished = 0; i < Studio.spriteFinishCount; i++) {
+      if (!Studio.spriteFinish_[i].finished) {
+        if (essentiallyEqual(Studio.sprite[Studio.spriteFinishIndex].x,
+                             Studio.spriteFinish_[i].x,
                              tiles.FINISH_COLLIDE_DISTANCE) &&
-            essentiallyEqual(Studio.sprite[0].y,
-                             Studio.sprite0Finish_[i].y,
+            essentiallyEqual(Studio.sprite[Studio.spriteFinishIndex].y,
+                             Studio.spriteFinish_[i].y,
                              tiles.FINISH_COLLIDE_DISTANCE)) {
-          Studio.sprite0Finish_[i].finished = true;
+          Studio.spriteFinish_[i].finished = true;
           finished++;
           playSound = true;
 
           // Change the finish icon to goalSuccess.
-          var sprite0FinishIcon = document.getElementById('sprite0finish' + i);
-          sprite0FinishIcon.setAttributeNS(
+          var spriteFinishIcon = document.getElementById('spriteFinish' + i);
+          spriteFinishIcon.setAttributeNS(
               'http://www.w3.org/1999/xlink',
               'xlink:href',
               skin.goalSuccess);
@@ -1800,11 +1805,11 @@ Studio.allFinishesComplete = function() {
         finished++;
       }
     }
-    if (playSound && finished != Studio.sprite0FinishCount) {
+    if (playSound && finished != Studio.spriteFinishCount) {
       // Play a sound unless we've hit the last flag
       BlocklyApps.playAudio('flag', {volume: 0.5});
     }
-    return (finished == Studio.sprite0FinishCount);
+    return (finished == Studio.spriteFinishCount);
   }
   return false;
 };
