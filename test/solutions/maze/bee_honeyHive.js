@@ -72,7 +72,28 @@ module.exports = {
         'maze_honey',
         'maze_honey',
         'maze_honey',
-      ]) + '</xml>'      
+      ]) + '</xml>'
+    },
+    {
+      description: "Produce more honey than hiveGoal at hive",
+      expected: {
+        result: false,
+        testResult: 2
+      },
+      customValidator: function () {
+        // one nectar leftover (from failing to make third honey)
+        return Maze.bee.nectar_ === 1 && Maze.bee.honey_ === 2;
+      },
+      xml: '<xml>' + blockUtils.blocksFromList([
+        'maze_moveForward',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_nectar',
+        'maze_moveForward',
+        'maze_honey',
+        'maze_honey',
+        'maze_honey',
+      ]) + '</xml>'
     }
   ]
 };
