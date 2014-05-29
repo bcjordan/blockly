@@ -483,12 +483,12 @@ exports.install = function(blockly, blockInstallOptions) {
 
   blockly.Blocks.flappy_setObstacle.K1_CHOICES =
       [[skin.randomPurpleIcon, 'random'],
-       [skin.obstacle_bottom, '"flappy"'],
-       [skin.scifi.obstacle_bottom, '"scifi"'],
-       [skin.underwater.obstacle_bottom, '"underwater"'],
-       [skin.cave.obstacle_bottom, '"cave"'],
-       [skin.santa.obstacle_bottom, '"santa"'],
-       [skin.laser.obstacle_bottom, '"laser"']];
+       [skin.obstacle_bottom_thumb, '"flappy"'],
+       [skin.scifi.obstacle_bottom_thumb, '"scifi"'],
+       [skin.underwater.obstacle_bottom_thumb, '"underwater"'],
+       [skin.cave.obstacle_bottom_thumb, '"cave"'],
+       [skin.santa.obstacle_bottom_thumb, '"santa"'],
+       [skin.laser.obstacle_bottom_thumb, '"laser"']];
 
   generator.flappy_setObstacle = function() {
     return generateSetterCode(this, 'setObstacle');
@@ -531,12 +531,12 @@ exports.install = function(blockly, blockInstallOptions) {
 
   blockly.Blocks.flappy_setGround.K1_CHOICES =
       [[skin.randomPurpleIcon, 'random'],
-       [skin.ground, '"flappy"'],
-       [skin.scifi.ground, '"scifi"'],
-       [skin.underwater.ground, '"underwater"'],
-       [skin.cave.ground, '"cave"'],
-       [skin.santa.ground, '"santa"'],
-       [skin.lava.ground, '"lava"']];
+       [skin.ground_thumb, '"flappy"'],
+       [skin.scifi.ground_thumb, '"scifi"'],
+       [skin.underwater.ground_thumb, '"underwater"'],
+       [skin.cave.ground_thumb, '"cave"'],
+       [skin.santa.ground_thumb, '"santa"'],
+       [skin.lava.ground_thumb, '"lava"']];
 
   generator.flappy_setGround = function() {
     return generateSetterCode(this, 'setGround');
