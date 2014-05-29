@@ -35,6 +35,13 @@ var eventBlock = function (type, child) {
     '</block>';
 };
 
+// not movable or deletable
+var anchoredBlock = function (type, child) {
+  return '<block type="' + type + '" deletable="false" movable="false">' +
+    (child ? '<next>' + child + '</next>' : '') +
+    '</block>';
+};
+
 /*
  * Configuration for all levels.
  */
@@ -439,8 +446,8 @@ module.exports = {
 
 
 module.exports.k1_1 = {
-  'hideWorkspace': true,
   'is_k1': true,
+  grayOutUndeletableBlocks: true,
   'requiredBlocks': [],
   'obstacles': true,
   'ground': true,
@@ -451,11 +458,11 @@ module.exports.k1_1 = {
   },
   'toolbox': '',
   'startBlocks':
-    eventBlock('flappy_whenClick', flapBlock) +
-    eventBlock('flappy_whenCollideGround', endGameBlock) +
-    eventBlock('flappy_whenCollideObstacle', endGameBlock) +
-    eventBlock('flappy_whenEnterObstacle', incrementScoreBlock) +
-    eventBlock('flappy_whenRunButtonClick', setSpeedBlock)
+    anchoredBlock('flappy_whenClick', anchoredBlock('flappy_flap')) +
+    anchoredBlock('flappy_whenCollideGround', anchoredBlock('flappy_endGame')) +
+    anchoredBlock('flappy_whenCollideObstacle', anchoredBlock('flappy_endGame')) +
+    anchoredBlock('flappy_whenEnterObstacle', anchoredBlock('flappy_incrementPlayerScore')) +
+    anchoredBlock('flappy_whenRunButtonClick', anchoredBlock('flappy_setSpeed'))
 };
 
 // flap to goal

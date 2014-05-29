@@ -477,6 +477,9 @@ Flappy.init = function(config) {
   Flappy.clearEventHandlersKillTickLoop();
   skin = config.skin;
   level = config.level;
+
+  config.grayOutUndeletableBlocks = level.grayOutUndeletableBlocks;
+
   onSharePage = config.share;
   loadLevel();
 
