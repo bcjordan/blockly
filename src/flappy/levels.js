@@ -395,11 +395,11 @@ module.exports = {
         setScoreBlock
       ),
     'startBlocks':
-      eventBlock('flappy_whenClick', COL1, ROW1) +
-      eventBlock('flappy_whenCollideGround', COL2, ROW1) +
-      eventBlock('flappy_whenCollideObstacle', COL2, ROW2) +
-      eventBlock('flappy_whenEnterObstacle', COL2, ROW3) +
-      eventBlock('flappy_whenRunButtonClick', COL1, ROW2)
+      eventBlock('flappy_whenClick') +
+      eventBlock('flappy_whenCollideGround') +
+      eventBlock('flappy_whenCollideObstacle') +
+      eventBlock('flappy_whenEnterObstacle') +
+      eventBlock('flappy_whenRunButtonClick')
   },
   'k1': {
     'requiredBlocks': [
@@ -438,7 +438,7 @@ module.exports = {
 };
 
 
-module.exports['k1_1'] = {
+module.exports.k1_1 = {
   'hideWorkspace': true,
   'is_k1': true,
   'requiredBlocks': [],
@@ -459,22 +459,22 @@ module.exports['k1_1'] = {
 };
 
 // flap to goal
-module.exports['k1_2'] = utils.extend(module.exports['1'], { 'is_k1': true});
+module.exports.k1_2 = utils.extend(module.exports['1'], { 'is_k1': true});
 
 // hit ground
-module.exports['k1_3'] = utils.extend(module.exports['2'], { 'is_k1': true});
+module.exports.k1_3 = utils.extend(module.exports['2'], { 'is_k1': true});
 
 // set speed
-module.exports['k1_4'] = utils.extend(module.exports['3'], { 'is_k1': true});
+module.exports.k1_4 = utils.extend(module.exports['3'], { 'is_k1': true});
 
 // crash into obstacle
-module.exports['k1_5'] = utils.extend(module.exports['4'], { 'is_k1': true});
+module.exports.k1_5 = utils.extend(module.exports['4'], { 'is_k1': true});
 
 // pass through obstacle, score a point
-module.exports['k1_6'] = utils.extend(module.exports['5'], { 'is_k1': true});
+module.exports.k1_6 = utils.extend(module.exports['5'], { 'is_k1': true});
 
 // score multiple points for each pass
-module.exports['k1_7'] = {
+module.exports.k1_7 = {
   'is_k1': true,
   'requiredBlocks': [
     [{'test': 'incrementPlayerScore', 'type': 'flappy_incrementPlayerScore'}]
@@ -518,7 +518,7 @@ module.exports['k1_7'] = {
 };
 
 // change the scene
-module.exports['k1_8'] = utils.extend(module.exports['7'], {
+module.exports.k1_8 = utils.extend(module.exports['7'], {
   'is_k1': true,
   // override regular flappy so that we dont use variable flap block
   'toolbox':
@@ -533,7 +533,7 @@ module.exports['k1_8'] = utils.extend(module.exports['7'], {
 });
 
 // changing the player
-module.exports['k1_9'] = {
+module.exports.k1_9 = {
   'is_k1': true,
   'requiredBlocks': [
     [{'test': 'setPlayer', 'type': 'flappy_setPlayer'}]
