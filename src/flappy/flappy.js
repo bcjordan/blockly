@@ -485,7 +485,7 @@ Flappy.init = function(config) {
     data: {
       localeDirection: BlocklyApps.localeDirection(),
       visualization: require('./visualization.html')(),
-      controls: require('./controls.html')({assetUrl: BlocklyApps.assetUrl}),
+      controls: require('./controls.html')({assetUrl: BlocklyApps.assetUrl, shareable: level.shareable}),
       blockUsed: undefined,
       idealBlockNumber: undefined,
       blockCounterClass: 'block-counter-default'
@@ -548,6 +548,12 @@ Flappy.init = function(config) {
 
   config.preventExtraTopLevelBlocks = true;
 
+
+  if (level.is_k1) {
+    // k1 blocks are taller
+    constants.WORKSPACE_ROW_HEIGHT *= 1.5;
+  }
+
   // define how our blocks should be arranged
   var col1 = constants.WORKSPACE_BUFFER;
   var col2 = col1 + constants.WORKSPACE_COL_WIDTH;
@@ -557,17 +563,22 @@ Flappy.init = function(config) {
 
   config.blockArrangement = {
     'flappy_whenClick': { x: col1, y: row1},
+    'flappy_whenRunButtonClick': { x: col1, y: row2},
     'flappy_whenCollideGround': { x: col2, y: row1},
     'flappy_whenCollideObstacle': { x: col2, y: row2},
-    'flappy_whenEnterObstacle': { x: col2, y: row3},
-    'flappy_whenRunButtonClick': { x: col1, y: row2}
+    'flappy_whenEnterObstacle': { x: col2, y: row3}
   };
+
+  // if we dont have collide events, hvae enter obstacle in top row
+  if (level.startBlocks.indexOf('whenCollide') === -1) {
+    config.blockArrangement.flappy_whenEnterObstacle = {x :col2, y: row1 };
+  }
 
   BlocklyApps.init(config);
 
   if (!onSharePage) {
-    var shareButton = document.getElementById('shareButton');
-    dom.addClickTouchEvent(shareButton, Flappy.onPuzzleComplete);
+    var rightButton = document.getElementById('rightButton');
+    dom.addClickTouchEvent(rightButton, Flappy.onPuzzleComplete);
   }
 };
 
@@ -669,8 +680,8 @@ BlocklyApps.runButtonClick = function() {
   Flappy.execute();
 
   if (level.freePlay && !onSharePage) {
-    var shareCell = document.getElementById('share-cell');
-    shareCell.className = 'share-cell-enabled';
+    var rightButtonCell = document.getElementById('right-button-cell');
+    rightButtonCell.className = 'right-button-cell-enabled';
   }
   if (level.score) {
     document.getElementById('score').setAttribute('visibility', 'visible');
@@ -701,7 +712,7 @@ var displayFeedback = function() {
       feedbackType: Flappy.testResults,
       response: Flappy.response,
       level: level,
-      showingSharing: level.freePlay,
+      showingSharing: level.freePlay && level.shareable,
       twitter: twitterOptions,
       appStrings: {
         reinfFeedbackMsg: flappyMsg.reinfFeedbackMsg(),

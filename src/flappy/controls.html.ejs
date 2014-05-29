@@ -1,7 +1,7 @@
 <% var msg = require('../../locale/current/flappy') %>
 
-<td id="share-cell" class="share-cell-none">
-  <button id="shareButton" class="share shareRight">
-    <img src="<%= assetUrl('media/1x1.gif') %>"><%= msg.share() %>
+<td id="right-button-cell" class="hide">
+  <button id="rightButton" class="share shareRight">
+    <img src="<%= assetUrl('media/1x1.gif') %>"><%= shareable ? msg.share() : msg.finish() %>
   </button>
 </td>
