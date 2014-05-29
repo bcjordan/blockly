@@ -37,6 +37,7 @@ exports.setSpriteCount = function(blockly, count) {
 // Install extensions to Blockly's language and JavaScript generator.
 exports.install = function(blockly, blockInstallOptions) {
   var skin = blockInstallOptions.skin;
+  var isK1 = blockInstallOptions.isK1;
   var generator = blockly.Generator.get('JavaScript');
   blockly.JavaScript = generator;
 
@@ -684,52 +685,92 @@ exports.install = function(blockly, blockInstallOptions) {
                '\', ' + titleParam + ', ' + textParam + ');\n';
   };
 
-  /**
-   * setSprite
-   */
-  blockly.Blocks.studio_setSprite = {
-    helpUrl: '',
-    init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[2][1]);  // default to witch
+  if (isK1) {
+    /**
+     * setSprite (K1 version: only sets visible/hidden)
+     */
+    blockly.Blocks.studio_setSprite = {
+      helpUrl: '',
+      init: function() {
+        var dropdown = new blockly.FieldDropdown(this.VALUES);
+        dropdown.setValue(this.VALUES[1][1]);  // default to visible
 
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
+        var dropdownArray =
+            this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
 
-      this.setHSV(312, 0.32, 0.62);
-      if (blockly.Blocks.studio_spriteCount > 1) {
         this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
-      } else {
-        this.appendDummyInput()
-          .appendTitle(msg.setSprite());
+          .appendTitle(dropdown, 'VALUE');
+        this.setHSV(312, 0.32, 0.62);
+        if (blockly.Blocks.studio_spriteCount > 1) {
+          this.appendDummyInput()
+            .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        }
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setTooltip(msg.setSpriteK1Tooltip());
       }
-      this.appendDummyInput()
-        .appendTitle(dropdown, 'VALUE');
-      this.setInputsInline(true);
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.setTooltip(msg.setSpriteTooltip());
-    }
-  };
+    };
 
-  blockly.Blocks.studio_setSprite.SPRITE =
-      [[msg.setSprite1(), '0'],
-       [msg.setSprite2(), '1'],
-       [msg.setSprite3(), '2'],
-       [msg.setSprite4(), '3'],
-       [msg.setSprite5(), '4'],
-       [msg.setSprite6(), '5']];
+    blockly.Blocks.studio_setSprite.SPRITE =
+        [[msg.sprite1(), '0'],
+         [msg.sprite2(), '1'],
+         [msg.sprite3(), '2'],
+         [msg.sprite4(), '3'],
+         [msg.sprite5(), '4'],
+         [msg.sprite6(), '5']];
 
-  blockly.Blocks.studio_setSprite.VALUES =
-      [[msg.setSpriteHidden(), '"hidden"'],
-       [msg.setSpriteRandom(), 'random'],
-       [msg.setSpriteWitch(), '"witch"'],
-       [msg.setSpriteCat(), '"cat"'],
-       [msg.setSpriteDinosaur(), '"dinosaur"'],
-       [msg.setSpriteDog(), '"dog"'],
-       [msg.setSpriteOctopus(), '"octopus"'],
-       [msg.setSpritePenguin(), '"penguin"']];
+    blockly.Blocks.studio_setSprite.VALUES =
+        [[msg.setSpriteHideK1(), '"hidden"'],
+         [msg.setSpriteShowK1(), '"visible"']];
+  } else {
+    /**
+     * setSprite
+     */
+    blockly.Blocks.studio_setSprite = {
+      helpUrl: '',
+      init: function() {
+        var dropdown = new blockly.FieldDropdown(this.VALUES);
+        dropdown.setValue(this.VALUES[2][1]);  // default to witch
+
+        var dropdownArray =
+            this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
+
+        this.setHSV(312, 0.32, 0.62);
+        if (blockly.Blocks.studio_spriteCount > 1) {
+          this.appendDummyInput()
+            .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(msg.setSprite());
+        }
+        this.appendDummyInput()
+          .appendTitle(dropdown, 'VALUE');
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.setTooltip(msg.setSpriteTooltip());
+      }
+    };
+
+    blockly.Blocks.studio_setSprite.SPRITE =
+        [[msg.setSprite1(), '0'],
+         [msg.setSprite2(), '1'],
+         [msg.setSprite3(), '2'],
+         [msg.setSprite4(), '3'],
+         [msg.setSprite5(), '4'],
+         [msg.setSprite6(), '5']];
+
+    blockly.Blocks.studio_setSprite.VALUES =
+        [[msg.setSpriteHidden(), '"hidden"'],
+         [msg.setSpriteRandom(), 'random'],
+         [msg.setSpriteWitch(), '"witch"'],
+         [msg.setSpriteCat(), '"cat"'],
+         [msg.setSpriteDinosaur(), '"dinosaur"'],
+         [msg.setSpriteDog(), '"dog"'],
+         [msg.setSpriteOctopus(), '"octopus"'],
+         [msg.setSpritePenguin(), '"penguin"']];
+  }
 
   generator.studio_setSprite = function() {
     var value = this.getTitleValue('VALUE');
@@ -746,7 +787,7 @@ exports.install = function(blockly, blockInstallOptions) {
     }
     return generateSetterCode({
       ctx: this,
-      random: 1,
+      random: 1, // random may not be present for K1 block, but that's harmless
       extraParams: indexString,
       name: 'setSprite'});
   };

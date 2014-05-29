@@ -860,11 +860,14 @@ BlocklyApps.reset = function(first) {
     Studio.sprite[i].displayDir = Direction.SOUTH;
     Studio.sprite[i].emotion = Emotions.NORMAL;
 
-    Studio.setSprite({
+    var opts = {
         'index': i,
-        'value': Studio.spritesHiddenToStart ?
-                      "hidden" :
-                      spriteStartingSkins[(i + skinBias) % numStartingSkins]});
+        'value': spriteStartingSkins[(i + skinBias) % numStartingSkins]
+    };
+    if (Studio.spritesHiddenToStart) {
+      opts.forceHidden = true;
+    }
+    Studio.setSprite(opts);
     Studio.displaySprite(i);
     document.getElementById('speechBubble' + i)
       .setAttribute('visibility', 'hidden');
@@ -1456,15 +1459,17 @@ var computeSpriteFrameNums = function (index) {
 
 Studio.setSprite = function (opts) {
   // Inherit some flags from the skin:
-  Studio.sprite[opts.index].flags &= ~SF_SKINS_MASK;
-  Studio.sprite[opts.index].flags |= (opts.value !== 'hidden') ?
-                                      skinTheme(opts.value).spriteFlags : 0;
-  Studio.sprite[opts.index].value = opts.value;
+  if (opts.value !== 'hidden' && opts.value !== 'visible') {
+    Studio.sprite[opts.index].flags &= ~SF_SKINS_MASK;
+    Studio.sprite[opts.index].flags |= skinTheme(opts.value).spriteFlags;
+  }
+  Studio.sprite[opts.index].value = opts.forceHidden ? 'hidden' : opts.value;
 
   var element = document.getElementById('sprite' + opts.index);
-  element.setAttribute('visibility',
-                       (opts.value === 'hidden') ? 'hidden' : 'visible');
-  if (opts.value !== 'hidden') {
+  element.setAttribute(
+      'visibility',
+      (opts.value === 'hidden' || opts.forceHidden) ? 'hidden' : 'visible');
+  if ((opts.value !== 'hidden') && (opts.value !== 'visible')) {
     element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
                            skinTheme(opts.value).sprite);
     element.setAttribute('width',
@@ -1580,7 +1585,9 @@ Studio.hideTitleScreen = function (opts) {
     var sprite = Studio.sprite[opts.titleSprite.index];
     if (sprite.x === TITLE_SPRITE_X_POS &&
         sprite.y === TITLE_SPRITE_Y_POS &&
-        sprite.value === opts.titleSprite.value) {
+        (sprite.value === opts.titleSprite.value) ||
+         ((sprite.value !== 'hidden') &&
+           (opts.titleSprite.value === 'visible'))) {
       Studio.setSprite({'index': opts.titleSprite.index,
                         'value': opts.titleSprite.prevValue});
       setSpritePositionInstant(opts.titleSprite.index,
