@@ -377,6 +377,7 @@ module.exports = {
   },
 
   '11': {
+    shareable: true,
     'requiredBlocks': [
     ],
     'obstacles': true,
