@@ -302,6 +302,7 @@ module.exports = {
     ],
     'spriteStartingImage': 2,
     'spriteFinishIndex': 1,
+    'timeoutFailureTick': 150,
     'minWorkspaceHeight': 500,
     'toolbox':
       tb('<block type="studio_moveDistance"> \
@@ -397,6 +398,51 @@ module.exports = {
           </next></block> \
       </statement></block> \
       <block type="studio_whenSpriteCollided" deletable="false" x="20" y="450"></block>'
+  },
+  '13': {
+    'requiredBlocks': [
+    ],
+    'scale': {
+      'snapRadius': 2
+    },
+    'softButtons': [
+      'leftButton',
+      'rightButton',
+      'downButton',
+      'upButton'
+    ],
+    'minWorkspaceHeight': 1000,
+    'spritesHiddenToStart': true,
+    'freePlay': true,
+    'map': [
+      [0,16, 0, 0, 0,16, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0,16, 0, 0, 0,16, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0,16, 0, 0, 0,16, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    'toolbox':
+      tb(blockOfType('studio_setSprite') +
+         blockOfType('studio_setBackground') +
+         blockOfType('studio_whenGameStarts') +
+         blockOfType('studio_whenLeft') +
+         blockOfType('studio_whenRight') +
+         blockOfType('studio_whenUp') +
+         blockOfType('studio_whenDown') +
+         blockOfType('studio_whenSpriteCollided') +
+         blockOfType('studio_repeatForever') +
+         blockOfType('studio_move') +
+         blockOfType('studio_moveDistance') +
+         blockOfType('studio_playSound') +
+         blockOfType('studio_incrementScore') +
+         blockOfType('studio_saySprite') +
+         blockOfType('studio_setSpriteSpeed') +
+         blockOfType('studio_setSpriteEmotion')),
+    'startBlocks':
+     '<block type="studio_whenGameStarts" deletable="false" x="20" y="20"></block>'
   },
   '99': {
     'requiredBlocks': [
@@ -590,3 +636,4 @@ module.exports.k1_5 = utils.extend(module.exports['8'],  {'is_k1': true});
 module.exports.k1_6 = utils.extend(module.exports['4'],  {'is_k1': true});
 module.exports.k1_7 = utils.extend(module.exports['9'],  {'is_k1': true});
 module.exports.k1_8 = utils.extend(module.exports['10'], {'is_k1': true});
+module.exports.k1_11 = utils.extend(module.exports['13'], {'is_k1': true});
