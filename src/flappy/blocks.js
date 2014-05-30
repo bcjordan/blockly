@@ -8,14 +8,20 @@
 
 var msg = require('../../locale/current/flappy');
 var commonMsg = require('../../locale/current/common');
+var blockUtils = require('../block_utils');
+var _ = require('lodash');
+
+var FLAPPY_VALUE = '"flappy"';
+var RANDOM_VALUE = 'random';
 
 var generateSetterCode = function (ctx, name) {
   var value = ctx.getTitleValue('VALUE');
-  if (value === "random") {
-    var allValues = ctx.VALUES.slice(1).map(function (item) {
-      return item[1];
-    });
-    value = 'Flappy.random([' + allValues + '])';
+  if (value === RANDOM_VALUE) {
+    var possibleValues =
+      _(ctx.VALUES)
+      .map(function (item) { return item[1]; })
+      .reject(function (itemValue) { return itemValue === RANDOM_VALUE; });
+    value = 'Flappy.random([' + possibleValues + '])';
   }
 
   return 'Flappy.' + name + '(\'block_id_' + ctx.id + '\', ' +
@@ -185,7 +191,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_flap_height.VALUES =
-      [[msg.flapRandom(), 'random'],
+      [[msg.flapRandom(), RANDOM_VALUE],
        [msg.flapVerySmall(), 'Flappy.FlapHeight.VERY_SMALL'],
        [msg.flapSmall(), 'Flappy.FlapHeight.SMALL'],
        [msg.flapNormal(), 'Flappy.FlapHeight.NORMAL'],
@@ -212,7 +218,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_playSound.VALUES =
-      [[msg.playSoundRandom(), 'random'],
+      [[msg.playSoundRandom(), RANDOM_VALUE],
        [msg.playSoundBounce(), '"wall"'],
        [msg.playSoundCrunch(), '"wall0"'],
        [msg.playSoundDie(), '"sfx_die"'],
@@ -291,7 +297,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setSpeed.VALUES =
-      [[msg.speedRandom(), 'random'],
+      [[msg.speedRandom(), RANDOM_VALUE],
        [msg.speedVerySlow(), 'Flappy.LevelSpeed.VERY_SLOW'],
        [msg.speedSlow(), 'Flappy.LevelSpeed.SLOW'],
        [msg.speedNormal(), 'Flappy.LevelSpeed.NORMAL'],
@@ -322,7 +328,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setGapHeight.VALUES =
-      [[msg.setGapRandom(), 'random'],
+      [[msg.setGapRandom(), RANDOM_VALUE],
        [msg.setGapVerySmall(), 'Flappy.GapHeight.VERY_SMALL'],
        [msg.setGapSmall(), 'Flappy.GapHeight.SMALL'],
        [msg.setGapNormal(), 'Flappy.GapHeight.NORMAL'],
@@ -361,8 +367,8 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setBackground.VALUES =
-      [[msg.setBackgroundRandom(), 'random'],
-       [msg.setBackgroundFlappy(), '"flappy"'],
+      [[msg.setBackgroundRandom(), RANDOM_VALUE],
+       [msg.setBackgroundFlappy(), FLAPPY_VALUE],
        [msg.setBackgroundNight(), '"night"'],
        [msg.setBackgroundSciFi(), '"scifi"'],
        [msg.setBackgroundUnderwater(), '"underwater"'],
@@ -370,13 +376,13 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setBackgroundSanta(), '"santa"']];
 
   blockly.Blocks.flappy_setBackground.K1_CHOICES =
-      [[skin.background, '"flappy"'],
+      [[skin.background, FLAPPY_VALUE],
        [skin.night.background, '"night"'],
        [skin.scifi.background, '"scifi"'],
        [skin.underwater.background, '"underwater"'],
        [skin.cave.background, '"cave"'],
        [skin.santa.background, '"santa"'],
-       [skin.randomPurpleIcon, 'random']];
+       [skin.randomPurpleIcon, RANDOM_VALUE]];
 
   generator.flappy_setBackground = function() {
     return generateSetterCode(this, 'setBackground');
@@ -409,8 +415,8 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setPlayer.VALUES =
-      [[msg.setPlayerRandom(), 'random'],
-       [msg.setPlayerFlappy(), '"flappy"'],
+      [[msg.setPlayerRandom(), RANDOM_VALUE],
+       [msg.setPlayerFlappy(), FLAPPY_VALUE],
        [msg.setPlayerRedBird(), '"redbird"'],
        [msg.setPlayerSciFi(), '"scifi"'],
        [msg.setPlayerUnderwater(), '"underwater"'],
@@ -426,7 +432,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setPlayerTurkey(), '"turkey"']];
 
   blockly.Blocks.flappy_setPlayer.K1_CHOICES =
-      [[skin.avatar, '"flappy"'],
+      [[skin.avatar, FLAPPY_VALUE],
        [skin.redbird.avatar, '"redbird"'],
        [skin.scifi.avatar, '"scifi"'],
        [skin.underwater.avatar, '"underwater"'],
@@ -440,7 +446,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [skin.fairy.avatar, '"fairy"'],
        [skin.superman.avatar, '"superman"'],
        [skin.turkey.avatar, '"turkey"'],
-       [skin.randomPurpleIcon, 'random']];
+       [skin.randomPurpleIcon, RANDOM_VALUE]];
 
   generator.flappy_setPlayer = function() {
     return generateSetterCode(this, 'setPlayer');
@@ -473,8 +479,8 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setObstacle.VALUES =
-      [[msg.setObstacleRandom(), 'random'],
-       [msg.setObstacleFlappy(), '"flappy"'],
+      [[msg.setObstacleRandom(), RANDOM_VALUE],
+       [msg.setObstacleFlappy(), FLAPPY_VALUE],
        [msg.setObstacleSciFi(), '"scifi"'],
        [msg.setObstacleUnderwater(), '"underwater"'],
        [msg.setObstacleCave(), '"cave"'],
@@ -482,13 +488,13 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setObstacleLaser(), '"laser"']];
 
   blockly.Blocks.flappy_setObstacle.K1_CHOICES =
-      [[skin.obstacle_bottom_thumb, '"flappy"'],
+      [[skin.obstacle_bottom_thumb, FLAPPY_VALUE],
        [skin.scifi.obstacle_bottom_thumb, '"scifi"'],
        [skin.underwater.obstacle_bottom_thumb, '"underwater"'],
        [skin.cave.obstacle_bottom_thumb, '"cave"'],
        [skin.santa.obstacle_bottom_thumb, '"santa"'],
        [skin.laser.obstacle_bottom_thumb, '"laser"'],
-       [skin.randomPurpleIcon, 'random']];
+       [skin.randomPurpleIcon, RANDOM_VALUE]];
 
   generator.flappy_setObstacle = function() {
     return generateSetterCode(this, 'setObstacle');
@@ -521,8 +527,8 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setGround.VALUES =
-      [[msg.setGroundRandom(), 'random'],
-       [msg.setGroundFlappy(), '"flappy"'],
+      [[msg.setGroundRandom(), RANDOM_VALUE],
+       [msg.setGroundFlappy(), FLAPPY_VALUE],
        [msg.setGroundSciFi(), '"scifi"'],
        [msg.setGroundUnderwater(), '"underwater"'],
        [msg.setGroundCave(), '"cave"'],
@@ -530,13 +536,13 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setGroundLava(), '"lava"']];
 
   blockly.Blocks.flappy_setGround.K1_CHOICES =
-      [[skin.ground_thumb, '"flappy"'],
+      [[skin.ground_thumb, FLAPPY_VALUE],
        [skin.scifi.ground_thumb, '"scifi"'],
        [skin.underwater.ground_thumb, '"underwater"'],
        [skin.cave.ground_thumb, '"cave"'],
        [skin.santa.ground_thumb, '"santa"'],
        [skin.lava.ground_thumb, '"lava"'],
-       [skin.randomPurpleIcon, 'random']];
+       [skin.randomPurpleIcon, RANDOM_VALUE]];
 
   generator.flappy_setGround = function() {
     return generateSetterCode(this, 'setGround');
@@ -562,7 +568,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.flappy_setGravity.VALUES =
-      [[msg.setGravityRandom(), 'random'],
+      [[msg.setGravityRandom(), RANDOM_VALUE],
        [msg.setGravityVeryLow(), 'Flappy.Gravity.VERY_LOW'],
        [msg.setGravityLow(), 'Flappy.Gravity.LOW'],
        [msg.setGravityNormal(), 'Flappy.Gravity.NORMAL'],

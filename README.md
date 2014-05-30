@@ -102,6 +102,13 @@ node --debug-brk $(which grunt) --grep='testname'
 * Blockly tests typically target the `build/js` folder
 * If you see an error like `ReferenceError: Blockly is not defined` or notes about missing npm packages, run `grunt build` before `grunt test`
 
+#### Full build with blockly-core changes
+
+1. Check out [blockly-core](https://github.com/code-dot-org/blockly-core/) as a sibling directory to blockly.
+1. `./build_with_core.sh debug`
+  * The `debug` flag builds debug versions of both blockly-core and blockly, suitable for debugging
+1. `grunt dev`
+
 ### Localization
 
 It's especially important to test your changes with localization when modifying layouts. We support
@@ -117,9 +124,16 @@ MOOC_LOCALIZE=1 grunt rebuild
 
 Note: if you're running the `grunt dev` live-reload server and get the error `too many open files` after a localization build, try increasing the OS open file limit by running `ulimit -n 1024` (and adding it to your `.bashrc`).
 
-### Forwarding new strings on to CrowdIn
+#### Forwarding new strings on to CrowdIn
 
 To get new strings localized using CrowdIn, we currently run a script in a private repository. Contact a code.org engineer for help doing this.
+
+### Adding a new dependency
+
+To add a new package using npm, e.g., `lodash`, run: `npm i --save-dev lodash`
+
+* `--save-dev` adds the dependency to node's package.json, freezing the current version
+* Because the build process is done in dev mode, include dependencies as devDependencies rather than production dependencies
 
 ## Project Specification
 
