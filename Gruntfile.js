@@ -117,6 +117,15 @@ config.copy = {
   }
 };
 
+config.lodash = {
+  'build': {
+    'dest': 'build/lodash.build.js',
+    'options': {
+      'include': ['debounce', 'reject', 'map', 'value'] // `value` is for _() chaining
+    }
+  }
+};
+
 config.sass = {
   all: {
     options: {
@@ -312,6 +321,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-strip-code');
   grunt.loadNpmTasks('grunt-notify');
+  grunt.loadNpmTasks('grunt-lodash');
 
   grunt.loadTasks('tasks');
 
@@ -327,7 +337,8 @@ module.exports = function(grunt) {
     'copy:browserified',
     'copy:static',
     'concat',
-    'sass'
+    'sass',
+    'lodash'
   ]);
 
   grunt.registerTask('rebuild', ['clean', 'build']);
