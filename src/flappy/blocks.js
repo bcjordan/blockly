@@ -19,8 +19,8 @@ var generateSetterCode = function (ctx, name) {
   if (value === RANDOM_VALUE) {
     var possibleValues =
       _(ctx.VALUES)
-      .map(function (item) { return item[1]; })
-      .reject(function (itemValue) { return itemValue === RANDOM_VALUE; });
+        .map(function (item) { return item[1]; })
+        .reject(function (itemValue) { return itemValue === RANDOM_VALUE; });
     value = 'Flappy.random([' + possibleValues + '])';
   }
 
