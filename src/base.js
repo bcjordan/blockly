@@ -30,7 +30,7 @@ var dom = require('./dom');
 var utils = require('./utils');
 var builder = require('./builder');
 var Slider = require('./slider');
-var _ = require('lodash');
+var _ = require('./lodash');
 
 //TODO: These should be members of a BlocklyApp instance.
 var onAttempt;

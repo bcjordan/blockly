@@ -5,7 +5,7 @@ var utils = require(buildDir + '/js/utils');
 var requiredBlockUtils = require(buildDir + '/js/required_block_utils');
 var blockUtils = require(buildDir + '/js/block_utils');
 var assert = testUtils.assert;
-var _ = require('lodash');
+var _ = require(buildDir + '/js/lodash');
 
 beforeEach(function () {
   testUtils.setupTestBlockly();
