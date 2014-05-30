@@ -119,7 +119,7 @@ config.copy = {
 
 config.lodash = {
   'build': {
-    'dest': 'build/lodash.build.js',
+    'dest': 'build/js/lodash.js',
     'options': {
       'include': ['debounce', 'reject', 'map', 'value'] // `value` is for _() chaining
     }
@@ -315,17 +315,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-lodash');
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-strip-code');
   grunt.loadNpmTasks('grunt-notify');
-  grunt.loadNpmTasks('grunt-lodash');
 
   grunt.loadTasks('tasks');
 
   grunt.registerTask('build', [
+    'lodash',
     'pseudoloc',
     'messages',
     'symlink:locale',
@@ -337,8 +338,7 @@ module.exports = function(grunt) {
     'copy:browserified',
     'copy:static',
     'concat',
-    'sass',
-    'lodash'
+    'sass'
   ]);
 
   grunt.registerTask('rebuild', ['clean', 'build']);
