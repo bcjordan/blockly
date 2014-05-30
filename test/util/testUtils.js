@@ -21,12 +21,8 @@ var mapping = [
     replace: '../build/js/templates/'
   },
   {
-    search: /^\.\/lodash/,
+    search: /lodash/,
     replace: '../build/js/lodash'
-  },
-  {
-    search: /^\..\/lodash/,
-    replace: '../../build/js/lodash'
   }
 ];
 var overloader = new Overloader(mapping, module);
