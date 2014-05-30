@@ -30,6 +30,7 @@ var dom = require('./dom');
 var utils = require('./utils');
 var builder = require('./builder');
 var Slider = require('./slider');
+var _ = require('./lodash');
 
 //TODO: These should be members of a BlocklyApp instance.
 var onAttempt;
@@ -115,7 +116,7 @@ BlocklyApps.init = function(config) {
   container.innerHTML = config.html;
   var runButton = container.querySelector('#runButton');
   var resetButton = container.querySelector('#resetButton');
-  var throttledRunClick = utils.debounce(BlocklyApps.runButtonClick, 250, true);
+  var throttledRunClick = _.debounce(BlocklyApps.runButtonClick, 250, true);
   dom.addClickTouchEvent(runButton, throttledRunClick);
   dom.addClickTouchEvent(resetButton, BlocklyApps.resetButtonClick);
 

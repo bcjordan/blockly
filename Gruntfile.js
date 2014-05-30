@@ -117,6 +117,15 @@ config.copy = {
   }
 };
 
+config.lodash = {
+  'build': {
+    'dest': 'build/js/lodash.js',
+    'options': {
+      'include': ['debounce', 'reject', 'map', 'value'] // `value` is for _() chaining
+    }
+  }
+};
+
 config.sass = {
   all: {
     options: {
@@ -306,6 +315,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-lodash');
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-sass');
@@ -316,6 +326,7 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   grunt.registerTask('build', [
+    'lodash',
     'pseudoloc',
     'messages',
     'symlink:locale',
