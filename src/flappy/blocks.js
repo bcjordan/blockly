@@ -351,10 +351,10 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setBackground());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
-        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
-        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       }
 
       input.appendTitle(dropdown, 'VALUE');
@@ -400,10 +400,10 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setPlayer());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 34, 24);
-        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
-        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       }
       input.appendTitle(dropdown, 'VALUE');
 
@@ -464,10 +464,10 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setObstacle());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
-        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
-        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       }
 
       input.appendTitle(dropdown, 'VALUE');
@@ -512,10 +512,10 @@ exports.install = function(blockly, blockInstallOptions) {
       if (isK1) {
         input.appendTitle(msg.setGround());
         dropdown = new blockly.FieldImageDropdown(this.K1_CHOICES, 50, 30);
-        dropdown.setValue(this.K1_CHOICES[0][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
-        dropdown.setValue(this.VALUES[1][1]);  // default to flappy
+        dropdown.setValue(FLAPPY_VALUE);
       }
       input.appendTitle(dropdown, 'VALUE');
 
