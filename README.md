@@ -128,7 +128,7 @@ Note: if you're running the `grunt dev` live-reload server and get the error `to
 
 To get new strings localized using CrowdIn, we currently run a script in a private repository. Contact a code.org engineer for help doing this.
 
-### Adding a new dependency
+### Adding a new npm package
 
 To add a new package using npm, e.g., `lodash`, run: `npm i --save-dev lodash`
 
