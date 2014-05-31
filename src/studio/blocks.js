@@ -36,10 +36,6 @@ exports.setSpriteCount = function(blockly, count) {
   blockly.Blocks.studio_spriteCount = count;
 };
 
-exports.setStartingImage = function(blockly, imageIndex) {
-  blockly.Blocks.studio_spriteStartingImage = imageIndex;
-};
-
 // Install extensions to Blockly's language and JavaScript generator.
 exports.install = function(blockly, blockInstallOptions) {
   var skin = blockInstallOptions.skin;
