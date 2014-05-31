@@ -9,21 +9,23 @@
 var msg = require('../../locale/current/studio');
 var codegen = require('../codegen');
 var tiles = require('./tiles');
+var studio = require('./studio');
+var _ = require('../lodash');
 
 var Direction = tiles.Direction;
 var Position = tiles.Position;
 var Emotions = tiles.Emotions;
 
+var RANDOM_VALUE = 'random';
+
 var generateSetterCode = function (opts) {
   var value = opts.ctx.getTitleValue('VALUE');
-  if (value === "random") {
-    var randomIndex = opts.random || 0;
-    // opts.random is the index of where the 'random' items is in beginning of
-    // the VALUES table (defaults to 0).
-    var allValues = opts.ctx.VALUES.slice(randomIndex + 1).map(function (item) {
-      return item[1];
-    });
-    value = 'Studio.random([' + allValues + '])';
+  if (value === RANDOM_VALUE) {
+    var possibleValues =
+      _(ctx.VALUES)
+        .map(function (item) { return item[1]; })
+        .reject(function (itemValue) { return itemValue === RANDOM_VALUE; });
+    value = 'Studio.random([' + possibleValues + '])';
   }
 
   return 'Studio.' + opts.name + '(\'block_id_' + opts.ctx.id + '\', ' +
@@ -32,6 +34,10 @@ var generateSetterCode = function (opts) {
 
 exports.setSpriteCount = function(blockly, count) {
   blockly.Blocks.studio_spriteCount = count;
+};
+
+exports.setStartingImage = function(blockly, imageIndex) {
+  blockly.Blocks.studio_spriteStartingImage = imageIndex;
 };
 
 // Install extensions to Blockly's language and JavaScript generator.
@@ -45,7 +51,20 @@ exports.install = function(blockly, blockInstallOptions) {
     return '\n';
   };
 
-  blockly.Blocks.studio_spriteCount = 6;
+  blockly.Blocks.studio_spriteCount = 6; // will be overridden
+
+  function createTextSpriteDropdown(choices) {
+    var dropdownArray = choices.slice(0, blockly.Blocks.studio_spriteCount);
+    return new blockly.FieldDropdown(dropdownArray);
+  }
+
+  function createImageSpriteDropdown() {
+    var spriteNumbers = _.range(0, blockly.Blocks.studio_spriteCount);
+    var choices = _.map(spriteNumbers, function (index) {
+        return [ skin.getTheme(Studio.nthStartingSkin(index)).dropdownThumbnail, index.toString() ];
+    });
+    return new blockly.FieldImageDropdown(choices, 50, 50);
+  }
 
   blockly.Blocks.studio_whenLeft = {
     // Block to handle event when the Left arrow button is pressed.
@@ -285,7 +304,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setSprite6(), '5']];
 
   blockly.Blocks.studio_setSpritePosition.VALUES =
-      [[msg.positionRandom(), 'random'],
+      [[msg.positionRandom(), RANDOM_VALUE],
        [msg.positionTopLeft(), Position.TOPLEFT.toString()],
        [msg.positionTopCenter(), Position.TOPCENTER.toString()],
        [msg.positionTopRight(), Position.TOPRIGHT.toString()],
@@ -566,7 +585,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.studio_setSpriteSpeed.VALUES =
-      [[msg.setSpriteSpeedRandom(), 'random'],
+      [[msg.setSpriteSpeedRandom(), RANDOM_VALUE],
        [msg.setSpriteSpeedVerySlow(), 'Studio.SpriteSpeed.VERY_SLOW'],
        [msg.setSpriteSpeedSlow(), 'Studio.SpriteSpeed.SLOW'],
        [msg.setSpriteSpeedNormal(), 'Studio.SpriteSpeed.NORMAL'],
@@ -608,7 +627,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.studio_setBackground.VALUES =
-      [[msg.setBackgroundRandom(), 'random'],
+      [[msg.setBackgroundRandom(), RANDOM_VALUE],
        [msg.setBackgroundCave(), '"cave"'],
        [msg.setBackgroundNight(), '"night"'],
        [msg.setBackgroundCloudy(), '"cloudy"'],
@@ -763,7 +782,7 @@ exports.install = function(blockly, blockInstallOptions) {
 
     blockly.Blocks.studio_setSprite.VALUES =
         [[msg.setSpriteHidden(), '"hidden"'],
-         [msg.setSpriteRandom(), 'random'],
+         [msg.setSpriteRandom(), RANDOM_VALUE],
          [msg.setSpriteWitch(), '"witch"'],
          [msg.setSpriteCat(), '"cat"'],
          [msg.setSpriteDinosaur(), '"dinosaur"'],
@@ -827,7 +846,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setSprite6(), '5']];
 
   blockly.Blocks.studio_setSpriteEmotion.VALUES =
-      [[msg.setSpriteEmotionRandom(), 'random'],
+      [[msg.setSpriteEmotionRandom(), RANDOM_VALUE],
        [msg.setSpriteEmotionNormal(), Emotions.NORMAL.toString()],
        [msg.setSpriteEmotionHappy(), Emotions.HAPPY.toString()],
        [msg.setSpriteEmotionAngry(), Emotions.ANGRY.toString()],
@@ -844,12 +863,15 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block for waiting a specific amount of time.
     block.helpUrl = '';
     block.init = function() {
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.saySprite())
+            .appendTitle(createImageSpriteDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(createTextSpriteDropdown(this.SPRITE, blockly), 'SPRITE');
+        }
       } else {
         this.appendDummyInput()
           .appendTitle(msg.saySprite());
@@ -902,7 +924,7 @@ exports.install = function(blockly, blockInstallOptions) {
                (this.getTitleValue('SPRITE') || '0') + ', ' +
                textParam + ');\n';
   };
-  
+
   var initWaitBlock = function (block) {
     // Block for waiting a specific amount of time.
     block.helpUrl = '';
