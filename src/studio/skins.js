@@ -41,6 +41,11 @@ exports.load = function(assetUrl, id) {
   skin.underwater = {
     background: skin.assetUrl('background_underwater.png'),
   };
+  /**
+   * Sprite thumbs generated with:
+   * `brew install graphicsmagick`
+   * `gm convert +adjoin -crop 200x200 -resize 100x100 *spritesheet* output%02d.png`
+   */
   skin.cat = {
     sprite: skin.assetUrl('cat_spritesheet_200px.png'),
     dropdownThumbnail: skin.assetUrl('cat_thumb.png'),
