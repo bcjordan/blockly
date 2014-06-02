@@ -7,6 +7,7 @@
 'use strict';
 
 var msg = require('../../locale/current/studio');
+var commonMsg = require('../../locale/current/common');
 var codegen = require('../codegen');
 var tiles = require('./tiles');
 var studio = require('./studio');
@@ -205,20 +206,27 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block to handle event when sprite collides with another sprite.
     helpUrl: '',
     init: function() {
-      var dropdownArray1 =
-          this.SPRITE1.slice(0, blockly.Blocks.studio_spriteCount);
-      var dropdownArray2 =
-          this.SPRITE2.slice(0, blockly.Blocks.studio_spriteCount);
-      var dropdown2 = new blockly.FieldDropdown(dropdownArray2);
+      var dropdown1;
+      var dropdown2;
+      this.setHSV(140, 1.00, 0.74);
+
+      if (isK1) {
+        dropdown1 = startingSpriteImageDropdown();
+        dropdown2 = startingSpriteImageDropdown();
+        this.appendDummyInput().appendTitle(commonMsg.when())
+          .appendTitle(dropdown1, 'SPRITE1');
+        this.appendDummyInput().appendTitle(msg.whenSpriteCollidedWith())
+          .appendTitle(dropdown2, 'SPRITE2');
+      } else {
+        dropdown1 = spriteNumberTextDropdown(this.SPRITE1);
+        dropdown2 = spriteNumberTextDropdown(this.SPRITE2);
+        this.appendDummyInput().appendTitle(dropdown1, 'SPRITE1');
+        this.appendDummyInput().appendTitle(dropdown2, 'SPRITE2');
+      }
       if (blockly.Blocks.studio_spriteCount > 1) {
-        dropdown2.setValue(dropdownArray2[1][1]); // default to 2
+        dropdown2.setValue(dropdown2.getOptions_()[1][1]); // default second dropdown to second item
       }
 
-      this.setHSV(140, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(new blockly.FieldDropdown(dropdownArray1), 'SPRITE1');
-      this.appendDummyInput()
-        .appendTitle(dropdown2, 'SPRITE2');
       this.setPreviousStatement(false);
       this.setInputsInline(true);
       this.setNextStatement(true);
@@ -335,12 +343,15 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block for moving one frame a time.
     helpUrl: '',
     init: function() {
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.moveSprite())
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
+        }
         this.appendDummyInput()
           .appendTitle('\t');
       } else {
@@ -381,12 +392,15 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block for moving/gliding a specific distance.
     block.helpUrl = '';
     block.init = function() {
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.moveSprite())
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
+        }
         this.appendDummyInput()
           .appendTitle('\t');
       } else {
@@ -878,7 +892,7 @@ exports.install = function(blockly, blockInstallOptions) {
             .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
         } else {
           this.appendDummyInput()
-            .appendTitle(spriteNumberTextDropdown(this.SPRITE, blockly), 'SPRITE');
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
         }
       } else {
         this.appendDummyInput()

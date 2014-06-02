@@ -183,6 +183,7 @@
   "whenSpriteCollided5": "when actor 5",
   "whenSpriteCollided6": "when actor 6",
   "whenSpriteCollidedTooltip": "Execute the actions below when an actor touches another actor.",
+  "whenSpriteCollidedWith": "touches",
   "whenSpriteCollidedWith1": "touches actor 1",
   "whenSpriteCollidedWith2": "touches actor 2",
   "whenSpriteCollidedWith3": "touches actor 3",
