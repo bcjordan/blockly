@@ -75,9 +75,9 @@ var spriteStartingSkins = [ "dog", "cat", "penguin", "dinosaur", "octopus",
   "witch" ];
 
 Studio.nthStartingSkin = function(n) {
-  var skinBias = Studio.spriteStartingImage || 0;
+  var skinStartOffset = Studio.spriteStartingImage || 0;
   var numStartingSkins = spriteStartingSkins.length;
-  return spriteStartingSkins[(n + skinBias) % numStartingSkins];
+  return spriteStartingSkins[(n + skinStartOffset) % numStartingSkins];
 };
 
 //TODO: Make configurable.

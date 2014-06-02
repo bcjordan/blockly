@@ -17,6 +17,7 @@ var Position = tiles.Position;
 var Emotions = tiles.Emotions;
 
 var RANDOM_VALUE = 'random';
+var HIDDEN_VALUE = '"hidden"';
 
 var generateSetterCode = function (opts) {
   var value = opts.ctx.getTitleValue('VALUE');
@@ -24,7 +25,10 @@ var generateSetterCode = function (opts) {
     var possibleValues =
       _(ctx.VALUES)
         .map(function (item) { return item[1]; })
-        .reject(function (itemValue) { return itemValue === RANDOM_VALUE; });
+        .reject(function (itemValue) {
+          return itemValue === RANDOM_VALUE ||
+            itemValue === HIDDEN_VALUE;
+        });
     value = 'Studio.random([' + possibleValues + '])';
   }
 
@@ -49,17 +53,26 @@ exports.install = function(blockly, blockInstallOptions) {
 
   blockly.Blocks.studio_spriteCount = 6; // will be overridden
 
-  function createTextSpriteDropdown(choices) {
+  /**
+   * Creates a dropdown with options for each sprite number
+   * @param choices
+   * @returns {Blockly.FieldDropdown}
+   */
+  function spriteNumberTextDropdown(choices) {
     var dropdownArray = choices.slice(0, blockly.Blocks.studio_spriteCount);
     return new blockly.FieldDropdown(dropdownArray);
   }
 
-  function createImageSpriteDropdown() {
+  /**
+   * Creates a dropdown with thumbnails for each starting sprite
+   * @returns {Blockly.FieldImageDropdown}
+   */
+  function startingSpriteImageDropdown() {
     var spriteNumbers = _.range(0, blockly.Blocks.studio_spriteCount);
     var choices = _.map(spriteNumbers, function (index) {
         return [ skin.getTheme(Studio.nthStartingSkin(index)).dropdownThumbnail, index.toString() ];
     });
-    return new blockly.FieldImageDropdown(choices, 50, 50);
+    return new blockly.FieldImageDropdown(choices, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
   }
 
   blockly.Blocks.studio_whenLeft = {
@@ -736,7 +749,7 @@ exports.install = function(blockly, blockInstallOptions) {
          [msg.sprite6(), '5']];
 
     blockly.Blocks.studio_setSprite.VALUES =
-        [[msg.setSpriteHideK1(), '"hidden"'],
+        [[msg.setSpriteHideK1(), HIDDEN_VALUE],
          [msg.setSpriteShowK1(), '"visible"']];
   } else {
     /**
@@ -777,7 +790,7 @@ exports.install = function(blockly, blockInstallOptions) {
          [msg.setSprite6(), '5']];
 
     blockly.Blocks.studio_setSprite.VALUES =
-        [[msg.setSpriteHidden(), '"hidden"'],
+        [[msg.setSpriteHidden(), HIDDEN_VALUE],
          [msg.setSpriteRandom(), RANDOM_VALUE],
          [msg.setSpriteWitch(), '"witch"'],
          [msg.setSpriteCat(), '"cat"'],
@@ -791,8 +804,8 @@ exports.install = function(blockly, blockInstallOptions) {
     var value = this.getTitleValue('VALUE');
     var indexString = this.getTitleValue('SPRITE') || '0';
     if (!blockly.Blocks.studio_firstSetSprite &&
-        'random' !== value &&
-        '"hidden"' !== value) {
+        RANDOM_VALUE !== value &&
+        HIDDEN_VALUE !== value) {
       // Store the params for the first non-random, non-hidden setSprite
       // call so we can auto-reference this sprite in showTitleScreen() later
       blockly.Blocks.studio_firstSetSprite = {
@@ -802,7 +815,6 @@ exports.install = function(blockly, blockInstallOptions) {
     }
     return generateSetterCode({
       ctx: this,
-      random: 1, // random may not be present for K1 block, but that's harmless
       extraParams: indexString,
       name: 'setSprite'});
   };
@@ -863,10 +875,10 @@ exports.install = function(blockly, blockInstallOptions) {
       if (blockly.Blocks.studio_spriteCount > 1) {
         if (isK1) {
           this.appendDummyInput().appendTitle(msg.saySprite())
-            .appendTitle(createImageSpriteDropdown(), 'SPRITE');
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
         } else {
           this.appendDummyInput()
-            .appendTitle(createTextSpriteDropdown(this.SPRITE, blockly), 'SPRITE');
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE, blockly), 'SPRITE');
         }
       } else {
         this.appendDummyInput()
@@ -968,7 +980,6 @@ exports.install = function(blockly, blockInstallOptions) {
   generator.studio_wait = function() {
     return generateSetterCode({
       ctx: this,
-      random: 1,
       name: 'wait'});
   };
 

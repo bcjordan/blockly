@@ -115,5 +115,7 @@ exports.load = function(assetUrl, id) {
   skin.spriteHeight = config.spriteHeight || 100;
   skin.spriteWidth = config.spriteWidth || 100;
   skin.spriteYOffset = config.spriteYOffset || 0;
+  skin.dropdownThumbnailWidth = 50;
+  skin.dropdownThumbnailHeight = 50;
   return skin;
 };
