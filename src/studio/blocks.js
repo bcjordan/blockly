@@ -28,10 +28,7 @@ var generateSetterCode = function (opts) {
     var possibleValues =
       _(opts.ctx.VALUES)
         .map(function (item) { return item[1]; })
-        .reject(function (itemValue) {
-          return itemValue === RANDOM_VALUE ||
-            itemValue === HIDDEN_VALUE;
-        });
+        .without(RANDOM_VALUE, HIDDEN_VALUE);
     value = 'Studio.random([' + possibleValues + '])';
   }
 
@@ -226,7 +223,7 @@ exports.install = function(blockly, blockInstallOptions) {
         this.appendDummyInput().appendTitle(dropdown2, 'SPRITE2');
       }
       if (blockly.Blocks.studio_spriteCount > 1) {
-        dropdown2.setValue(dropdown2.getOptions_()[1][1]); // default second dropdown to second item
+        dropdown2.setValue(dropdown2.getOptions()[1][1]); // default second dropdown to second item
       }
 
       this.setPreviousStatement(false);
