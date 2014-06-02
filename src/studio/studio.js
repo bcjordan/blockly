@@ -80,6 +80,11 @@ Studio.nthStartingSkin = function(n) {
   return spriteStartingSkins[(n + skinStartOffset) % numStartingSkins];
 };
 
+/**
+ * Milliseconds between each animation frame.
+ */
+var stepSpeed;
+
 //TODO: Make configurable.
 BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
 
