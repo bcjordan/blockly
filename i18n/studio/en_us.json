@@ -83,6 +83,7 @@
   "saySprite6": "actor 6 say",
   "saySpriteTooltip": "Pop up a speech bubble with the associated text from the specified actor.",
   "scoreText": "Score: {playerScore} : {opponentScore}",
+  "setBackground": "set background",
   "setBackgroundRandom": "set random background",
   "setBackgroundBlack": "set black background",
   "setBackgroundCave": "set cave background",

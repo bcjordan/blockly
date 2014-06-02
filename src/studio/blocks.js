@@ -20,6 +20,7 @@ var Emotions = tiles.Emotions;
 var RANDOM_VALUE = 'random';
 var HIDDEN_VALUE = '"hidden"';
 var VISIBLE_VALUE = '"visible"';
+var CAVE_VALUE = '"cave"';
 
 var generateSetterCode = function (opts) {
   var value = opts.ctx.getTitleValue('VALUE');
@@ -637,12 +638,17 @@ exports.install = function(blockly, blockInstallOptions) {
   blockly.Blocks.studio_setBackground = {
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[1][1]);  // default to cave
-
       this.setHSV(312, 0.32, 0.62);
-      this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
+
+      var dropdown;
+      if (isK1) {
+        dropdown = new blockly.FieldImageDropdown(this.IMAGE_CHOICES, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight)
+        this.appendDummyInput().appendTitle(msg.setBackground()).appendTitle(dropdown, 'VALUE');
+      } else {
+        dropdown = new blockly.FieldDropdown(this.VALUES);
+        this.appendDummyInput().appendTitle(dropdown, 'VALUE');
+      }
+      dropdown.setValue(CAVE_VALUE);  // default to cave
       this.setInputsInline(true);
       this.setPreviousStatement(true);
       this.setNextStatement(true);
@@ -652,12 +658,21 @@ exports.install = function(blockly, blockInstallOptions) {
 
   blockly.Blocks.studio_setBackground.VALUES =
       [[msg.setBackgroundRandom(), RANDOM_VALUE],
-       [msg.setBackgroundCave(), '"cave"'],
+       [msg.setBackgroundCave(), CAVE_VALUE],
        [msg.setBackgroundNight(), '"night"'],
        [msg.setBackgroundCloudy(), '"cloudy"'],
        [msg.setBackgroundUnderwater(), '"underwater"'],
        [msg.setBackgroundHardcourt(), '"hardcourt"'],
        [msg.setBackgroundBlack(), '"black"']];
+
+  blockly.Blocks.studio_setBackground.IMAGE_CHOICES =
+      [[skin.cave.background, CAVE_VALUE],
+       [skin.night.background, '"night"'],
+       [skin.cloudy.background, '"cloudy"'],
+       [skin.underwater.background, '"underwater"'],
+       [skin.hardcourt.background, '"hardcourt"'],
+       [skin.black.background, '"black"'],
+       [skin.randomPurpleIcon, RANDOM_VALUE]];
 
   generator.studio_setBackground = function() {
     return generateSetterCode({ctx: this, name: 'setBackground'});
