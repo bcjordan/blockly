@@ -34,7 +34,6 @@ exports.load = function(assetUrl, id) {
   skin.smallStaticAvatar = skin.blank;
 
   // Settings
-  skin.graph = config.graph;
   skin.background = skin.assetUrl('background.png');
 
   return skin;

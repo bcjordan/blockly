@@ -5,12 +5,20 @@
 // goal: A 20x34 goal image.
 // background: Number of 400x400 background images. Randomly select one if
 // specified, otherwise, use background.png.
-// graph: Colour of optional grid lines, or false.
 // look: Colour of sonar-like look icon.
+// tileSheetWidth: How many tiles wide skin.tiles is
 
 var skinsBase = require('../skins');
 
 var CONFIGS = {
+  letters: {
+    look: '#FFF',
+    nonDisappearingPegmanHittingObstacle: true,
+    pegmanHeight: 68,
+    pegmanWidth: 51,
+    pegmanYOffset: -6,
+    tileSheetWidth: 7
+  },
 
   bee: {
     look: '#000',
@@ -18,7 +26,8 @@ var CONFIGS = {
     nonDisappearingPegmanHittingObstacle: true,
     background: 4,
     dirtSound: true,
-    pegmanYOffset: -8
+    pegmanYOffset: -8,
+    tileSheetWidth: 5
   },
 
   farmer: {
@@ -27,7 +36,8 @@ var CONFIGS = {
     nonDisappearingPegmanHittingObstacle: true,
     background: 4,
     dirtSound: true,
-    pegmanYOffset: -8
+    pegmanYOffset: -8,
+    tileSheetWidth: 5
   },
 
   farmer_night: {
@@ -36,13 +46,15 @@ var CONFIGS = {
     nonDisappearingPegmanHittingObstacle: true,
     background: 4,
     dirtSound: true,
-    pegmanYOffset: -8
+    pegmanYOffset: -8,
+    tileSheetWidth: 5
   },
 
   pvz: {
     look: '#FFF',
     obstacleScale: 1.4,
-    pegmanYOffset: -8
+    pegmanYOffset: -8,
+    tileSheetWidth: 5
   },
 
   birds: {
@@ -59,7 +71,8 @@ var CONFIGS = {
     approachingGoalAnimation: 'close_goal.png',
     pegmanHeight: 68,
     pegmanWidth: 51,
-    pegmanYOffset: -14
+    pegmanYOffset: -14,
+    tileSheetWidth: 5
   }
 
 };
@@ -69,6 +82,7 @@ exports.load = function(assetUrl, id) {
   var config = CONFIGS[skin.id];
   // Images
   skin.tiles = skin.assetUrl('tiles.png');
+  skin.tileSheetWidth = config.tileSheetWidth;
   skin.goal = skin.assetUrl('goal.png');
   skin.goalAnimation = skin.assetUrl('goal.gif');
   skin.obstacle = skin.assetUrl('obstacle.png');
@@ -117,7 +131,6 @@ exports.load = function(assetUrl, id) {
   skin.additionalSound = config.additionalSound;
   skin.dirtSound = config.dirtSound;
   // Settings
-  skin.graph = config.graph;
   skin.look = config.look;
   skin.dirt = skin.assetUrl('dirt.png');
   skin.nectar = skin.assetUrl('nectar.png');
