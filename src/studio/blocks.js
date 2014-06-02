@@ -73,7 +73,7 @@ exports.install = function(blockly, blockInstallOptions) {
   function startingSpriteImageDropdown() {
     var spriteNumbers = _.range(0, blockly.Blocks.studio_spriteCount);
     var choices = _.map(spriteNumbers, function (index) {
-        return [ skin.getTheme(Studio.nthStartingSkin(index)).dropdownThumbnail, index.toString() ];
+        return [ skin.getTheme(studio.nthStartingSkin(index)).dropdownThumbnail, index.toString() ];
     });
     return new blockly.FieldImageDropdown(choices, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
   }
@@ -642,7 +642,7 @@ exports.install = function(blockly, blockInstallOptions) {
 
       var dropdown;
       if (isK1) {
-        dropdown = new blockly.FieldImageDropdown(this.IMAGE_CHOICES, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight)
+        dropdown = new blockly.FieldImageDropdown(this.IMAGE_CHOICES, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
         this.appendDummyInput().appendTitle(msg.setBackground()).appendTitle(dropdown, 'VALUE');
       } else {
         dropdown = new blockly.FieldDropdown(this.VALUES);
