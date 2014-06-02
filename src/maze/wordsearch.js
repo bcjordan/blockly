@@ -32,7 +32,7 @@ var TILE_SHAPES = {
 };
 TILE_SHAPES[SquareType.START] = [5, 3]; // START char
 
-var allchar = _.range(26).map(function (i) {
+var allChars = _.range(26).map(function (i) {
   return String.fromCharCode('A'.charCodeAt(0) + i);
 });
 
@@ -61,15 +61,15 @@ function letterValue(val, includeNumbers) {
 function randomLetter (restrictions) {
   var letterPool;
   if (restrictions) {
-    // args consists of allchar followed by the set of restricted letters
+    // args consists of allChars followed by the set of restricted letters
     var args = restrictions || [];
-    args.unshift(allchar);
+    args.unshift(allChars);
     letterPool = _.without.apply(null, args);
   } else {
-    letterPool = allchar;
+    letterPool = allChars;
   }
 
-  return letterPool[_.random(letterPool.length - 1)];
+  return _.sample(letterPool);
 }
 
 function isOpen (row, col) {
@@ -154,5 +154,5 @@ module.exports.drawMapTiles = function (svg) {
  * (where N is that last letter).
  */
 module.exports.isFinishCell = function (cell) {
-  return /^[A-Z]x$/.test(cell);
+  return (/^[A-Z]x$/).test(cell);
 };
