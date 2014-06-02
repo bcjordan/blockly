@@ -777,7 +777,6 @@ Studio.init = function(config) {
 
   // Update the sprite count in the blocks:
   blocks.setSpriteCount(Blockly, Studio.spriteCount);
-  blocks.setStartingImage(Blockly, Studio.spriteStartingImage);
 
   BlocklyApps.init(config);
 
