@@ -7,23 +7,29 @@
 'use strict';
 
 var msg = require('../../locale/current/studio');
+var commonMsg = require('../../locale/current/common');
 var codegen = require('../codegen');
 var tiles = require('./tiles');
+var studio = require('./studio');
+var _ = require('../lodash');
 
 var Direction = tiles.Direction;
 var Position = tiles.Position;
 var Emotions = tiles.Emotions;
 
+var RANDOM_VALUE = 'random';
+var HIDDEN_VALUE = '"hidden"';
+var VISIBLE_VALUE = '"visible"';
+var CAVE_VALUE = '"cave"';
+
 var generateSetterCode = function (opts) {
   var value = opts.ctx.getTitleValue('VALUE');
-  if (value === "random") {
-    var randomIndex = opts.random || 0;
-    // opts.random is the index of where the 'random' items is in beginning of
-    // the VALUES table (defaults to 0).
-    var allValues = opts.ctx.VALUES.slice(randomIndex + 1).map(function (item) {
-      return item[1];
-    });
-    value = 'Studio.random([' + allValues + '])';
+  if (value === RANDOM_VALUE) {
+    var possibleValues =
+      _(opts.ctx.VALUES)
+        .map(function (item) { return item[1]; })
+        .without(RANDOM_VALUE, HIDDEN_VALUE);
+    value = 'Studio.random([' + possibleValues + '])';
   }
 
   return 'Studio.' + opts.name + '(\'block_id_' + opts.ctx.id + '\', ' +
@@ -45,7 +51,29 @@ exports.install = function(blockly, blockInstallOptions) {
     return '\n';
   };
 
-  blockly.Blocks.studio_spriteCount = 6;
+  blockly.Blocks.studio_spriteCount = 6; // will be overridden
+
+  /**
+   * Creates a dropdown with options for each sprite number
+   * @param choices
+   * @returns {Blockly.FieldDropdown}
+   */
+  function spriteNumberTextDropdown(choices) {
+    var dropdownArray = choices.slice(0, blockly.Blocks.studio_spriteCount);
+    return new blockly.FieldDropdown(dropdownArray);
+  }
+
+  /**
+   * Creates a dropdown with thumbnails for each starting sprite
+   * @returns {Blockly.FieldImageDropdown}
+   */
+  function startingSpriteImageDropdown() {
+    var spriteNumbers = _.range(0, blockly.Blocks.studio_spriteCount);
+    var choices = _.map(spriteNumbers, function (index) {
+        return [ skin[studio.nthStartingSkin(index)].dropdownThumbnail, index.toString() ];
+    });
+    return new blockly.FieldImageDropdown(choices, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
+  }
 
   blockly.Blocks.studio_whenLeft = {
     // Block to handle event when the Left arrow button is pressed.
@@ -177,20 +205,27 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block to handle event when sprite collides with another sprite.
     helpUrl: '',
     init: function() {
-      var dropdownArray1 =
-          this.SPRITE1.slice(0, blockly.Blocks.studio_spriteCount);
-      var dropdownArray2 =
-          this.SPRITE2.slice(0, blockly.Blocks.studio_spriteCount);
-      var dropdown2 = new blockly.FieldDropdown(dropdownArray2);
+      var dropdown1;
+      var dropdown2;
+      this.setHSV(140, 1.00, 0.74);
+
+      if (isK1) {
+        dropdown1 = startingSpriteImageDropdown();
+        dropdown2 = startingSpriteImageDropdown();
+        this.appendDummyInput().appendTitle(commonMsg.when())
+          .appendTitle(dropdown1, 'SPRITE1');
+        this.appendDummyInput().appendTitle(msg.whenSpriteCollidedWith())
+          .appendTitle(dropdown2, 'SPRITE2');
+      } else {
+        dropdown1 = spriteNumberTextDropdown(this.SPRITE1);
+        dropdown2 = spriteNumberTextDropdown(this.SPRITE2);
+        this.appendDummyInput().appendTitle(dropdown1, 'SPRITE1');
+        this.appendDummyInput().appendTitle(dropdown2, 'SPRITE2');
+      }
       if (blockly.Blocks.studio_spriteCount > 1) {
-        dropdown2.setValue(dropdownArray2[1][1]); // default to 2
+        dropdown2.setValue(dropdown2.getOptions()[1][1]); // default second dropdown to second item
       }
 
-      this.setHSV(140, 1.00, 0.74);
-      this.appendDummyInput()
-        .appendTitle(new blockly.FieldDropdown(dropdownArray1), 'SPRITE1');
-      this.appendDummyInput()
-        .appendTitle(dropdown2, 'SPRITE2');
       this.setPreviousStatement(false);
       this.setInputsInline(true);
       this.setNextStatement(true);
@@ -285,7 +320,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setSprite6(), '5']];
 
   blockly.Blocks.studio_setSpritePosition.VALUES =
-      [[msg.positionRandom(), 'random'],
+      [[msg.positionRandom(), RANDOM_VALUE],
        [msg.positionTopLeft(), Position.TOPLEFT.toString()],
        [msg.positionTopCenter(), Position.TOPCENTER.toString()],
        [msg.positionTopRight(), Position.TOPRIGHT.toString()],
@@ -307,12 +342,15 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block for moving one frame a time.
     helpUrl: '',
     init: function() {
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.moveSprite())
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
+        }
         this.appendDummyInput()
           .appendTitle('\t');
       } else {
@@ -353,12 +391,15 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block for moving/gliding a specific distance.
     block.helpUrl = '';
     block.init = function() {
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.moveSprite())
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
+        }
         this.appendDummyInput()
           .appendTitle('\t');
       } else {
@@ -566,7 +607,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.studio_setSpriteSpeed.VALUES =
-      [[msg.setSpriteSpeedRandom(), 'random'],
+      [[msg.setSpriteSpeedRandom(), RANDOM_VALUE],
        [msg.setSpriteSpeedVerySlow(), 'Studio.SpriteSpeed.VERY_SLOW'],
        [msg.setSpriteSpeedSlow(), 'Studio.SpriteSpeed.SLOW'],
        [msg.setSpriteSpeedNormal(), 'Studio.SpriteSpeed.NORMAL'],
@@ -594,12 +635,17 @@ exports.install = function(blockly, blockInstallOptions) {
   blockly.Blocks.studio_setBackground = {
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
-      dropdown.setValue(this.VALUES[1][1]);  // default to cave
-
       this.setHSV(312, 0.32, 0.62);
-      this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
+
+      var dropdown;
+      if (isK1) {
+        dropdown = new blockly.FieldImageDropdown(this.IMAGE_CHOICES, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
+        this.appendDummyInput().appendTitle(msg.setBackground()).appendTitle(dropdown, 'VALUE');
+      } else {
+        dropdown = new blockly.FieldDropdown(this.VALUES);
+        this.appendDummyInput().appendTitle(dropdown, 'VALUE');
+      }
+      dropdown.setValue(CAVE_VALUE);  // default to cave
       this.setInputsInline(true);
       this.setPreviousStatement(true);
       this.setNextStatement(true);
@@ -608,13 +654,22 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.studio_setBackground.VALUES =
-      [[msg.setBackgroundRandom(), 'random'],
-       [msg.setBackgroundCave(), '"cave"'],
+      [[msg.setBackgroundRandom(), RANDOM_VALUE],
+       [msg.setBackgroundCave(), CAVE_VALUE],
        [msg.setBackgroundNight(), '"night"'],
        [msg.setBackgroundCloudy(), '"cloudy"'],
        [msg.setBackgroundUnderwater(), '"underwater"'],
        [msg.setBackgroundHardcourt(), '"hardcourt"'],
        [msg.setBackgroundBlack(), '"black"']];
+
+  blockly.Blocks.studio_setBackground.IMAGE_CHOICES =
+      [[skin.cave.background, CAVE_VALUE],
+       [skin.night.background, '"night"'],
+       [skin.cloudy.background, '"cloudy"'],
+       [skin.underwater.background, '"underwater"'],
+       [skin.hardcourt.background, '"hardcourt"'],
+       [skin.black.background, '"black"'],
+       [skin.randomPurpleIcon, RANDOM_VALUE]];
 
   generator.studio_setBackground = function() {
     return generateSetterCode({ctx: this, name: 'setBackground'});
@@ -692,18 +747,12 @@ exports.install = function(blockly, blockInstallOptions) {
     blockly.Blocks.studio_setSprite = {
       helpUrl: '',
       init: function() {
-        var dropdown = new blockly.FieldDropdown(this.VALUES);
-        dropdown.setValue(this.VALUES[1][1]);  // default to visible
-
-        var dropdownArray =
-            this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
-
-        this.appendDummyInput()
-          .appendTitle(dropdown, 'VALUE');
         this.setHSV(312, 0.32, 0.62);
+        var visibilityTextDropdown = new blockly.FieldDropdown(this.VALUES);
+        visibilityTextDropdown.setValue(VISIBLE_VALUE);  // default to visible
+        this.appendDummyInput().appendTitle(visibilityTextDropdown, 'VALUE');
         if (blockly.Blocks.studio_spriteCount > 1) {
-          this.appendDummyInput()
-            .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+            this.appendDummyInput().appendTitle(startingSpriteImageDropdown(), 'SPRITE');
         }
         this.setInputsInline(true);
         this.setPreviousStatement(true);
@@ -721,8 +770,8 @@ exports.install = function(blockly, blockInstallOptions) {
          [msg.sprite6(), '5']];
 
     blockly.Blocks.studio_setSprite.VALUES =
-        [[msg.setSpriteHideK1(), '"hidden"'],
-         [msg.setSpriteShowK1(), '"visible"']];
+        [[msg.setSpriteHideK1(), HIDDEN_VALUE],
+         [msg.setSpriteShowK1(), VISIBLE_VALUE]];
   } else {
     /**
      * setSprite
@@ -762,8 +811,8 @@ exports.install = function(blockly, blockInstallOptions) {
          [msg.setSprite6(), '5']];
 
     blockly.Blocks.studio_setSprite.VALUES =
-        [[msg.setSpriteHidden(), '"hidden"'],
-         [msg.setSpriteRandom(), 'random'],
+        [[msg.setSpriteHidden(), HIDDEN_VALUE],
+         [msg.setSpriteRandom(), RANDOM_VALUE],
          [msg.setSpriteWitch(), '"witch"'],
          [msg.setSpriteCat(), '"cat"'],
          [msg.setSpriteDinosaur(), '"dinosaur"'],
@@ -776,8 +825,8 @@ exports.install = function(blockly, blockInstallOptions) {
     var value = this.getTitleValue('VALUE');
     var indexString = this.getTitleValue('SPRITE') || '0';
     if (!blockly.Blocks.studio_firstSetSprite &&
-        'random' !== value &&
-        '"hidden"' !== value) {
+        RANDOM_VALUE !== value &&
+        HIDDEN_VALUE !== value) {
       // Store the params for the first non-random, non-hidden setSprite
       // call so we can auto-reference this sprite in showTitleScreen() later
       blockly.Blocks.studio_firstSetSprite = {
@@ -787,7 +836,6 @@ exports.install = function(blockly, blockInstallOptions) {
     }
     return generateSetterCode({
       ctx: this,
-      random: 1, // random may not be present for K1 block, but that's harmless
       extraParams: indexString,
       name: 'setSprite'});
   };
@@ -798,13 +846,15 @@ exports.install = function(blockly, blockInstallOptions) {
       var dropdown = new blockly.FieldDropdown(this.VALUES);
       dropdown.setValue(this.VALUES[1][1]);  // default to normal
 
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
-
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.setSprite())
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
+        }
       } else {
         this.appendDummyInput()
           .appendTitle(msg.setSprite());
@@ -827,7 +877,7 @@ exports.install = function(blockly, blockInstallOptions) {
        [msg.setSprite6(), '5']];
 
   blockly.Blocks.studio_setSpriteEmotion.VALUES =
-      [[msg.setSpriteEmotionRandom(), 'random'],
+      [[msg.setSpriteEmotionRandom(), RANDOM_VALUE],
        [msg.setSpriteEmotionNormal(), Emotions.NORMAL.toString()],
        [msg.setSpriteEmotionHappy(), Emotions.HAPPY.toString()],
        [msg.setSpriteEmotionAngry(), Emotions.ANGRY.toString()],
@@ -844,12 +894,15 @@ exports.install = function(blockly, blockInstallOptions) {
     // Block for waiting a specific amount of time.
     block.helpUrl = '';
     block.init = function() {
-      var dropdownArray =
-          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
       this.setHSV(184, 1.00, 0.74);
       if (blockly.Blocks.studio_spriteCount > 1) {
-        this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+        if (isK1) {
+          this.appendDummyInput().appendTitle(msg.saySprite())
+            .appendTitle(startingSpriteImageDropdown(), 'SPRITE');
+        } else {
+          this.appendDummyInput()
+            .appendTitle(spriteNumberTextDropdown(this.SPRITE), 'SPRITE');
+        }
       } else {
         this.appendDummyInput()
           .appendTitle(msg.saySprite());
@@ -902,7 +955,7 @@ exports.install = function(blockly, blockInstallOptions) {
                (this.getTitleValue('SPRITE') || '0') + ', ' +
                textParam + ');\n';
   };
-  
+
   var initWaitBlock = function (block) {
     // Block for waiting a specific amount of time.
     block.helpUrl = '';
@@ -950,7 +1003,6 @@ exports.install = function(blockly, blockInstallOptions) {
   generator.studio_wait = function() {
     return generateSetterCode({
       ctx: this,
-      random: 1,
       name: 'wait'});
   };
 

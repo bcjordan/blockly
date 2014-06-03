@@ -121,7 +121,7 @@ config.lodash = {
   'build': {
     'dest': 'build/js/lodash.js',
     'options': {
-      'include': ['debounce', 'reject', 'map', 'value'] // `value` is for _() chaining
+      'include': ['debounce', 'reject', 'map', 'range', 'value', 'without'] // `value` is for _() chaining
     }
   }
 };

@@ -71,6 +71,15 @@ var level;
 var skin;
 var onSharePage;
 
+var spriteStartingSkins = [ "dog", "cat", "penguin", "dinosaur", "octopus",
+  "witch" ];
+
+Studio.nthStartingSkin = function(n) {
+  var skinStartOffset = Studio.spriteStartingImage || 0;
+  var numStartingSkins = spriteStartingSkins.length;
+  return spriteStartingSkins[(n + skinStartOffset) % numStartingSkins];
+};
+
 /**
  * Milliseconds between each animation frame.
  */
@@ -844,11 +853,6 @@ BlocklyApps.reset = function(first) {
   // Reset the Globals object used to contain program variables:
   Studio.Globals = [];
 
-  var spriteStartingSkins = [ "dog", "cat", "penguin", "dinosaur", "octopus",
-                              "witch" ];
-  var numStartingSkins = spriteStartingSkins.length;
-  var skinBias = Studio.spriteStartingImage || 0;
-
   // Move sprites into position.
   for (i = 0; i < Studio.spriteCount; i++) {
     Studio.sprite[i].x = Studio.spriteStart_[i].x;
@@ -862,7 +866,7 @@ BlocklyApps.reset = function(first) {
 
     var opts = {
         'index': i,
-        'value': spriteStartingSkins[(i + skinBias) % numStartingSkins]
+        'value': Studio.nthStartingSkin(i)
     };
     if (Studio.spritesHiddenToStart) {
       opts.forceHidden = true;
@@ -1312,13 +1316,6 @@ Studio.displayScore = function() {
   score.setAttribute('visibility', 'visible');
 };
 
-var skinTheme = function (value) {
-  if (value === 'witch') {
-    return skin;
-  }
-  return skin[value];
-};
-
 Studio.queueCmd = function (id, name, opts) {
   var cmd = {
       'id': id,
@@ -1444,7 +1441,7 @@ Studio.setScoreText = function (opts) {
 Studio.setBackground = function (opts) {
   var element = document.getElementById('background');
   element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-    skinTheme(opts.value).background);
+    skin[opts.value].background);
 };
 
 var computeSpriteFrameNums = function (index) {
@@ -1461,7 +1458,7 @@ Studio.setSprite = function (opts) {
   // Inherit some flags from the skin:
   if (opts.value !== 'hidden' && opts.value !== 'visible') {
     Studio.sprite[opts.index].flags &= ~SF_SKINS_MASK;
-    Studio.sprite[opts.index].flags |= skinTheme(opts.value).spriteFlags;
+    Studio.sprite[opts.index].flags |= skin[opts.value].spriteFlags;
   }
   Studio.sprite[opts.index].value = opts.forceHidden ? 'hidden' : opts.value;
 
@@ -1471,7 +1468,7 @@ Studio.setSprite = function (opts) {
       (opts.value === 'hidden' || opts.forceHidden) ? 'hidden' : 'visible');
   if ((opts.value !== 'hidden') && (opts.value !== 'visible')) {
     element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-                           skinTheme(opts.value).sprite);
+                           skin[opts.value].sprite);
     element.setAttribute('width',
                          Studio.SPRITE_WIDTH * spriteTotalFrames(opts.index));
     computeSpriteFrameNums(opts.index);
