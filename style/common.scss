@@ -573,8 +573,15 @@ $modal-image-margin-gap: 10px;
 
 .arrow-container {
   clear: left;
-  float: left;
   background-color: white !important;
+}
+
+.arrow-container.arrow-left {
+  float: left;
+}
+
+.arrow-container.arrow-right {
+  float: right;
 }
 
 .arrow-head, .arrow-text {
