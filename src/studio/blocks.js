@@ -11,6 +11,7 @@ var commonMsg = require('../../locale/current/common');
 var codegen = require('../codegen');
 var tiles = require('./tiles');
 var studio = require('./studio');
+var utils = require('../utils');
 var _ = require('../lodash');
 
 var Direction = tiles.Direction;
@@ -501,13 +502,20 @@ exports.install = function(blockly, blockInstallOptions) {
         distParam + ');\n';
   };
 
+  function onSoundSelected(soundValue) {
+    if (soundValue === RANDOM_VALUE) {
+      return;
+    }
+    BlocklyApps.playAudio(utils.stripQuotes(soundValue));
+  }
+
   blockly.Blocks.studio_playSound = {
     // Block for playing sound.
     helpUrl: '',
     init: function() {
       this.setHSV(184, 1.00, 0.74);
       this.appendDummyInput()
-          .appendTitle(new blockly.FieldDropdown(this.SOUNDS), 'SOUND');
+          .appendTitle(new blockly.FieldDropdown(this.SOUNDS, onSoundSelected), 'SOUND');
       this.setPreviousStatement(true);
       this.setNextStatement(true);
       this.setTooltip(msg.playSoundTooltip());

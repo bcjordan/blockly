@@ -88,3 +88,12 @@ exports.executeIfConditional = function (conditional, fn) {
     }
   };
 };
+
+/**
+ * Removes all single and double quotes from a string
+ * @param inputString
+ * @returns {string} string without quotes
+ */
+exports.stripQuotes = function(inputString) {
+  return inputString.replace(/["']/g, "");
+};

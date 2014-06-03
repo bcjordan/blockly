@@ -24,6 +24,12 @@ describe("utils", function() {
     incrementCounter();
     assert(counter === 2);
   });
+  it("can remove quotes from a string", function() {
+    assert(utils.stripQuotes("t'e's't'") === "test");
+    assert(utils.stripQuotes('t"e"s"t"') === "test");
+    assert(utils.stripQuotes('test') === "test");
+    assert(utils.stripQuotes('') === '');
+  });
 });
 
 describe("blockUtils", function () {
