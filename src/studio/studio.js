@@ -18,6 +18,7 @@ var blocks = require('./blocks');
 var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
+var Sprite = require('./sprite').Sprite;
 
 var Direction = tiles.Direction;
 var NextTurn = tiles.NextTurn;
@@ -66,6 +67,11 @@ var Keycodes = {
   RIGHT: 39,
   DOWN: 40
 };
+
+var ProjectileClassNames = [
+  'fireball',
+  'flower'
+];
 
 var level;
 var skin;
@@ -154,7 +160,6 @@ var loadLevel = function() {
 
   Studio.MAZE_WIDTH = Studio.SQUARE_SIZE * Studio.COLS;
   Studio.MAZE_HEIGHT = Studio.SQUARE_SIZE * Studio.ROWS;
-  Studio.PATH_WIDTH = Studio.SQUARE_SIZE / 3;
 };
 
 var drawMap = function() {
@@ -475,13 +480,16 @@ var setSvgText = function(opts) {
 // Execute the code for all of the event handlers that match an event name
 //
 
-var callHandler = function (name) {
+var callHandler = function (name, allowQueueExtension) {
   Studio.eventHandlers.forEach(function (handler) {
     // Note: we skip executing the code if we have not completed executing
     // the cmdQueue on this handler (checking for non-zero length)
     if (handler.name === name &&
-        (!handler.cmdQueue || 0 === handler.cmdQueue.length)) {
-      handler.cmdQueue = [];
+        (allowQueueExtension ||
+         (!handler.cmdQueue || 0 === handler.cmdQueue.length))) {
+      if (!handler.cmdQueue) {
+        handler.cmdQueue = [];
+      }
       Studio.currentCmdQueue = handler.cmdQueue;
       try { handler.func(BlocklyApps, api, Studio.Globals); } catch (e) { }
       Studio.currentCmdQueue = null;
@@ -554,14 +562,16 @@ Studio.onTick = function() {
   // to attain with queued moves - this allows the moves to be canceled before
   // the actual movements take place):
   for (i = 0; i < Studio.spriteCount; i++) {
+    var nextXPos_i = getNextPosition(i, false, false);
+    var nextYPos_i = getNextPosition(i, true, false);
     for (var j = 0; j < Studio.spriteCount; j++) {
       if (i == j) {
         continue;
       }
-      if (essentiallyEqual(getNextPosition(i, false, false),
+      if (essentiallyEqual(nextXPos_i,
                            getNextPosition(j, false, false),
                            tiles.SPRITE_COLLIDE_DISTANCE) &&
-          essentiallyEqual(getNextPosition(i, true, false),
+          essentiallyEqual(nextYPos_i,
                            getNextPosition(j, true, false),
                            tiles.SPRITE_COLLIDE_DISTANCE)) {
         if (0 === (Studio.sprite[i].collisionMask & Math.pow(2, j))) {
@@ -573,6 +583,34 @@ Studio.onTick = function() {
       }
       Studio.executeQueue('whenSpriteCollided-' + i + '-' + j);
     }
+    var xCenter = nextXPos_i + 1;
+    var yCenter = nextYPos_i + 1;
+    for (j = 0; j < Studio.projectiles.length; j++) {
+      if (essentiallyEqual(xCenter,
+                           Studio.projectiles[j].getNextPosition(false),
+                           tiles.PROJECTILE_COLLIDE_DISTANCE) &&
+          essentiallyEqual(yCenter,
+                           Studio.projectiles[j].getNextPosition(true),
+                           tiles.PROJECTILE_COLLIDE_DISTANCE)) {
+        if (Studio.projectiles[j].startCollision(i)) {
+          Studio.currentEventParams = { projectile: Studio.projectiles[j] };
+          // Allow cmdQueue extension (pass true) since this handler
+          // may be called for multiple projectiles before executing the queue
+          // below
+          callHandler('whenSpriteCollided-' + i + '-' +
+                        Studio.projectiles[j].className,
+                      true);
+          Studio.currentEventParams = null;
+        }
+      } else {
+        Studio.projectiles[j].markNotColliding(i);
+      }
+    }
+    ProjectileClassNames.forEach(
+      function (className) {
+        Studio.executeQueue('whenSpriteCollided-' + i + '-' + className);
+      }
+    );
   }
 
   for (i = 0; i < Studio.spriteCount; i++) {
@@ -580,6 +618,19 @@ Studio.onTick = function() {
 
     // Display sprite:
     Studio.displaySprite(i);
+  }
+
+  for (i = 0; i < Studio.projectiles.length; i++) {
+    Studio.projectiles[i].moveToNextPosition();
+    if (Studio.projectiles[i].outOfBounds()) {
+      Studio.projectiles[i].removeElement();
+      Studio.projectiles.splice(i, 1);
+      // decrement i because we just removed an item from the array. We want to
+      // keep i as the same value for the next iteration through this loop
+      i--;
+    } else {
+      Studio.projectiles[i].display();
+    }
   }
 
   if (checkFinished()) {
@@ -745,6 +796,7 @@ Studio.init = function(config) {
   Studio.spriteFinishCount = 0;
   Studio.spriteCount = 0;
   Studio.sprite = [];
+  Studio.projectiles = [];
 
   // Locate the start and finish squares.
   for (var y = 0; y < Studio.ROWS; y++) {
@@ -768,6 +820,10 @@ Studio.init = function(config) {
 
   // Update the sprite count in the blocks:
   blocks.setSpriteCount(Blockly, Studio.spriteCount);
+
+  if (level.enableProjectileCollisions) {
+    blocks.enableProjectileCollisions(Blockly);
+  }
 
   BlocklyApps.init(config);
 
@@ -820,6 +876,12 @@ BlocklyApps.reset = function(first) {
   if (softButtonCount) {
     var softButtonsCell = document.getElementById('soft-buttons');
     softButtonsCell.className = 'soft-buttons-' + softButtonCount;
+  }
+
+  // Reset the dynamic sprites list
+  var projectile;
+  while (projectile = Studio.projectiles.pop()) {
+    projectile.removeElement();
   }
 
   // Reset the score and title screen.
@@ -986,9 +1048,9 @@ var registerHandlers =
     var block = blocks[x];
     if (block.type === blockName &&
         (!nameParam1 ||
-         matchParam1Val === parseInt(block.getTitleValue(nameParam1), 10)) &&
+         matchParam1Val === block.getTitleValue(nameParam1)) &&
         (!nameParam2 ||
-         matchParam2Val === parseInt(block.getTitleValue(nameParam2), 10))) {
+         matchParam2Val === block.getTitleValue(nameParam2))) {
       var code = Blockly.Generator.blocksToCode('JavaScript', [ block ]);
       if (code) {
         var func = codegen.functionFromCode(code, {
@@ -1026,10 +1088,21 @@ var registerHandlersWithSpriteParams =
                        blockName,
                        eventNameBase,
                        blockParam1,
-                       i,
+                       String(i),
                        blockParam2,
-                       j);
+                       String(j));
     }
+    ProjectileClassNames.forEach(
+      function (className) {
+        registerHandlers(handlers,
+                         blockName,
+                         eventNameBase,
+                         blockParam1,
+                         String(i),
+                         blockParam2,
+                         className);
+      }
+    );
   }
 };
 
@@ -1325,6 +1398,11 @@ Studio.queueCmd = function (id, name, opts) {
       'name': name,
       'opts': opts,
   };
+  if (Studio.currentEventParams) {
+    for (var prop in Studio.currentEventParams) {
+      cmd.opts[prop] = Studio.currentEventParams[prop];
+    }
+  }
   Studio.currentCmdQueue.push(cmd);
 };
 
@@ -1401,6 +1479,14 @@ Studio.callCmd = function (cmd) {
     case 'stop':
       BlocklyApps.highlight(cmd.id);
       Studio.stop(cmd.opts);
+      break;
+    case 'throwProjectile':
+      BlocklyApps.highlight(cmd.id);
+      Studio.throwProjectile(cmd.opts);
+      break;
+    case 'makeProjectile':
+      BlocklyApps.highlight(cmd.id);
+      Studio.makeProjectile(cmd.opts);
       break;
     case 'incrementScore':
       BlocklyApps.highlight(cmd.id);
@@ -1725,6 +1811,87 @@ Studio.stop = function (opts) {
         continue;
       }
       Studio.sprite[i].collisionMask &= ~(Math.pow(2, opts.spriteIndex));
+    }
+  }
+};
+
+Studio.throwProjectile = function (opts) {
+  var optsInit = {
+    className: opts.className,
+    height: 50,
+    width: 50,
+    dir: opts.dir,
+    speed: tiles.DEFAULT_SPRITE_SPEED
+  };
+
+  var fromSprite = Studio.sprite[opts.spriteIndex];
+  optsInit.image = opts.className === "fireball" ? skin.goal : skin.goalSuccess;
+
+  // Choose point of origin based on direction
+  // assumes fromSprite is always 2x2 in size
+  // assumes projectile is always 1x1 in size
+  // fromSprite coords are left, top
+  // projectile coords are center, center
+  switch (opts.dir) {
+    case Direction.NORTH:
+      optsInit.x = fromSprite.x + 1;
+      optsInit.y = fromSprite.y - 0.5;
+      break;
+    case Direction.WEST:
+      optsInit.x = fromSprite.x - 0.5;
+      optsInit.y = fromSprite.y + 1;
+      break;
+    case Direction.SOUTH:
+      optsInit.x = fromSprite.x + 1;
+      optsInit.y = fromSprite.y + 2.5;
+      break;
+    case Direction.EAST:
+      optsInit.x = fromSprite.x + 2.5;
+      optsInit.y = fromSprite.y + 1;
+      break;
+  }
+
+  var projectile = new Sprite(optsInit);
+  projectile.createElement(document.getElementById('svgStudio'));
+  Studio.projectiles.push(projectile);
+};
+
+//
+// Internal helper to handle makeProjectile calls on a single projectile
+//
+// Return value: true if projectile was removed from the projectiles array
+//
+
+var doMakeProjectile = function (projectile, action) {
+  if (action === 'bounce') {
+    projectile.bounce();
+  } else if (action === 'disappear') {
+    projectile.removeElement();
+    var pos = Studio.projectiles.indexOf(projectile);
+    if (-1 !== pos) {
+      Studio.projectiles.splice(pos, 1);
+      return true;
+    }
+  } else {
+    throw "unknown action in doMakeProjectile";
+  }
+  return false;
+};
+
+Studio.makeProjectile = function (opts) {
+  if (opts.projectile) {
+    doMakeProjectile(opts.projectile, opts.action);
+  } else {
+    // No "current" projectile, so apply action to all of them of this class
+    for (var i = 0; i < Studio.projectiles.length; i++) {
+      if (Studio.projectiles[i].className === opts.className &&
+          doMakeProjectile(Studio.projectiles[i], opts.action)) {
+        // if this returned true, the projectile was deleted
+
+        // decrement i because we just removed an item from the array. We want
+        // to keep i as the same value for the next iteration through this loop
+        i--;
+      }
     }
   }
 };
