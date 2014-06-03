@@ -361,7 +361,7 @@ Turtle.execute = function() {
   // api.log now contains a transcript of all the user's actions.
   // Reset the graphic and animate the transcript.
   BlocklyApps.reset();
-  BlocklyApps.playAudio('start', {volume : 0.5, loop : true});
+  BlocklyApps.playAudio('start', {loop : true});
   Turtle.pid = window.setTimeout(Turtle.animate, 100);
 
   // Disable toolbox while running
@@ -739,9 +739,9 @@ Turtle.checkAnswer = function() {
   BlocklyApps.stopLoopingAudio('start');
   if (Turtle.testResults === BlocklyApps.TestResults.FREE_PLAY ||
       Turtle.testResults >= BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL) {
-    BlocklyApps.playAudio('win', {volume : 0.5});
+    BlocklyApps.playAudio('win');
   } else {
-    BlocklyApps.playAudio('failure', {volume : 0.5});
+    BlocklyApps.playAudio('failure');
   }
 
   var reportData = {

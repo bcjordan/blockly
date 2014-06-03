@@ -31,7 +31,7 @@ exports.Gravity = {
 };
 
 exports.random = function (values) {
-  var key = Math.floor(Math.random() * values.length); 
+  var key = Math.floor(Math.random() * values.length);
   return values[key];
 };
 
@@ -78,7 +78,7 @@ exports.setSpeed = function (id, value) {
 
 exports.playSound = function(id, soundName) {
   BlocklyApps.highlight(id);
-  BlocklyApps.playAudio(soundName, {volume: 0.5});
+  BlocklyApps.playAudio(soundName);
 };
 
 exports.flap = function (id, amount) {

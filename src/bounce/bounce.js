@@ -797,7 +797,7 @@ Bounce.moveBallOffscreen = function(i) {
 Bounce.playSoundAndResetBall = function(i) {
   //console.log("playSoundAndResetBall called for ball " + i);
   Bounce.resetBall(i, { randomPosition: true } );
-  BlocklyApps.playAudio('ballstart', {volume: 0.5});
+  BlocklyApps.playAudio('ballstart');
 };
 
 /**
@@ -1127,8 +1127,7 @@ Bounce.execute = function() {
                                       BlocklyApps: BlocklyApps,
                                       Bounce: api } );
 
-  BlocklyApps.playAudio(Bounce.ballCount > 0 ? 'ballstart' : 'start',
-                        {volume: 0.5});
+  BlocklyApps.playAudio(Bounce.ballCount > 0 ? 'ballstart' : 'start');
 
   BlocklyApps.reset(false);
 
@@ -1167,9 +1166,9 @@ Bounce.onPuzzleComplete = function() {
   }
 
   if (Bounce.testResults >= BlocklyApps.TestResults.FREE_PLAY) {
-    BlocklyApps.playAudio('win', {volume : 0.5});
+    BlocklyApps.playAudio('win');
   } else {
-    BlocklyApps.playAudio('failure', {volume : 0.5});
+    BlocklyApps.playAudio('failure');
   }
 
   if (level.editCode) {
@@ -1363,7 +1362,7 @@ Bounce.allFinishesComplete = function() {
     }
     if (playSound && finished != Bounce.paddleFinishCount) {
       // Play a sound unless we've hit the last flag
-      BlocklyApps.playAudio('flag', {volume: 0.5});
+      BlocklyApps.playAudio('flag');
     }
     return (finished == Bounce.paddleFinishCount);
   }
