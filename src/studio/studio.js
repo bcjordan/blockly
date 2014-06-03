@@ -570,6 +570,11 @@ Studio.onTick = function() {
   // Check for collisions (note that we use the positions they are about
   // to attain with queued moves - this allows the moves to be canceled before
   // the actual movements take place):
+
+  var executeCollisionQueueForClass = function (className) {
+    Studio.executeQueue('whenSpriteCollided-' + i + '-' + className);
+  };
+
   for (i = 0; i < Studio.spriteCount; i++) {
     var nextXPos_i = getNextPosition(i, false, false);
     var nextYPos_i = getNextPosition(i, true, false);
@@ -615,11 +620,7 @@ Studio.onTick = function() {
         Studio.projectiles[j].markNotColliding(i);
       }
     }
-    ProjectileClassNames.forEach(
-      function (className) {
-        Studio.executeQueue('whenSpriteCollided-' + i + '-' + className);
-      }
-    );
+    ProjectileClassNames.forEach(executeCollisionQueueForClass);
   }
 
   for (i = 0; i < Studio.spriteCount; i++) {
@@ -888,8 +889,8 @@ BlocklyApps.reset = function(first) {
   }
 
   // Reset the dynamic sprites list
-  var projectile;
-  while (projectile = Studio.projectiles.pop()) {
+  while (Studio.projectiles.length) {
+    var projectile = Studio.projectiles.pop();
     projectile.removeElement();
   }
 
@@ -1081,9 +1082,20 @@ var registerHandlersWithSpriteParam =
   }
 };
 
+
 var registerHandlersWithSpriteParams =
       function (handlers, blockName, eventNameBase, blockParam1, blockParam2) {
-  for (var i = 0; i < Studio.spriteCount; i++) {
+  var i;
+  var registerHandlersForClassName = function (className) {
+    registerHandlers(handlers,
+                     blockName,
+                     eventNameBase,
+                     blockParam1,
+                     String(i),
+                     blockParam2,
+                     className);
+  };
+  for (i = 0; i < Studio.spriteCount; i++) {
     for (var j = 0; j < Studio.spriteCount; j++) {
       if (i === j) {
         continue;
@@ -1096,17 +1108,7 @@ var registerHandlersWithSpriteParams =
                        blockParam2,
                        String(j));
     }
-    ProjectileClassNames.forEach(
-      function (className) {
-        registerHandlers(handlers,
-                         blockName,
-                         eventNameBase,
-                         blockParam1,
-                         String(i),
-                         blockParam2,
-                         className);
-      }
-    );
+    ProjectileClassNames.forEach(registerHandlersForClassName);
   }
 };
 
