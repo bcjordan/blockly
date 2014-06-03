@@ -34,32 +34,45 @@ exports.load = function(assetUrl, id) {
   skin.underwater = {
     background: skin.assetUrl('background_underwater.png'),
   };
+  /**
+   * Sprite thumbs generated with:
+   * `brew install graphicsmagick`
+   * `gm convert +adjoin -crop 200x200 -resize 100x100 *spritesheet* output%02d.png`
+   */
   skin.cat = {
     sprite: skin.assetUrl('cat_spritesheet_200px.png'),
-    spriteFlags: 28,
+    dropdownThumbnail: skin.assetUrl('cat_thumb.png'),
+    spriteFlags: 28,  // flags: emotions, animation, turns
   };
   skin.dinosaur = {
     sprite: skin.assetUrl('dinosaur_spritesheet_200px.png'),
+    dropdownThumbnail: skin.assetUrl('dinosaur_thumb.png'),
     spriteFlags: 28,
   };
   skin.dog = {
     sprite: skin.assetUrl('dog_spritesheet_200px.png'),
+    dropdownThumbnail: skin.assetUrl('dog_thumb.png'),
     spriteFlags: 28,
   };
   skin.octopus = {
     sprite: skin.assetUrl('octopus_spritesheet_200px.png'),
+    dropdownThumbnail: skin.assetUrl('octopus_thumb.png'),
     spriteFlags: 28,
   };
   skin.penguin = {
     sprite: skin.assetUrl('penguin_spritesheet_200px.png'),
+    dropdownThumbnail: skin.assetUrl('penguin_thumb.png'),
     spriteFlags: 28,
+  };
+  skin.witch = {
+    spriteFlags: 28,
+    dropdownThumbnail: skin.assetUrl('witch_thumb.png'),
+    sprite: skin.assetUrl('witch_sprite_200px.png'),
   };
 
   // Images
   skin.goal = skin.assetUrl('goal.png');
   skin.goalSuccess = skin.assetUrl('goal_success.png');
-  skin.sprite = skin.assetUrl('witch_sprite_200px.png');
-  skin.spriteFlags = 28; // flags: emotions, animation, turns
   skin.goalAnimation = skin.assetUrl('goal.gif');
   skin.approachingGoalAnimation =
       skin.assetUrl(config.approachingGoalAnimation);
@@ -86,7 +99,7 @@ exports.load = function(assetUrl, id) {
                     skin.assetUrl('1_wall_bounce.ogg')];
   skin.hitSound = [skin.assetUrl('2_wall_bounce.mp3'),
                    skin.assetUrl('2_wall_bounce.ogg')];
-  
+
   // Settings
   if (config.background !== undefined) {
     var index = Math.floor(Math.random() * config.background);
@@ -97,5 +110,7 @@ exports.load = function(assetUrl, id) {
   skin.spriteHeight = config.spriteHeight || 100;
   skin.spriteWidth = config.spriteWidth || 100;
   skin.spriteYOffset = config.spriteYOffset || 0;
+  skin.dropdownThumbnailWidth = 50;
+  skin.dropdownThumbnailHeight = 50;
   return skin;
 };

@@ -241,32 +241,6 @@ var drawMap = function() {
     svg.appendChild(tile);
   }
 
-  if (skin.graph) {
-    // Draw the grid lines.
-    // The grid lines are offset so that the lines pass through the centre of
-    // each square.  A half-pixel offset is also added to as standard SVG
-    // practice to avoid blurriness.
-    var offset = Bounce.SQUARE_SIZE / 2 + 0.5;
-    for (k = 0; k < Bounce.ROWS; k++) {
-      var h_line = document.createElementNS(Blockly.SVG_NS, 'line');
-      h_line.setAttribute('y1', k * Bounce.SQUARE_SIZE + offset);
-      h_line.setAttribute('x2', Bounce.MAZE_WIDTH);
-      h_line.setAttribute('y2', k * Bounce.SQUARE_SIZE + offset);
-      h_line.setAttribute('stroke', skin.graph);
-      h_line.setAttribute('stroke-width', 1);
-      svg.appendChild(h_line);
-    }
-    for (k = 0; k < Bounce.COLS; k++) {
-      var v_line = document.createElementNS(Blockly.SVG_NS, 'line');
-      v_line.setAttribute('x1', k * Bounce.SQUARE_SIZE + offset);
-      v_line.setAttribute('x2', k * Bounce.SQUARE_SIZE + offset);
-      v_line.setAttribute('y2', Bounce.MAZE_HEIGHT);
-      v_line.setAttribute('stroke', skin.graph);
-      v_line.setAttribute('stroke-width', 1);
-      svg.appendChild(v_line);
-    }
-  }
-
   // Draw the tiles making up the maze map.
 
   // Compute and draw the tile for each square.
@@ -823,7 +797,7 @@ Bounce.moveBallOffscreen = function(i) {
 Bounce.playSoundAndResetBall = function(i) {
   //console.log("playSoundAndResetBall called for ball " + i);
   Bounce.resetBall(i, { randomPosition: true } );
-  BlocklyApps.playAudio('ballstart', {volume: 0.5});
+  BlocklyApps.playAudio('ballstart');
 };
 
 /**
@@ -1153,8 +1127,7 @@ Bounce.execute = function() {
                                       BlocklyApps: BlocklyApps,
                                       Bounce: api } );
 
-  BlocklyApps.playAudio(Bounce.ballCount > 0 ? 'ballstart' : 'start',
-                        {volume: 0.5});
+  BlocklyApps.playAudio(Bounce.ballCount > 0 ? 'ballstart' : 'start');
 
   BlocklyApps.reset(false);
 
@@ -1193,9 +1166,9 @@ Bounce.onPuzzleComplete = function() {
   }
 
   if (Bounce.testResults >= BlocklyApps.TestResults.FREE_PLAY) {
-    BlocklyApps.playAudio('win', {volume : 0.5});
+    BlocklyApps.playAudio('win');
   } else {
-    BlocklyApps.playAudio('failure', {volume : 0.5});
+    BlocklyApps.playAudio('failure');
   }
 
   if (level.editCode) {
@@ -1389,7 +1362,7 @@ Bounce.allFinishesComplete = function() {
     }
     if (playSound && finished != Bounce.paddleFinishCount) {
       // Play a sound unless we've hit the last flag
-      BlocklyApps.playAudio('flag', {volume: 0.5});
+      BlocklyApps.playAudio('flag');
     }
     return (finished == Bounce.paddleFinishCount);
   }

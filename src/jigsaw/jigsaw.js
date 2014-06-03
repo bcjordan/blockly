@@ -240,9 +240,9 @@ Jigsaw.onPuzzleComplete = function() {
   Jigsaw.testResults = BlocklyApps.getTestResults();
 
   if (Jigsaw.testResults >= BlocklyApps.TestResults.FREE_PLAY) {
-    BlocklyApps.playAudio('win', {volume : 0.5});
+    BlocklyApps.playAudio('win');
   } else {
-    BlocklyApps.playAudio('failure', {volume : 0.5});
+    BlocklyApps.playAudio('failure');
   }
 
   if (level.failForOther1Star && !BlocklyApps.levelComplete) {

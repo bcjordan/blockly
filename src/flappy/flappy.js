@@ -800,7 +800,7 @@ Flappy.execute = function() {
                                       Flappy: api } );
 
 
-  BlocklyApps.playAudio('start', {volume: 0.5});
+  BlocklyApps.playAudio('start');
 
   // BlocklyApps.reset(false);
 
@@ -851,9 +851,9 @@ Flappy.onPuzzleComplete = function() {
 
 
   if (Flappy.testResults >= BlocklyApps.TestResults.FREE_PLAY) {
-    BlocklyApps.playAudio('win', {volume : 0.5});
+    BlocklyApps.playAudio('win');
   } else {
-    BlocklyApps.playAudio('failure', {volume : 0.5});
+    BlocklyApps.playAudio('failure');
   }
 
   if (level.editCode) {
