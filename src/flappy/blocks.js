@@ -9,6 +9,7 @@
 var msg = require('../../locale/current/flappy');
 var commonMsg = require('../../locale/current/common');
 var blockUtils = require('../block_utils');
+var utils = require('../utils');
 var _ = require('../lodash');
 
 var FLAPPY_VALUE = '"flappy"';
@@ -202,11 +203,18 @@ exports.install = function(blockly, blockInstallOptions) {
     return generateSetterCode(this, 'flap');
   };
 
+  function onSoundSelected(soundValue) {
+    if (soundValue === RANDOM_VALUE) {
+      return;
+    }
+    BlocklyApps.playAudio(utils.stripQuotes(soundValue));
+  }
+
   blockly.Blocks.flappy_playSound = {
     // Block for playing sound.
     helpUrl: '',
     init: function() {
-      var dropdown = new blockly.FieldDropdown(this.VALUES);
+      var dropdown = new blockly.FieldDropdown(this.VALUES, onSoundSelected);
       dropdown.setValue(this.VALUES[7][1]);
       this.setHSV(184, 1.00, 0.74);
       this.appendDummyInput()

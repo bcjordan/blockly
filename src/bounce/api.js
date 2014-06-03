@@ -19,7 +19,7 @@ exports.BallSpeed = {
 };
 
 exports.random = function (values) {
-  var key = Math.floor(Math.random() * values.length); 
+  var key = Math.floor(Math.random() * values.length);
   return values[key];
 };
 
@@ -58,7 +58,7 @@ exports.setPaddleSpeed = function (id, value) {
 
 exports.playSound = function(id, soundName) {
   BlocklyApps.highlight(id);
-  BlocklyApps.playAudio(soundName, {volume: 0.5});
+  BlocklyApps.playAudio(soundName);
 };
 
 exports.moveLeft = function(id) {
@@ -107,7 +107,7 @@ exports.incrementPlayerScore = function(id) {
 
 exports.launchBall = function(id) {
   BlocklyApps.highlight(id);
-  
+
   // look for an "out of play" ball to re-launch:
   for (var i = 0; i < Bounce.ballCount; i++) {
     if (Bounce.isBallOutOfBounds(i) &&
@@ -118,7 +118,7 @@ exports.launchBall = function(id) {
       return;
     }
   }
-  
+
   // we didn't find an "out of play" ball, so create and launch a new one:
   i = Bounce.ballCount;
   Bounce.ballCount++;

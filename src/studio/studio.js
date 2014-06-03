@@ -1095,7 +1095,7 @@ Studio.execute = function() {
                                    'SPRITE1',
                                    'SPRITE2');
 
-  BlocklyApps.playAudio('start', {volume: 0.5});
+  BlocklyApps.playAudio('start');
 
   BlocklyApps.reset(false);
 
@@ -1131,9 +1131,9 @@ Studio.onPuzzleComplete = function() {
   }
 
   if (Studio.testResults >= BlocklyApps.TestResults.FREE_PLAY) {
-    BlocklyApps.playAudio('win', {volume : 0.5});
+    BlocklyApps.playAudio('win');
   } else {
-    BlocklyApps.playAudio('failure', {volume : 0.5});
+    BlocklyApps.playAudio('failure');
   }
 
   if (level.editCode) {
@@ -1378,7 +1378,7 @@ Studio.callCmd = function (cmd) {
       break;
     case 'playSound':
       BlocklyApps.highlight(cmd.id);
-      BlocklyApps.playAudio(cmd.opts.soundName, {volume: 0.5});
+      BlocklyApps.playAudio(cmd.opts.soundName);
       Studio.playSoundCount++;
       break;
     case 'showTitleScreen':
@@ -1811,7 +1811,7 @@ Studio.allFinishesComplete = function() {
     }
     if (playSound && finished != Studio.spriteFinishCount) {
       // Play a sound unless we've hit the last flag
-      BlocklyApps.playAudio('flag', {volume: 0.5});
+      BlocklyApps.playAudio('flag');
     }
     return (finished == Studio.spriteFinishCount);
   }
