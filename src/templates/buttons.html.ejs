@@ -15,13 +15,27 @@
 <% } -%>
 
 <% if (data.tryAgain) { -%>
-  <button id="again-button" class="launch">
-    <%= msg.tryAgain() %>
-  </button>
+  <% if (data.isK1) { -%>
+    <div id="again-button" class="launch arrow-container arrow-left">
+      <div class="arrow-head"><img src="<%= data.assetUrl('media/tryagain-arrow-head.png') %>" alt="Arrowhead" width="67" height="130"/></div>
+      <div class="arrow-text"><%= msg.tryAgain() %></div>
+    </div>
+  <% } else { -%>
+    <button id="again-button" class="launch">
+      <%= msg.tryAgain() %>
+    </button>
+  <% } -%>
 <% } -%>
 
 <% if (data.nextLevel) { -%>
-  <button id="continue-button" class="launch">
-    <%= msg.continue() %>
-  </button>
+  <% if (data.isK1) { -%>
+    <div id="continue-button" class="launch arrow-container arrow-right">
+      <div class="arrow-head"><img src="<%= data.assetUrl('media/next-arrow-head.png') %>" alt="Arrowhead" width="66" height="130"/></div>
+      <div class="arrow-text"><%= msg.continue() %></div>
+    </div>
+  <% } else { -%>
+    <button id="continue-button" class="launch">
+      <%= msg.continue() %>
+    </button>
+  <% } -%>
 <% } -%>
