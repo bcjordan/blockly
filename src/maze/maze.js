@@ -34,9 +34,9 @@ var page = require('../templates/page.html');
 var feedback = require('../feedback.js');
 var dom = require('../dom');
 var utils = require('../utils');
-var wordsearch = require('./wordsearch');
 
 var Bee = require('./bee');
+var WordSearch = require('./wordsearch');
 
 var ExecutionInfo = require('../executionInfo');
 
@@ -200,8 +200,8 @@ function drawMap () {
     svg.appendChild(tile);
   }
 
-  if (skin.id === "letters") {
-    wordsearch.drawMapTiles(svg);
+  if (Maze.wordSearch) {
+    Maze.wordSearch.drawMapTiles(svg);
   } else {
     drawMapTiles(svg);
   }
@@ -423,6 +423,8 @@ Maze.init = function(config) {
 
   if (config.skinId === 'bee') {
     Maze.bee = new Bee(Maze, config);
+  } else if (config.skinId === 'letters') {
+    Maze.wordSearch = new WordSearch(Maze);
   }
 
   loadLevel();
@@ -487,7 +489,8 @@ Maze.init = function(config) {
         var cell = Maze.map[y][x];
         if (cell == SquareType.START) {
           Maze.start_ = {x: x, y: y};
-        } else if (cell == SquareType.FINISH || wordsearch.isFinishCell(cell)) {
+        } else if (cell == SquareType.FINISH ||
+          (Maze.wordSearch && Maze.wordSearch.isFinishCell(cell))) {
           Maze.finish_ = {x: x, y: y};
         } else if (cell == SquareType.STARTANDFINISH) {
           Maze.start_ = {x: x, y: y};
