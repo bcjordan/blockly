@@ -357,7 +357,6 @@ Maze.drawTile = function (svg, tileSheetLocation, row, col, tileId) {
   var left = tileSheetLocation[0];
   var top = tileSheetLocation[1];
 
-  // todo (brent) - specify on skin
   var tileSheetWidth = Maze.SQUARE_SIZE * skin.tileSheetWidth;
   var tileSheetHeight = Maze.SQUARE_SIZE * 4;
 
@@ -424,7 +423,7 @@ Maze.init = function(config) {
   if (config.skinId === 'bee') {
     Maze.bee = new Bee(Maze, config);
   } else if (config.skinId === 'letters') {
-    Maze.wordSearch = new WordSearch(Maze);
+    Maze.wordSearch = new WordSearch(level.map, Maze.drawTile);
   }
 
   loadLevel();
