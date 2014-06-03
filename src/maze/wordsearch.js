@@ -2,8 +2,9 @@ var _ = require('../lodash');
 
 var SquareType = require('./tiles').SquareType;
 
-var WordSearch = module.exports = function (maze) {
-  this.maze_ = maze;
+var WordSearch = module.exports = function (map, drawTileFn) {
+  this.map_ = map;
+  this.drawTileFn_ = drawTileFn;
 };
 
 var TILE_SHAPES = {
@@ -48,9 +49,9 @@ WordSearch.prototype.drawMapTiles = function (svg) {
   var tile;
   var restricted;
 
-  for (var row = 0; row < this.maze_.ROWS; row++) {
-    for (var col = 0; col < this.maze_.COLS; col++) {
-      var mapVal = this.maze_.map[row][col];
+  for (var row = 0; row < this.map_.length; row++) {
+    for (var col = 0; col < this.map_[row].length; col++) {
+      var mapVal = this.map_[row][col];
       if (mapVal === SquareType.WALL) {
         restricted = this.restrictedValues_(row, col);
         tile = TILE_SHAPES[randomLetter(restricted)];
@@ -58,7 +59,7 @@ WordSearch.prototype.drawMapTiles = function (svg) {
         tile = TILE_SHAPES[letterValue(mapVal, true)];
       }
 
-      this.maze_.drawTile(svg, tile, row, col, tileId);
+      this.drawTileFn_(svg, tile, row, col, tileId);
 
       tileId++;
     }
@@ -77,7 +78,7 @@ WordSearch.prototype.isFinishCell = function (cell) {
  * Returns true if the given row,col is both on the grid and not a wall
  */
 WordSearch.prototype.isOpen_ = function (row, col) {
-  var map = this.maze_.map;
+  var map = this.map_;
   return ((map[row] !== undefined) &&
     (map[row][col] !== undefined) &&
     (map[row][col] !== SquareType.WALL));
@@ -111,7 +112,7 @@ WordSearch.prototype.openNeighbors_ =function (row, col) {
  * neighbor whose value is E, I can't also be E)
  */
 WordSearch.prototype.restrictedValues_ = function (row, col) {
-  var map = this.maze_.map;
+  var map = this.map_;
   var neighbors = this.openNeighbors_(row, col);
   var values = [];
   for (var i = 0; i < neighbors.length; i ++) {

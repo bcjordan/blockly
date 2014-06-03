@@ -51,3 +51,28 @@ describe("wordsearch: randomLetter", function () {
     }
   });
 });
+
+describe("wordsearch: drawMapTiles", function () {
+  it ("simple wordsearch", function () {
+    // Create a fake maze.  WordSearch only uses map and drawTile
+    var maze = {
+      map: [
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 2, 'R', 'U', 'Nx', 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]
+      ],
+      drawTile: function () {}
+    };
+
+    var wordSearch = new WordSearch(maze);
+    // Not currently doing any validation, so mostly just making sure no
+    // exceptions are thrown.
+    wordSearch.drawMapTiles();
+  });
+
+});
