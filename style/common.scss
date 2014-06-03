@@ -573,6 +573,8 @@ $modal-image-margin-gap: 10px;
 
 .arrow-container {
   clear: left;
+  float: left;
+  background-color: white !important;
 }
 
 .arrow-head, .arrow-text {
@@ -582,12 +584,21 @@ $modal-image-margin-gap: 10px;
   cursor: pointer;
 }
 
+.arrow-right .arrow-head {
+  float: right;
+}
+
+.arrow-left .arrow-head {
+  margin-right: -10px;
+}
+
 .arrow-left .arrow-text {
   border-radius: 0 8px 8px 0;
   padding: 10px 14px 10px 0;
   background-color: #babf33;
 }
 .arrow-right .arrow-text {
+  margin-right: -10px;
   border-radius: 8px 0 0 8px;
   padding: 10px 0 10px 14px;
   background-color: #ffbb00;
