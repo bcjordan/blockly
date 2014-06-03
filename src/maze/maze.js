@@ -343,7 +343,6 @@ function drawMapTiles(svg) {
         }
       }
 
-
       Maze.drawTile(svg, TILE_SHAPES[tile], y, x, tileId);
 
       tileId++;

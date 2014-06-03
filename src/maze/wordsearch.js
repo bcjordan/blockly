@@ -136,8 +136,6 @@ module.exports.drawMapTiles = function (svg) {
       if (mapVal === SquareType.WALL) {
         restricted = restrictedValues(row, col);
         tile = TILE_SHAPES[randomLetter(restricted)];
-        Maze.wallMap[row][col] = tile;
-
       } else {
         tile = TILE_SHAPES[letterValue(mapVal, true)];
       }
@@ -156,3 +154,12 @@ module.exports.drawMapTiles = function (svg) {
 module.exports.isFinishCell = function (cell) {
   return (/^[A-Z]x$/).test(cell);
 };
+
+/* start-test-block */
+// export private function(s) to expose to unit testing
+exports.__testonly__ = {
+  letterValue: letterValue,
+  randomLetter: randomLetter,
+  isOpen: isOpen
+};
+/* end-test-block */
