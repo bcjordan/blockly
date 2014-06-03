@@ -1,5 +1,6 @@
 var Direction = require('./tiles').Direction;
 var karelLevels = require('./karelLevels');
+var wordsearchLevels = require('./wordsearchLevels');
 var reqBlocks = require('./requiredBlocks');
 var blockUtils = require('../block_utils');
 var utils = require('../utils');
@@ -610,6 +611,11 @@ module.exports = {
 // Merge in Karel levels.
 for (var levelId in karelLevels) {
   module.exports['karel_' + levelId] = karelLevels[levelId];
+}
+
+// Merge in Wordsearch levels.
+for (var levelId in wordsearchLevels) {
+  module.exports['wordsearch_' + levelId] = wordsearchLevels[levelId];
 }
 
 // Add some step levels
