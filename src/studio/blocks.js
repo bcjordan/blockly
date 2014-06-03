@@ -70,7 +70,7 @@ exports.install = function(blockly, blockInstallOptions) {
   function startingSpriteImageDropdown() {
     var spriteNumbers = _.range(0, blockly.Blocks.studio_spriteCount);
     var choices = _.map(spriteNumbers, function (index) {
-        return [ skin.getTheme(studio.nthStartingSkin(index)).dropdownThumbnail, index.toString() ];
+        return [ skin[studio.nthStartingSkin(index)].dropdownThumbnail, index.toString() ];
     });
     return new blockly.FieldImageDropdown(choices, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
   }

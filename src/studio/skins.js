@@ -16,13 +16,6 @@ exports.load = function(assetUrl, id) {
   var skin = skinsBase.load(assetUrl, id);
   var config = CONFIGS[skin.id];
 
-  skin.getTheme = function(name) {
-    if (name === 'witch') {
-      return skin;
-    }
-    return skin[name];
-  };
-
   skin.hardcourt = {
     background: skin.assetUrl('background.png'),
   };
@@ -49,7 +42,7 @@ exports.load = function(assetUrl, id) {
   skin.cat = {
     sprite: skin.assetUrl('cat_spritesheet_200px.png'),
     dropdownThumbnail: skin.assetUrl('cat_thumb.png'),
-    spriteFlags: 28,
+    spriteFlags: 28,  // flags: emotions, animation, turns
   };
   skin.dinosaur = {
     sprite: skin.assetUrl('dinosaur_spritesheet_200px.png'),
@@ -71,13 +64,15 @@ exports.load = function(assetUrl, id) {
     dropdownThumbnail: skin.assetUrl('penguin_thumb.png'),
     spriteFlags: 28,
   };
+  skin.witch = {
+    spriteFlags: 28,
+    dropdownThumbnail: skin.assetUrl('witch_thumb.png'),
+    sprite: skin.assetUrl('witch_sprite_200px.png'),
+  };
 
   // Images
   skin.goal = skin.assetUrl('goal.png');
   skin.goalSuccess = skin.assetUrl('goal_success.png');
-  skin.sprite = skin.assetUrl('witch_sprite_200px.png');
-  skin.dropdownThumbnail = skin.assetUrl('witch_thumb.png');
-  skin.spriteFlags = 28; // flags: emotions, animation, turns
   skin.goalAnimation = skin.assetUrl('goal.gif');
   skin.approachingGoalAnimation =
       skin.assetUrl(config.approachingGoalAnimation);

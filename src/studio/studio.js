@@ -1441,7 +1441,7 @@ Studio.setScoreText = function (opts) {
 Studio.setBackground = function (opts) {
   var element = document.getElementById('background');
   element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-    skin.getTheme(opts.value).background);
+    skin[opts.value].background);
 };
 
 var computeSpriteFrameNums = function (index) {
@@ -1458,7 +1458,7 @@ Studio.setSprite = function (opts) {
   // Inherit some flags from the skin:
   if (opts.value !== 'hidden' && opts.value !== 'visible') {
     Studio.sprite[opts.index].flags &= ~SF_SKINS_MASK;
-    Studio.sprite[opts.index].flags |= skin.getTheme(opts.value).spriteFlags;
+    Studio.sprite[opts.index].flags |= skin[opts.value].spriteFlags;
   }
   Studio.sprite[opts.index].value = opts.forceHidden ? 'hidden' : opts.value;
 
@@ -1468,7 +1468,7 @@ Studio.setSprite = function (opts) {
       (opts.value === 'hidden' || opts.forceHidden) ? 'hidden' : 'visible');
   if ((opts.value !== 'hidden') && (opts.value !== 'visible')) {
     element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-                           skin.getTheme(opts.value).sprite);
+                           skin[opts.value].sprite);
     element.setAttribute('width',
                          Studio.SPRITE_WIDTH * spriteTotalFrames(opts.index));
     computeSpriteFrameNums(opts.index);
