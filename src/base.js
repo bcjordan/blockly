@@ -71,6 +71,24 @@ var codeKeyDown = function(e) {
   }
 };
 
+function onBlocklyAppsKeydown(e) {
+  var modifierDown = (e.altKey || e.ctrlKey || e.metaKey);
+  var enterDown = e.keyCode === 13;
+  if (modifierDown && enterDown) {
+    pressRunOrReset();
+  }
+}
+
+function pressRunOrReset() {
+  var resetButton = document.getElementById('resetButton');
+  var runButton = document.getElementById('runButton');
+  if (resetButton && resetButton.style.display !== 'none') {
+    resetButton.click();
+  } else if (runButton && runButton.style.display !== 'none') {
+    runButton.click();
+  }
+}
+
 /**
  * Common startup tasks for all apps.
  */
@@ -117,8 +135,11 @@ BlocklyApps.init = function(config) {
   var runButton = container.querySelector('#runButton');
   var resetButton = container.querySelector('#resetButton');
   var throttledRunClick = _.debounce(BlocklyApps.runButtonClick, 250, true);
+  var throttledResetClick = _.debounce(BlocklyApps.resetButtonClick, 250, true);
   dom.addClickTouchEvent(runButton, throttledRunClick);
-  dom.addClickTouchEvent(resetButton, BlocklyApps.resetButtonClick);
+  dom.addClickTouchEvent(resetButton, throttledResetClick);
+
+  window.addEventListener("keydown", onBlocklyAppsKeydown, false);
 
   var belowViz = document.getElementById('belowVisualization');
   if (config.referenceArea) {
