@@ -457,6 +457,7 @@ module.exports = {
       'upButton'
     ],
     'minWorkspaceHeight': 1300,
+    'enableProjectileCollisions': true,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -489,6 +490,8 @@ module.exports = {
          blockOfType('studio_incrementScore') +
          blockOfType('studio_saySprite') +
          blockOfType('studio_setSpritePosition') +
+         blockOfType('studio_throw') +
+         blockOfType('studio_makeProjectile') +
          blockOfType('studio_setSpriteSpeed') +
          blockOfType('studio_setSpriteEmotion')),
     'startBlocks':
@@ -507,6 +510,7 @@ module.exports = {
       'upButton'
     ],
     'minWorkspaceHeight': 1000,
+    'enableProjectileCollisions': true,
     'spritesHiddenToStart': true,
     'freePlay': true,
     'map': [
@@ -546,6 +550,8 @@ module.exports = {
                           <value name="TEXT"><block type="text"></block> \
                           </value></block>' +
                           blockOfType('studio_setSpritePosition') +
+                          blockOfType('studio_throw') +
+                          blockOfType('studio_makeProjectile') +
                           blockOfType('studio_setSpriteSpeed') +
                           blockOfType('studio_setSpriteEmotion')) +
          createCategory(msg.catEvents(),

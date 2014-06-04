@@ -61,6 +61,20 @@ exports.stop = function(id, spriteIndex) {
   Studio.queueCmd(id, 'stop', {'spriteIndex': spriteIndex});
 };
 
+exports.throwProjectile = function(id, spriteIndex, dir, className) {
+  Studio.queueCmd(id,
+                  'throwProjectile',
+                  {'spriteIndex': spriteIndex,
+                   'dir': dir,
+                   'className': className});
+};
+
+exports.makeProjectile = function(id, className, action) {
+  Studio.queueCmd(id,
+                  'makeProjectile',
+                  {'className': className, 'action': action});
+};
+
 exports.move = function(id, spriteIndex, dir) {
   Studio.queueCmd(id, 'move', {'spriteIndex': spriteIndex, 'dir': dir});
 };

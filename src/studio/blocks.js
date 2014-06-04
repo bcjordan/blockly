@@ -41,6 +41,10 @@ exports.setSpriteCount = function(blockly, count) {
   blockly.Blocks.studio_spriteCount = count;
 };
 
+exports.enableProjectileCollisions = function(blockly) {
+  blockly.Blocks.studio_projectileCollisions = true;
+};
+
 // Install extensions to Blockly's language and JavaScript generator.
 exports.install = function(blockly, blockInstallOptions) {
   var skin = blockInstallOptions.skin;
@@ -53,6 +57,7 @@ exports.install = function(blockly, blockInstallOptions) {
   };
 
   blockly.Blocks.studio_spriteCount = 6; // will be overridden
+  blockly.Blocks.studio_projectileCollisions = false;
 
   /**
    * Creates a dropdown with options for each sprite number
@@ -71,9 +76,13 @@ exports.install = function(blockly, blockInstallOptions) {
   function startingSpriteImageDropdown() {
     var spriteNumbers = _.range(0, blockly.Blocks.studio_spriteCount);
     var choices = _.map(spriteNumbers, function (index) {
-        return [ skin[studio.nthStartingSkin(index)].dropdownThumbnail, index.toString() ];
+        return [ skin[studio.nthStartingSkin(index)].dropdownThumbnail,
+                 index.toString() ];
     });
-    return new blockly.FieldImageDropdown(choices, skin.dropdownThumbnailWidth, skin.dropdownThumbnailHeight);
+    return new blockly.FieldImageDropdown(
+                        choices,
+                        skin.dropdownThumbnailWidth,
+                        skin.dropdownThumbnailHeight);
   }
 
   blockly.Blocks.studio_whenLeft = {
@@ -211,6 +220,7 @@ exports.install = function(blockly, blockInstallOptions) {
       this.setHSV(140, 1.00, 0.74);
 
       if (isK1) {
+        // NOTE: K1 block does not yet support projectile collisions
         dropdown1 = startingSpriteImageDropdown();
         dropdown2 = startingSpriteImageDropdown();
         this.appendDummyInput().appendTitle(commonMsg.when())
@@ -219,7 +229,15 @@ exports.install = function(blockly, blockInstallOptions) {
           .appendTitle(dropdown2, 'SPRITE2');
       } else {
         dropdown1 = spriteNumberTextDropdown(this.SPRITE1);
-        dropdown2 = spriteNumberTextDropdown(this.SPRITE2);
+        var dropdownArray2 =
+            this.SPRITE2.slice(0, blockly.Blocks.studio_spriteCount);
+        if (blockly.Blocks.studio_projectileCollisions) {
+          dropdownArray2.push(
+              [msg.whenSpriteCollidedWithFireball(), 'fireball']);
+          dropdownArray2.push(
+              [msg.whenSpriteCollidedWithFlower(), 'flower']);
+        }
+        dropdown2 = new blockly.FieldDropdown(dropdownArray2);
         this.appendDummyInput().appendTitle(dropdown1, 'SPRITE1');
         this.appendDummyInput().appendTitle(dropdown2, 'SPRITE2');
       }
@@ -285,6 +303,110 @@ exports.install = function(blockly, blockInstallOptions) {
     // Generate JavaScript for stopping the movement of a sprite.
     return 'Studio.stop(\'block_id_' + this.id + '\', ' +
         (this.getTitleValue('SPRITE') || '0') + ');\n';
+  };
+
+  blockly.Blocks.studio_throw = {
+    // Block for throwing a projectile from a sprite.
+    helpUrl: '',
+    init: function() {
+      var dropdownArray =
+          this.SPRITE.slice(0, blockly.Blocks.studio_spriteCount);
+      this.setHSV(184, 1.00, 0.74);
+      if (blockly.Blocks.studio_spriteCount > 1) {
+        this.appendDummyInput()
+          .appendTitle(new blockly.FieldDropdown(dropdownArray), 'SPRITE');
+      } else {
+        this.appendDummyInput()
+          .appendTitle(msg.throwSprite());
+      }
+      this.appendDummyInput()
+        .appendTitle(new blockly.FieldDropdown(this.VALUES), 'VALUE');
+      this.appendDummyInput()
+        .appendTitle('\t');
+      this.appendDummyInput()
+        .appendTitle(new blockly.FieldDropdown(this.DIR), 'DIR');
+      this.setPreviousStatement(true);
+      this.setInputsInline(true);
+      this.setNextStatement(true);
+      this.setTooltip(msg.throwTooltip());
+    }
+  };
+
+  blockly.Blocks.studio_throw.SPRITE =
+      [[msg.throwSprite1(), '0'],
+       [msg.throwSprite2(), '1'],
+       [msg.throwSprite3(), '2'],
+       [msg.throwSprite4(), '3'],
+       [msg.throwSprite5(), '4'],
+       [msg.throwSprite6(), '5']];
+
+  blockly.Blocks.studio_throw.DIR =
+        [[msg.moveDirectionUp(), Direction.NORTH.toString()],
+         [msg.moveDirectionDown(), Direction.SOUTH.toString()],
+         [msg.moveDirectionLeft(), Direction.WEST.toString()],
+         [msg.moveDirectionRight(), Direction.EAST.toString()],
+         [msg.moveDirectionRandom(), 'random']];
+
+  blockly.Blocks.studio_throw.VALUES =
+        [[msg.projectileFireball(), '"fireball"'],
+         [msg.projectileFlower(), '"flower"'],
+         [msg.projectileRandom(), 'random']];
+
+  generator.studio_throw = function() {
+    // Generate JavaScript for throwing a projectile from a sprite.
+    var allDirections = this.DIR.slice(0, -1).map(function (item) {
+      return item[1];
+    });
+    var dirParam = this.getTitleValue('DIR');
+    if (dirParam === 'random') {
+      dirParam = 'Studio.random([' + allDirections + '])';
+    }
+    var allValues = this.VALUES.slice(0, -1).map(function (item) {
+      return item[1];
+    });
+    var valParam = this.getTitleValue('VALUE');
+    if (valParam === 'random') {
+      valParam = 'Studio.random([' + allValues + '])';
+    }
+
+    return 'Studio.throwProjectile(\'block_id_' + this.id +
+        '\', ' +
+        (this.getTitleValue('SPRITE') || '0') + ', ' +
+        dirParam + ', ' +
+        valParam + ');\n';
+  };
+
+  blockly.Blocks.studio_makeProjectile = {
+    // Block for making a projectile bounce or disappear.
+    helpUrl: '',
+    init: function() {
+      this.setHSV(184, 1.00, 0.74);
+      this.appendDummyInput()
+        .appendTitle(new blockly.FieldDropdown(this.VALUES), 'VALUE');
+      this.appendDummyInput()
+        .appendTitle('\t');
+      this.appendDummyInput()
+        .appendTitle(new blockly.FieldDropdown(this.ACTIONS), 'ACTION');
+      this.setPreviousStatement(true);
+      this.setInputsInline(true);
+      this.setNextStatement(true);
+      this.setTooltip(msg.makeProjectileTooltip());
+    }
+  };
+
+  blockly.Blocks.studio_makeProjectile.VALUES =
+      [[msg.makeProjectileFireball(), '"fireball"'],
+       [msg.makeProjectileFlower(), '"flower"']];
+
+  blockly.Blocks.studio_makeProjectile.ACTIONS =
+        [[msg.makeProjectileBounce(), '"bounce"'],
+         [msg.makeProjectileDisappear(), '"disappear"']];
+
+  generator.studio_makeProjectile = function() {
+    // Generate JavaScript for making a projectile bounce or disappear.
+    return 'Studio.makeProjectile(\'block_id_' + this.id + '\', ' +
+        this.getTitleValue('VALUE') + ', ' +
+        this.getTitleValue('ACTION') + ');\n';
   };
 
   blockly.Blocks.studio_setSpritePosition = {
