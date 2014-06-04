@@ -5,8 +5,8 @@
   "engines": {
     "node": "~0.10.18"
   },
-  scripts: {
-    test: "grunt test"
+  "scripts": {
+    "test": "grunt test"
   },
   "devDependencies": {
     "grunt-cli": "~0.1.9",
